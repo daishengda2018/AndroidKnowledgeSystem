@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidKnowledgeSystem</string>
+    <string name="title_activity_activities_life_cycle">ActivitiesLifeCycleActivity</string>
 </resources>
