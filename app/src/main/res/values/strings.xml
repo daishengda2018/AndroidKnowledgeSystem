@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">AndroidKnowledgeSystem</string>
     <string name="title_activity_activities_life_cycle">ActivitiesLifeCycleActivity</string>
+
+    <string-array name="category_titles">
+        <item>com.darius.android.activities.lifecycle.ActivitiesLifeCycleActivity</item>
+    </string-array>
 </resources>
