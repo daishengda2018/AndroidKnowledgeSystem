@@ -1,18 +1,16 @@
 package com.darius.android.activities;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 
-import com.darius.android.R;
+import com.darius.android.MainActivity;
 
 /**
  * 所有Activity相关Demo入口
  */
-public class ActivitiesDemoActivity extends AppCompatActivity {
+public class ActivitiesDemoActivity extends MainActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activiyties_demo_activity);
+    public RecyclerView.Adapter getAdapter() {
+        return new ActivitiesDemoAdapter(this);
     }
 }

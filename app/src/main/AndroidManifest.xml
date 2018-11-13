@@ -19,6 +19,7 @@
         <activity
             android:name=".activities.lifecycle.ActivitiesLifeCycleActivity"
             android:label="@string/title_activity_activities_life_cycle"
+            android:persistableMode="persistAcrossReboots"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.ActivitiesDemoActivity">
         </activity>

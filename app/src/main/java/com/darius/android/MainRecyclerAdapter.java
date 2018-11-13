@@ -17,13 +17,16 @@ import android.widget.TextView;
 public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.CategoryVH> {
 
     private final Context mContext;
-    private final String[] mTitleArray;
+    public String[] titleArray;
 
     public MainRecyclerAdapter(Context context) {
         mContext = context;
-        mTitleArray = mContext.getResources().getStringArray(R.array.category_titles);
+        titleArray = mContext.getResources().getStringArray(getStringArrayRes());
     }
 
+    public int getStringArrayRes(){
+        return R.array.category_titles;
+    }
     @NonNull
     @Override
     public CategoryVH onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -34,17 +37,17 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CategoryVH categoryVH, int i) {
-        categoryVH.attach(mTitleArray[i]);
+        categoryVH.attach(titleArray[i]);
     }
 
     @Override
     public int getItemCount() {
-        return mTitleArray.length;
+        return titleArray.length;
     }
 
 
     /**
-     * Categor yVH
+     * Category yVH
      */
     public static class CategoryVH extends RecyclerView.ViewHolder {
 
