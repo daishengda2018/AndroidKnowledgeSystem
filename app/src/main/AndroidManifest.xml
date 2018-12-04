@@ -23,6 +23,12 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.ActivitiesDemoActivity">
         </activity>
+
+        <service
+            android:name=".service.ForegroundService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>
