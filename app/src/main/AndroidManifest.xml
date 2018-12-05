@@ -21,7 +21,7 @@
             android:label="@string/title_activity_activities_life_cycle"
             android:persistableMode="persistAcrossReboots"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.ActivitiesDemoActivity">
+        <activity android:name=".activities.ActivitiesDemoListActivity">
         </activity>
 
         <service
@@ -29,6 +29,11 @@
             android:enabled="true"
             android:exported="true">
         </service>
+
+        <activity android:name=".fragments.FragmentsContainerActivity">
+        </activity>
+        <activity android:name=".fragments.FragmentDemoListActivity">
+        </activity>
     </application>
 
 </manifest>

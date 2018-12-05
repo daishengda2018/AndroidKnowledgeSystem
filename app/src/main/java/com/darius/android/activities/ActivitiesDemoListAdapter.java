@@ -11,14 +11,14 @@ import com.darius.android.R;
  * @see
  * @since
  */
-public class ActivitiesDemoAdapter extends MainRecyclerAdapter {
+public class ActivitiesDemoListAdapter extends MainRecyclerAdapter {
 
-    public ActivitiesDemoAdapter(Context context) {
+    public ActivitiesDemoListAdapter(Context context) {
         super(context);
     }
 
     @Override
     public int getStringArrayRes() {
-        return R.array.activity_titles;
+        return R.array.activity_names;
     }
 }

@@ -7,8 +7,15 @@
     </string-array>
 
 
-    <string-array name="activity_titles">
+    <string-array name="activity_names">
         <item>com.darius.android.activities.lifecycle.ActivitiesLifeCycleActivity</item>
     </string-array>
+
+    <string-array name="fragment_names">
+        <item>com.darius.android.fragments.FragmentsActivity</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

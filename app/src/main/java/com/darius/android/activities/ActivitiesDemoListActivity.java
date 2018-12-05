@@ -7,10 +7,10 @@ import com.darius.android.MainActivity;
 /**
  * 所有Activity相关Demo入口
  */
-public class ActivitiesDemoActivity extends MainActivity {
+public class ActivitiesDemoListActivity extends MainActivity {
 
     @Override
     public RecyclerView.Adapter getAdapter() {
-        return new ActivitiesDemoAdapter(this);
+        return new ActivitiesDemoListAdapter(this);
     }
 }
