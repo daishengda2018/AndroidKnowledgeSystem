@@ -18,7 +18,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class FragmentDemo : Fragment() {
+ class LifecycleFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

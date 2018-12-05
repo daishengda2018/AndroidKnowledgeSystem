@@ -47,19 +47,26 @@ open class MainRecyclerAdapter(private val mContext: Context) : RecyclerView.Ada
 
         private val mTitleTv: TextView = itemView.findViewById(R.id.category_title_tv)
 
-        fun attach(str: String) {
-            val split = str.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            mTitleTv.text = split[split.size - 1]
+        open fun attach(str: String) {
+            setTitle(str)
+
             itemView.setOnClickListener {
-                var aClass: Class<*>? = null
                 try {
-                    aClass = Class.forName(str)
-                    val intent = Intent(itemView.context, aClass)
+                    val intent = getIntent(str)
                     itemView.context.startActivity(intent)
                 } catch (e: ClassNotFoundException) {
                     e.printStackTrace()
                 }
             }
+        }
+
+        open fun getIntent(str: String): Intent {
+            return Intent(itemView.context, Class.forName(str))
+        }
+
+        open fun setTitle(str: String) {
+            val split = str.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            mTitleTv.text = split[split.size - 1]
         }
     }
 }
