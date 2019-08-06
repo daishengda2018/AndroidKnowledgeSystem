@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+
+    <!--<com.example.dsd.demo.ui.draw.AvatarView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
+
+    <!--<com.example.dsd.demo.ui.draw.DashBoard-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
+
+    <!--<com.example.dsd.demo.ui.draw.text.SportView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
+
+    <!--<com.example.dsd.demo.ui.draw.IrregularDrawableView-->
+        <!--android:src="@drawable/timg"-->
+        <!--android:background="@color/colorAccent"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"/>-->
+
+    <com.example.dsd.demo.ui.draw.CanvasDemo
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       />
+</FrameLayout>
