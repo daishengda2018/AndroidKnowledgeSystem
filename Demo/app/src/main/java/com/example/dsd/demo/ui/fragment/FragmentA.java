@@ -17,7 +17,7 @@ import com.example.dsd.demo.R;
  */
 public class FragmentA extends Fragment {
 
-    String TAG = "FragmentA";
+    static final  String TAG = "FragmentA";
 
     public static FragmentA newInstance(String name) {
         FragmentA fragmentA = new FragmentA();

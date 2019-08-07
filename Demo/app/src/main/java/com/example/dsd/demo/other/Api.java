@@ -10,12 +10,18 @@ import java.util.List;
  * @since
  */
 public interface Api {
+    /**
+     *
+     */
     interface CatsQueryCallback {
         void onCatListReceived(List<Cat> cats);
 
         void onQueryFailed(Exception e);
     }
 
+    /**
+     *
+     */
     interface StoreCallback {
         void onCatStored(Uri uri);
 

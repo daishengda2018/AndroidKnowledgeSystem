@@ -25,9 +25,9 @@ public class ImageTextView extends View {
     private int mW;
     private int mH;
     private Bitmap mBitmap;
-    private static String TEXT = "You can't speak English without asking questions! There are a few different question types in English. " +
-        "In this session you'll see our presenters asking each other questions. We'll show you the grammar rules of question forms - " +
-        "and then you'll have a chance to practise.";
+    private static final String TEXT = "You can't speak English without asking questions! There are a few different question types in English. "
+        + "In this session you'll see our presenters asking each other questions. We'll show you the grammar rules of question forms - "
+        + "and then you'll have a chance to practise.";
     private float[] measureWidth = new float[1];
     private int mHeight;
 

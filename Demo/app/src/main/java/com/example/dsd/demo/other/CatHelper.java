@@ -13,6 +13,9 @@ import java.util.List;
 public class CatHelper {
     private Api mApi;
 
+    /**
+     *
+     */
     public interface CutestCatCallback {
         void onCutestCatSaved(Uri uri);
 
@@ -35,6 +38,11 @@ public class CatHelper {
         });
     }
 
+    /**
+     *
+     * @param cats
+     * @return
+     */
     public Cat findCutest(List<Cat> cats) {
         return Collections.max(cats);
     }

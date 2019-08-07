@@ -7,7 +7,7 @@ import com.example.dsd.demo.R;
  */
 public class FragmentB extends FragmentA {
 
-    String TAG = "FragmentB";
+    static final String TAG = "FragmentB";
 
     @Override
     int getLayout() {

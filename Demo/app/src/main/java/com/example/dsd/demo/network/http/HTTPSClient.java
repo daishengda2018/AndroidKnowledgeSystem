@@ -17,26 +17,29 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
+/**
+ * https 客户端
+ */
 public class HTTPSClient {
     private String host = "35.154.14.208";
     private int port = 443;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         HTTPSClient client = new HTTPSClient();
         client.run();
     }
 
-    HTTPSClient(){
+    HTTPSClient() {
     }
 
-    HTTPSClient(String host, int port){
+    HTTPSClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
 
     // Create the and initialize the SSLContext
-    private SSLContext createSSLContext(){
-        try{
+    private SSLContext createSSLContext() {
+        try {
             KeyStore keyStore = KeyStore.getInstance("JKS");
             //keyStore.load(new FileInputStream("test.jks"),"passphrase".toCharArray());
 
@@ -52,10 +55,10 @@ public class HTTPSClient {
 
             // Initialize SSLContext
             SSLContext sslContext = SSLContext.getInstance("TLSv1");
-            sslContext.init(km,  tm, null);
+            sslContext.init(km, tm, null);
 
             return sslContext;
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -63,10 +66,10 @@ public class HTTPSClient {
     }
 
     // Start to run the server
-    public void run(){
+    public void run() {
         SSLContext sslContext = this.createSSLContext();
 
-        try{
+        try {
             // Create socket factory
             SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
@@ -75,23 +78,25 @@ public class HTTPSClient {
 
             System.out.println("SSL client started");
             new ClientThread(sslSocket).start();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    // Thread handling the socket to server
+    /**
+     * Thread handling the socket to server
+     */
     static class ClientThread extends Thread {
         private SSLSocket sslSocket = null;
 
-        ClientThread(SSLSocket sslSocket){
+        ClientThread(SSLSocket sslSocket) {
             this.sslSocket = sslSocket;
         }
 
-        public void run(){
+        public void run() {
             sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
 
-            try{
+            try {
                 // Start handshake
                 sslSocket.startHandshake();
 
@@ -99,8 +104,8 @@ public class HTTPSClient {
                 SSLSession sslSession = sslSocket.getSession();
 
                 System.out.println("SSLSession :");
-                System.out.println("\tProtocol : "+sslSession.getProtocol());
-                System.out.println("\tCipher suite : "+sslSession.getCipherSuite());
+                System.out.println("\tProtocol : " + sslSession.getProtocol());
+                System.out.println("\tCipher suite : " + sslSession.getCipherSuite());
 
                 // Start handling application content
                 InputStream inputStream = sslSocket.getInputStream();
@@ -115,10 +120,9 @@ public class HTTPSClient {
                 printWriter.flush();
 
                 String line = null;
-                while((line = bufferedReader.readLine()) != null){
-                    System.out.println("Inut : "+line);
-
-                    if(line.trim().equals("HTTP/1.1 200\r\n")){
+                while ((line = bufferedReader.readLine()) != null) {
+                    System.out.println("Inut : " + line);
+                    if (line.trim().equals("HTTP/1.1 200\r\n")) {
                         break;
                     }
                 }

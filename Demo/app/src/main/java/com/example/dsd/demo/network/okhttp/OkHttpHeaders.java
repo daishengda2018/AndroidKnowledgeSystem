@@ -11,7 +11,6 @@ import okhttp3.Response;
  * Created by im_dsd on 2019-04-27
  */
 public class OkHttpHeaders {
-    
     public static void main(String args[]) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
         Request request = new Request.Builder()
