@@ -23,3 +23,38 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+//checkStyle 不检测的项目可以添加到集合中
+ArrayList<String> checkstyleExcludePros = [""]
+
+//全局应用checkStyle
+project.subprojects.each { childProject ->
+    if (!checkstyleExcludePros.contains(childProject.name)){
+        childProject.plugins.apply("checkstyle")
+        CheckstyleExtension checkstyle = childProject.extensions.getByName("checkstyle")
+        checkstyle.toolVersion = '5.9'
+
+        def checkTask = childProject.tasks.create("checkstyle", Checkstyle.class)
+        checkTask.configure {
+            // 编译任务依赖aCheckstyle就可以先检测再
+            File styleFile = file(rootProject.projectDir.toString() + "/checkstyle/checkstyle.xml")
+            println styleFile
+            configFile styleFile
+            source 'src/main'
+            include '**/*.java'
+            exclude '**/gen/**'
+            exclude '**/encrypt/**'
+
+            classpath = files()
+
+            reports {
+//            注意: 如果清空build目录之后再运行可能会导致失败,此时注释掉下面两行再重新运行,等build/reports/checkstyle 目录下
+//            生成了xml之后再放开注释即可.
+//            ant.xslt(in: reports.xml.destination,
+//                    style: new File('../config/xsl/checkstyle-noframes-sorted.xsl'),
+//                    out: new File(reports.xml.destination.parent, 'checkstyle-report.html'))
+
+            }
+        }
+    }
+}

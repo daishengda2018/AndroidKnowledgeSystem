@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+  A Checkstyle configuration that checks against the recommendations
+  in Joshua Bloch, Effective Java (highly recommended read!)
+  This file does NOT duplicate the checks for whitespace settings,
+  placement of curly braces, etc.  Only the rules that are explicitly
+  mentioned in the book are enforced.
+  Currently the amount of rules that can be automatically checked by
+  Checkstyle is not very large, but adding more checks of this quality
+  is a high priority goal for the development team.
+-->
+
+<!--checkstyle规则说明, 参考: http://www.blogjava.net/askcuix/archive/2009/02/08/253775.html -->
+
+<module name="Checker">
+
+    <module name="TreeWalker">
+
+        <!-- Item 4 - Avoid creating duplicate objects -->
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.lang.Boolean"/>
+        </module>
+
+        <!-- Item 6 - Avoid finalizers -->
+        <!-- this will not find violations that contain linebreaks -->
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="\s+$"/>
+            <property name="message" value="Line has trailing spaces."/>
+            <property name="ignoreComments" value="true"/>
+        </module>
+
+        <!-- Item 8 - Always override hashCode when you override equals -->
+
+        <module name="EqualsHashCode"/>
+        <!-- 检查一个可能为null的字符串是否在equals()比较的左边。-->
+        <!--<module name="EqualsAvoidNull"/>-->
+
+        <!-- Item 17 - Use interfaces only to define types -->
+        <module name="InterfaceIsType"/>
+
+        <!-- Item 25 - Design method signatures carefully -->
+        <!-- Avoid long parameter lists -->
+        <!--<module name="ParameterNumber">-->
+            <!--<property name="max" value="5"/>-->
+        <!--</module>-->
+
+        <!-- 嵌套层次检查-->
+        <module name="NestedIfDepth">
+            <property name="max" value="3"/>
+        </module>
+        <module name="NestedTryDepth">
+            <property name="max" value="3"/>
+        </module>
+
+        <!-- Item 28 - Write doc comments for all exposed API elements -->
+        <module name="JavadocType">
+            <property name="scope" value="protected"/>
+        </module>
+
+        <module name="TypeName"/>
+        <module name="ConstantName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="ParameterName"/>
+        <!-- 静态非final类型的变量命名规则, 以s开头,例如 sCache.-->
+        <module name="StaticVariableName" />
+
+        <!--<property name="format" value="^[s][A-Z][a-zA-Z0-9]$"></property>-->
+
+        <!-- 检查使用*号的导入,默认为全部类 -->
+        <module name="AvoidStarImport"/>
+        <!-- 检查没有使用的导入 -->
+        <module name="UnusedImports"/>
+        <!-- 每行的最大字符数,缺省为80 -->
+        <!--<module name="LineLength">-->
+        <!--&lt;!&ndash; 忽略指定格式的行,如*号开始的,等 &ndash;&gt;-->
+        <!--&lt;!&ndash;-->
+        <!--<property name="ignorePattern" value="^ *\* *[^ ]+$"/>-->
+        <!--&ndash;&gt;-->
+        <!--<property name="max" value="130"/>-->
+        <!--</module>-->
+
+        <!-- Checks for whitespace -->
+        <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+        <!-- 检查空的初始化位置的空白。比如for循环中的初始化。-->
+        <module name="EmptyForInitializerPad"/>
+        <!-- 检查空的迭代位置的空白。-->
+        <module name="EmptyForIteratorPad"/>
+        <!-- 检查操作符的空白规则。-->
+        <module name="OperatorWrap"/>
+        <!-- 检查强制转型的圆括号的空白规则。-->
+        <module name="TypecastParenPad"/>
+        <!--空格的限制-->
+        <!--<module name="WhitespaceAfter">-->
+        <!--<property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, DO_WHILE"/>-->
+        <!--</module>-->
+        <module name="WhitespaceAround">
+            <property name="tokens" value="ASSIGN,LITERAL_IF, LITERAL_ELSE, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, DO_WHILE"/>
+        </module>
+
+        <!-- 代码缩进   -->
+        <!--<module name="Indentation" />-->
+
+        <!-- 检查’{’和左边的代码块是否在同一行。-->
+        <module name="LeftCurly"/>
+        <!-- 检查只有必须有{},确省为必须,主要在if,else时有这样的情况 -->
+        <module name="NeedBraces"/>
+        <!--&lt;!&ndash; 检查"}",确省在同一行 &ndash;&gt;-->
+        <!--<module name="RightCurly">-->
+        <!--<property name="option" value="alone"/>-->
+        <!--</module>-->
+
+        <!-- Item 47 - Don't ignore exceptions -->
+        <module name="EmptyBlock">
+            <property name="tokens" value="LITERAL_CATCH"/>
+            <!-- require a comment, change to stmt to require a statement -->
+            <property name="option" value="text"/>
+        </module>
+
+    </module>
+
+    <module name="FileLength">
+        <property name="max" value="1000"/>
+    </module>
+
+</module>
