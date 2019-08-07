@@ -124,7 +124,9 @@ translationX表示的是当前View对于父View发生的偏移量，一开始的
 
 引自 `onWindowFocusChanged()` 官方文档：
 
-> This is the best indicator of whether this activity is visible to the user. 
+> Called when the current `Window` of the activity gains or loses focus. This is the best indicator of whether this activity is visible to the user. The default implementation clears the key tracking state, so should always be called.
+
+[参考 staticoverflow](https://stackoverflow.com/questions/17672891/getlocationonscreen-vs-getlocationinwindow/20154562#20154562)
 
 
 

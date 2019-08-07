@@ -45,7 +45,7 @@
         <!-- Item 25 - Design method signatures carefully -->
         <!-- Avoid long parameter lists -->
         <!--<module name="ParameterNumber">-->
-            <!--<property name="max" value="5"/>-->
+        <!--<property name="max" value="5"/>-->
         <!--</module>-->
 
         <!-- 嵌套层次检查-->
@@ -69,7 +69,7 @@
         <module name="MethodName"/>
         <module name="ParameterName"/>
         <!-- 静态非final类型的变量命名规则, 以s开头,例如 sCache.-->
-        <module name="StaticVariableName" />
+        <module name="StaticVariableName"/>
 
         <!--<property name="format" value="^[s][A-Z][a-zA-Z0-9]$"></property>-->
 
