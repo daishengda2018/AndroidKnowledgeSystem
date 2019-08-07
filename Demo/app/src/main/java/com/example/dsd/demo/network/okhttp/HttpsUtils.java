@@ -119,6 +119,9 @@ public class HttpsUtils {
         return null;
     }
 
+    /**
+     *
+     */
     public static class UnSafeTrustManager implements X509TrustManager {
 
         @Override
