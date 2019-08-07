@@ -28,7 +28,6 @@ public class AvatarView extends View {
     private static final int PADDING = (int)DisplayUtils.dp2px(20);
     private RectF cute;
 
-
     public AvatarView(Context context) {
         super(context);
     }
