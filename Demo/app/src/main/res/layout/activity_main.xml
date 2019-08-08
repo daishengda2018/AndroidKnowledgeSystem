@@ -24,8 +24,11 @@ tools:context=".MainActivity">
         <!--android:layout_width="100dp"-->
         <!--android:layout_height="100dp"/>-->
 
-    <com.example.dsd.demo.ui.draw.CanvasDemo
+    <com.example.dsd.demo.ui.draw.text.MaterialEditText
+        android:hint="@string/app_name"
+        android:textColor="@android:color/holo_red_light"
+        android:textColorHint="@android:color/holo_blue_light"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
        />
 </FrameLayout>
