@@ -2,6 +2,7 @@ package com.example.dsd.demo.ui.draw.text;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 
+import com.example.dsd.demo.R;
 import com.example.dsd.demo.utils.DisplayUtils;
 
 /**
@@ -38,6 +40,8 @@ public class MaterialEditText extends android.support.v7.widget.AppCompatEditTex
     }
 
     private void init(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MaterialEditText);
+        typedArray.recycle();
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(Color.parseColor("#333333"));
         mPaint.setTextSize(TEXT_SIZE);

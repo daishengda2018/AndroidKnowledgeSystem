@@ -34,6 +34,194 @@
 
 ## 自定义属性
 
+自定义属性其实就是一些 xml 标签，他们通过 xml 文件的形式，可以配置某些 View 的信息，让自定义 View 使用起来更加灵活。
+
+### 属性的定义
+
+#### 必须是 res/values/attrs.xml吗？
+
+很多文章都说：需要在 res/values 目录下创建 attrs.xml 文件然后在里面写我们需要的属性，其实这是不太准确的，通过实验证明，文件的名字可以随意指定，不一定必须是 attrs.xml ！
+
+![image-20190809010946000](assets/image-20190809010946000.png)
+
+例如笔者自定义了一个 custom.xml 文件里面的内容符合自定义属性的规范，在 View 中也是可以正常访问到的。（具体原因尚不清楚，可能是 Android Stuido 的功能）
+
+#### 文件结构
+
+![image-20190809011607792](assets/image-20190809011607792.png)
+
+1. name space : 命名空间，**名字可以随便起，但是最好和自定义 View 的名字相同，因为 Android Stuido 可以帮我们做一些事情，比如说 command + 手表左键，可以直接跳转**。
+
+2. attr name ：这就是我们自定义属性的名字，具体的格式还是模仿 android 内部的方式，驼峰式命名或者是 名称_名称
+
+3. format ： 属性的具体类型，此处讲解一些特殊的类型，此处不是重点，网上文章很多。
+
+   a .**reference**: 资源id
+
+   ```java
+   <ImageView android:background = "@drawable/图片ID"/>
+   ```
+
+   b.  **fraction** : 百分数
+
+   * 属性定义
+
+   ```xml
+   <attr name="pivotX" format="fraction"/>
+   ```
+
+   * 使用
+
+   ```java
+   <android:pivotX = "200%"/>
+   ```
+
+   c. **flag** : 位运算，可以在使用过程中指定多个值
+
+   * 定义
+
+   ```xml
+   <attr name="gravity" format="flags">
+   	<flag name="top" value="0x30"/>
+   	<flag name="bottom" value="0x50" />
+   	<flag name="left" value="0x03" />
+   	<flag name="right" value="0x05" />
+   	<flag name="center_vertical" value="0x10" />
+   </attr>
+   ```
+
+   * 使用
+
+   ```xml
+   <TextView android:gravity="bottom|left"/>
+   ```
+
+   d. **enum** : 枚举
+
+   * 属性定义
+
+   ```xml
+   <attr name="orientation" format="enum">
+   	<enum name="horizontal" value="0"/>
+   	<enum name="vertical" value="1"/>
+   </attr>
+   ```
+
+   e. **混合模式** ：指定属性的时候可以指定多种类型值
+
+   ```xml
+    <attr name="background" format="reference|color"/>
+   ```
+
+
+
+### 属性的使用
+
+1. 定义属性
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomAttrsDemo">
+        <attr name="text_color" format="color" />
+        <attr name="text" format="dimension" />
+    </declare-styleable>
+
+</resources>
+```
+
+2. 在 xml 文件中使用
+
+   在布局文件中使用，首先需要引入命名空间，这样才能找到我们包中的 attrs，这里我们引入了命名空间 app，res-auto 表示自动查找
+   
+   ```java
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   ```
+
+```java
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.example.dsd.demo.ui.draw.attrs.CustomAttrsDemo
+        android:id="@+id/custom_attrs_demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        app:text_color="#333333"
+        app:text_size="10sp"/>
+
+</FrameLayout>
+```
+
+
+
+2. 在自定义 View 中使用
+
+   ```java
+  
+  /**
+   * 自定义属性 Demo
+   *
+   * Created by im_dsd on 2019-08-11
+   */
+  public class CustomAttrsDemo extends android.support.v7.widget.AppCompatTextView {
+  
+      private final int mTextColor;
+      private final int mTextSize;
+  
+      public CustomAttrsDemo(Context context, AttributeSet attrs) {
+          super(context, attrs);
+          TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CustomAttrsDemo);
+          mTextColor = array.getColor(R.styleable.CustomAttrsDemo_textColor, Color.BLACK);
+          mTextSize = array.getDimensionPixelSize(R.styleable.CustomAttrsDemo_textSize, 18);
+          // 注意使用完成之后一定要回收
+          array.recycle();
+      }
+  }
+   ```
+
+
+
+### AttributeSet、TypedArray 、declare-styleable
+
+**AttributeSet** ：
+
+```java
+A collection of attributes, as found associated with a tag in an XML document. Often you will not want to use this interface directly, instead passing it to {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int) Resources.Theme.obtainStyledAttributes()}
+```
+
+可以看到 AtttirbuteSet 是一个大的属性集合，装载了此 View 所有的属性，用户可以通过方法：
+
+```java
+ Context.obtainStyledAttributes(AttributeSet, R.styleable.XXXX);
+```
+
+获取指定的属性集合（一个明确的小集合 TypedArray) 
+
+
+
+**TypedArray**
+
+```java
+TypedArray array = Context.obtainStyledAttributes(AttributeSet, R.styleable.XXXX);
+```
+
+TypedArray里面装的就是具体的属性了，我们可以通过 :`array.getXXXX` 的方法获取具体的属性值
+
+**注意**： 在使用后一定要调用`array.recycle` 用于释放内存空间，不然此内存空间就被浪费了
+
+
+
+**declare-styleable**
+
+此标签的作用就是将属性分组，在 `Context.obtainStyledAttributes` 方法中指定需要加载的属性组
+
 
 
 ## getMeasureWidth 与 getWidth 的方法
@@ -236,3 +424,15 @@ public class DrawableDemo extends Drawable {
 ```
 
 
+
+# 手势监听
+
+
+
+todo
+
+1. ViewDragHelper
+
+```java
+ViewCompat.postInvalidateOnAnimation(View)
+```

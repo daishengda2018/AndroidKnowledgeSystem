@@ -256,6 +256,20 @@ Activity作为根部，根据视图树一层一层遍历 Child 的 onSavenInstan
 
 
 
+# RecyclerView
+
+## 基本概念
+
+参考视频：
+
+## DiffUtil
+
+[参考](https://blog.csdn.net/zxt0601/article/details/52562770)
+
+## 优化
+
+
+
 
 # 工作方式篇
 ## 提交代码
