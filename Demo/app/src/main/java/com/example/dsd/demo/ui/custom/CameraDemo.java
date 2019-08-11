@@ -1,4 +1,4 @@
-package com.example.dsd.demo.ui.draw;
+package com.example.dsd.demo.ui.custom;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

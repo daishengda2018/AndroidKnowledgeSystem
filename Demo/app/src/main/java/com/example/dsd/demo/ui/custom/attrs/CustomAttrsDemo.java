@@ -1,4 +1,4 @@
-package com.example.dsd.demo.ui.draw.attrs;
+package com.example.dsd.demo.ui.custom.attrs;
 
 import android.content.Context;
 import android.content.res.TypedArray;

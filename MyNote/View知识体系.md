@@ -32,6 +32,12 @@
 
 1. layout() 很少被使用到，因为他的改变没有通知的父 View 会导致布局重叠等问题
 
+
+
+### 自定义 TabLayout
+
+
+
 ## 自定义属性
 
 自定义属性其实就是一些 xml 标签，他们通过 xml 文件的形式，可以配置某些 View 的信息，让自定义 View 使用起来更加灵活。
@@ -164,13 +170,15 @@
 2. 在自定义 View 中使用
 
    ```java
-  
+   
+   ```
+
   /**
    * 自定义属性 Demo
-   *
+      *
    * Created by im_dsd on 2019-08-11
-   */
-  public class CustomAttrsDemo extends android.support.v7.widget.AppCompatTextView {
+      */
+    public class CustomAttrsDemo extends android.support.v7.widget.AppCompatTextView {
   
       private final int mTextColor;
       private final int mTextSize;
@@ -183,7 +191,7 @@
           // 注意使用完成之后一定要回收
           array.recycle();
       }
-  }
+    }
    ```
 
 
@@ -192,9 +200,9 @@
 
 **AttributeSet** ：
 
-```java
+​```java
 A collection of attributes, as found associated with a tag in an XML document. Often you will not want to use this interface directly, instead passing it to {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int) Resources.Theme.obtainStyledAttributes()}
-```
+   ```
 
 可以看到 AtttirbuteSet 是一个大的属性集合，装载了此 View 所有的属性，用户可以通过方法：
 
@@ -373,6 +381,12 @@ Drawable 是一个可以调用 Cavans 来进行绘制的上层工具。调用 `D
 ```
 
 # 自定义 Drawable
+
+## 怎么做
+
+* 重写几个抽象的方法
+* 重写 setAlpha() 的时候要记得重写 getAlpha()
+* 重写 draw(Canvas）方法，用户绘制具体内容
 
 ```java
 /**

@@ -1,4 +1,4 @@
-package com.example.dsd.demo.ui.draw.text;
+package com.example.dsd.demo.ui.custom.text;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

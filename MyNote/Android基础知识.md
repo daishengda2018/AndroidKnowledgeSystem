@@ -248,29 +248,6 @@ Activity作为根部，根据视图树一层一层遍历 Child 的 onSavenInstan
 
 
 
-# Window
-
-19年7月16日
-
-如何给
-
-
-
-# RecyclerView
-
-## 基本概念
-
-参考视频：
-
-## DiffUtil
-
-[参考](https://blog.csdn.net/zxt0601/article/details/52562770)
-
-## 优化
-
-
-
-
 # 工作方式篇
 ## 提交代码
 1. **git d review code**：在提交代码的时候一定要review code 看自己修改了那些文件，有没有被自己没有修改但是格式变化的文件

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.dsd.demo.ui.draw.attrs.CustomAttrsDemo
+    <com.example.dsd.demo.ui.custom.attrs.CustomAttrsDemo
         android:id="@+id/custom_attrs_demo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
