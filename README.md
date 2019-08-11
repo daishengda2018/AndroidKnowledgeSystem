@@ -27,10 +27,18 @@
 
 # 目录
 
-[java基础](MyNote/java基础.md)
-
 [Android基础知识](MyNote/Android基础知识.md)
 
 [Viw知识体系](MyNote/view知识体系.md)
 
 [动画](MyNote/动画.md)
+
+[java基础](MyNote/java基础.md)
+
+
+
+# 其他
+
+每一篇类型的笔记篇幅都不短，为了更好的查找和阅读文章，推荐安装 Chrome 插件 [smart TOC](https://chrome.google.com/webstore/detail/smart-toc/lifgeihcfpkmmlfjbailfpfhbahhibba) 。效果图：
+
+![image-20190811175213321](assets/image-20190811175213321.png)
