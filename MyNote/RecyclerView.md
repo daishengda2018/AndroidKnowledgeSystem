@@ -169,3 +169,157 @@ view type 大量相同的时候，我们就可以同享缓存池，<font color =
 
 未完待续……
 
+
+
+# 长按滑动交换数据位置
+
+最近太忙了，先写下一个模版代码吧，以后在做说明 ---- 2019.8.18
+
+```java
+/**
+ * 定义RecycleView的Adapter和SimpleItemTouchHelperCallback直接的交互接口方法
+ * Created by mChenys on 2017/2/16.
+ */
+public interface ItemTouchHelperAdapter {
+    /**
+     * 数据交换
+     */
+    void onItemMove(RecyclerView.ViewHolder source, RecyclerView.ViewHolder target);
+
+    /**
+     * 数据删除
+     */
+    void onItemDismiss(RecyclerView.ViewHolder source);
+
+    /**
+     * drag或者swipe选中
+     */
+    void onItemSelect(RecyclerView.ViewHolder source);
+
+    /**
+     * 状态清除
+     */
+    void onItemClear(RecyclerView.ViewHolder source);
+}
+```
+
+
+
+```java
+public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+    private ItemTouchHelperAdapter mAdapter;
+
+    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+        mAdapter = adapter;
+    }
+
+    @Override
+    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        //int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN; //允许上下的拖动
+        //int dragFlags =ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT; //允许左右的拖动
+        //int swipeFlags = ItemTouchHelper.LEFT; //只允许从右向左侧滑
+        //int swipeFlags = ItemTouchHelper.DOWN; //只允许从上向下侧滑
+        //一般使用makeMovementFlags(int,int)或makeFlag(int, int)来构造我们的返回值
+        //makeMovementFlags(dragFlags, swipeFlags)
+
+        //允许上下的拖动
+        int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+        return makeMovementFlags(dragFlags, 0);
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        //长按启用拖拽
+        return true;
+    }
+
+    @Override
+    public boolean isItemViewSwipeEnabled() {
+        //不启用拖拽删除
+        return false;
+    }
+
+    @Override
+    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
+        //通过接口传递拖拽交换数据的起始位置和目标位置的ViewHolder
+        mAdapter.onItemMove(source, target);
+        return true;
+    }
+
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        //移动删除回调,如果不用可以不用理
+       // mAdapter.onItemDismiss(viewHolder);
+    }
+
+    @Override
+    public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+        super.onSelectedChanged(viewHolder, actionState);
+        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+            //当滑动或者拖拽view的时候通过接口返回该ViewHolder
+            mAdapter.onItemSelect(viewHolder);
+        }
+    }
+
+    @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        super.clearView(recyclerView, viewHolder);
+        if (!recyclerView.isComputingLayout()) {
+            //当需要清除之前在onSelectedChanged或者onChildDraw,onChildDrawOver设置的状态或者动画时通过接口返回该ViewHolder
+            mAdapter.onItemClear(viewHolder);
+        }
+    }
+```
+
+```java
+public class DemoAdapter implements ItemTouchHelperAdapter {
+
+    @Override
+    public void onItemMove(RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
+        int fromPosition = source.getAdapterPosition();
+        int toPosition = target.getAdapterPosition();
+        if (fromPosition < getDataSet().size() && toPosition < getDataSet().size()) {
+            //交换数据位置
+            Collections.swap(getDataSet(), fromPosition, toPosition);
+            //刷新位置交换
+            notifyItemMoved(fromPosition, toPosition);
+        }
+        //移动过程中移除view的放大效果
+        onItemClear(source);
+    }
+
+    @Override
+    public void onItemDismiss(RecyclerView.ViewHolder source) {
+        int position = source.getAdapterPosition();
+        //移除数据
+        getDataSet().remove(position);
+        //刷新数据移除
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemSelect(RecyclerView.ViewHolder viewHolder) {
+        //当拖拽选中时放大选中的view
+        viewHolder.itemView.setScaleX(1.3f);
+        viewHolder.itemView.setScaleY(1.3f);
+    }
+
+    @Override
+    public void onItemClear(RecyclerView.ViewHolder viewHolder) {
+        //拖拽结束后恢复view的状态
+        viewHolder.itemView.setScaleX(1.0f);
+        viewHolder.itemView.setScaleY(1.0f);
+    }
+}
+```
+
+使用时直接绑定到对应的 RecyclerView 上
+
+```java
+SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback(Adaper);
+ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+touchHelper.attachToRecyclerView(RecyclerView);
+```
+

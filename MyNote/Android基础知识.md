@@ -248,6 +248,8 @@ Activity作为根部，根据视图树一层一层遍历 Child 的 onSavenInstan
 
 
 
+
+
 # 工作方式篇
 ## 提交代码
 1. **git d review code**：在提交代码的时候一定要review code 看自己修改了那些文件，有没有被自己没有修改但是格式变化的文件

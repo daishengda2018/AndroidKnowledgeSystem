@@ -4,33 +4,103 @@
 
 # 自定义View
 
-## 自定义的布局过程
+## 自定义尺寸和内部布局 —— onMeasure、 onLayout
 
 ### 布局过程的作用
 
-* 确定每个View的位置和尺寸
+* 确定每个View的尺寸和位置
 * 作用：为绘制和触摸范围做支持
   * 绘制：知道往哪里了画
   * 触摸返回：知道用户点的是哪里
 
 ### 布局的流程
 
+#### 从整体看
+
 * 测量流程：从根 View 递归调用每一级子 View 的 measure 方法，对它们进行测量。
 * 布局流程：从根 View 递归调用每一级子 View 的 layout 方法，把测量过程得出的子 View 的位置和尺寸传给子 View，子 View 保存。
 
-**为啥需要两个过程呢？**
+#### 从个体看
 
-* onMeasure 与 measure() 、onDraw 与 draw 的区别
+对于每一个 View：
 
-  onXX 方法是调度过程的，而 measure、draw 才是真正做事情的
+1. 运行前，开发者会根据自己的需求在 xml 文件中写下对于 View 大小的**期望值**
 
-* 为什么不把对于尺寸的要求直接交个子 View 而是要交给父 View 呢？
+2. 在运行的时候，父 View 会在 `onMeaure()`中，根据开发者在 xml 中写的对子 View 的**要求**， 和自身的实际可用空间，得出对于子 View 的更具尺寸**要求**
 
-  因为有些场景，子 View 的大小需要父 View 进行规划，例如 LinearLayout 的子 View 全部设置了 weight 
+3. 子 View 在自己的 `onMeasure`中，根据 xml 中指定的**期望值**和自身特点（指 View 的定义者在`onMeasrue`中的声明）算出自己的**期望**
+   * 如果是 ViewGroup， 还会在 `onMeasure` 中，调用每个子 View 的 measure () 进行测量.            
+
+4. 父 View 在子 View 计算出**期望**尺寸后，得出⼦ View 的**实际**尺⼨寸和位置
+
+5. ⼦ View 在自己的 layout() ⽅方法中，将父 View 传进来的自己的实际尺寸和位置保存
+   * 如果是 ViewGroup，还会在 onLayout() ⾥调用每个字 View 的 layout() 把它们的尺寸 置传给它们
+
+#### 为啥需要两个过程呢？
+
+* ##### **原因一**
+
+measure 的测量过程可能不止一次，比如有三个子 View 在一个 ViewGroup 里面，ViewGroup 的宽度是 warp_content，A 的宽度是 match_parent, B 和 C 是 warp_content, 但 ViewGroup 的宽度是不固定的，怎么确定A 的 match_parent 到底有多大呢？此时是如何测量的呢？
+
+以 LinerLayout 为例：第一次测量 LinerLayout 的大小也是没有确定的，所以无法确定 A 的 match_parent 到底有多大，这时候的 LinerLayout 会对 A 直接测量为 0 ，然后测量 B、C 的宽度，因为 B、C 的大小是包裹内容的，在测量后就可以确定 LinerLayout 的宽度了：即为最长的 B 的宽度。
+
+![image-20190816011514042](assets/image-20190816011514042.png)
+
+这时候再对 A 进行第二次测量，直接设置为同 LinerLayout 同宽度，就达到了和 match_parent 的效果。
+
+![image-20190816011559286](assets/image-20190816011559286.png)
+
+如果将 measure 和 layout 的过程糅合在一起，会导致两次测量的时候进行无用的 layout，消耗了更多的资源，所以为了性能，将其二者分开。
+
+
+
+* ##### **原因二**
+
+也是二者的职责相互独立，分为两个过程，可以使流程、代码更加清晰。
+
+
+
+#### 拓展
+
+上面的例子仅仅限制与 LinerLayout，每种布局的测量机制是不同的。那么如果 A B C 三个 View 都是 match_parent 的呢？LinerLayout是如何做的呢？
+
+* 第一轮测量：LinerLayout 无法确定自己的大小，所以遇到子 View match_parent 都会测量为 0
+
+![image-20190816013740231](assets/image-20190816013740231.png)
+
+* 第二轮测量：都没有大小，LinerLayout 会让所有子 View 自由测量（父 View 不限制宽度）。每个测量之后都会变为和最宽的一样的宽度。
+
+  ![image-20190816013805676](assets/image-20190816013805676.png)
 
 **注意：**
 
-1. layout() 很少被使用到，因为他的改变没有通知的父 View 会导致布局重叠等问题
+- onMeasure 与 measure() 、onDraw 与 draw 的区别
+
+  onXX 方法是调度过程，而 measure、draw 才是真正做事情的，也就是说 measure 中调用 onMeasure 一次类推。
+
+  ```java
+  public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
+         // ……………
+              if (cacheIndex < 0 || sIgnoreMeasureCache) {
+                  // measure ourselves, this should set the measured dimension flag back
+                  onMeasure(widthMeasureSpec, heightMeasureSpec);
+               // ………………
+              }
+  }
+      
+  ```
+
+  
+
+- 为什么不把对于尺寸的要求直接交个子 View 而是要交给父 View 呢？
+
+  因为有些场景，子 View 的大小需要父 View 进行规划，例如 LinearLayout 的子 View 全部设置了 weight 
+
+* layout() 很少被使用到，因为他的改变没有通知的父 View 会导致布局重叠等问题
+
+
+
+### 个体流程
 
 
 
@@ -178,11 +248,12 @@
       *
    * Created by im_dsd on 2019-08-11
       */
+
     public class CustomAttrsDemo extends android.support.v7.widget.AppCompatTextView {
-  
+      
       private final int mTextColor;
       private final int mTextSize;
-  
+      
       public CustomAttrsDemo(Context context, AttributeSet attrs) {
           super(context, attrs);
           TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CustomAttrsDemo);
