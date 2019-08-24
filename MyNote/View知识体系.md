@@ -2,11 +2,9 @@
 
 
 
-# 自定义View
+# 自定义View —— onMeasure、 onLayout
 
-## 自定义尺寸和内部布局 —— onMeasure、 onLayout
-
-### 布局过程的作用
+## 布局过程的作用
 
 * 确定每个View的尺寸和位置
 * 作用：为绘制和触摸范围做支持
@@ -15,12 +13,12 @@
 
 ### 布局的流程
 
-#### 从整体看
+### 从整体看
 
 * 测量流程：从根 View 递归调用每一级子 View 的 measure 方法，对它们进行测量。
 * 布局流程：从根 View 递归调用每一级子 View 的 layout 方法，把测量过程得出的子 View 的位置和尺寸传给子 View，子 View 保存。
 
-#### 从个体看
+### 从个体看
 
 对于每一个 View：
 
@@ -36,7 +34,7 @@
 5. ⼦ View 在自己的 layout() ⽅方法中，将父 View 传进来的自己的实际尺寸和位置保存
    * 如果是 ViewGroup，还会在 onLayout() ⾥调用每个字 View 的 layout() 把它们的尺寸 置传给它们
 
-#### 为啥需要两个过程呢？
+### 为啥需要两个过程呢？
 
 * ##### **原因一**
 
@@ -60,7 +58,7 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 
 
-#### 拓展
+### 拓展
 
 上面的例子仅仅限制与 LinerLayout，每种布局的测量机制是不同的。那么如果 A B C 三个 View 都是 match_parent 的呢？LinerLayout是如何做的呢？
 
@@ -76,7 +74,7 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 - onMeasure 与 measure() 、onDraw 与 draw 的区别
 
-  onXX 方法是调度过程，而 measure、draw 才是真正做事情的，也就是说 measure 中调用 onMeasure 一次类推。
+  onXX 方法是调度过程，而 measure、draw 才是真正做事情的。可以从源码中看到 measure 中调用了 onMeasure 方法。
 
   ```java
   public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -94,23 +92,304 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 - 为什么不把对于尺寸的要求直接交个子 View 而是要交给父 View 呢？
 
-  因为有些场景，子 View 的大小需要父 View 进行规划，例如 LinearLayout 的子 View 全部设置了 weight 
+  因为有些场景，子 View 的大小需要父 View 进行规划，例如上面的例子中 LinearLayout 的子 View 设置了 weight。
 
-* layout() 很少被使用到，因为他的改变没有通知的父 View 会导致布局重叠等问题
-
-
-
-### 自定义 TabLayout
+* layout() 很少被使用到，因为他的改变没有通知父 View，这可能会导致布局重叠等问题 。在下面的「综合演练 —— 简单改写已有 View 的尺寸」中会有一个证明。
 
 
 
-## 自定义属性
+##onMeasure 方法
+
+首先要明确的一个问题： 什么时候需要我们自己实现 onMeasure 方法呢？
+
+答：具体开发的时候又以下三种场景：
+
+* 当我们继承一个已有 View 的时候，简单改写他们的尺寸，比如自定义一个正方形的 ImageView，取宽高中较小的值为边长。
+* 完全进行自定义尺寸的计算。比如实现一个绘制圆形的 View 我们需要在尺寸为 warp_content 的时候指定一个大小。
+* 自定义 Layout，这时候内部所有的子 View 的尺寸和位置都需要我们自己控制，需要重写 `onMeasure()` 和 `onLayout()`方法。例如下文中的「综合演练 —— 自定义 TabLayout」
+
+## onLayout 方法
+
+
+
+## 综合演练 
+
+### 简单改写已有 View 的尺寸实现方形 ImageView
+
+* 首先来证明一下改写 layout 方法会存在的问题
+
+```java
+/**
+ * 自定义正方形 ImageView
+ *
+ * Created by im_dsd on 2019-08-24
+ */
+public class SquareImageView extends android.support.v7.widget.AppCompatImageView {
+
+    public SquareImageView(Context context) {
+        super(context);
+    }
+
+    public SquareImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public SquareImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+   @Override
+    public void layout(int l, int t, int r, int b) {
+        // 使用宽高的最大值设置边长
+        int width = r - l;
+        int height = b - t;
+        int size = Math.max(width, height);
+        super.layout(l, t, l + size, t + size);
+    }
+}
+```
+
+代码很简单，获取宽与高的最大值用于设置正方形 View 的边长。再看一下布局文件的设置
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".MainActivity">
+
+
+    <com.example.dsd.demo.ui.custom.measure.SquareImageView
+        android:background="@color/colorAccent"
+        android:layout_width="200dp"
+        android:layout_height="300dp"/>
+
+    <View
+        android:background="@android:color/holo_blue_bright"
+        android:layout_width="200dp"
+        android:layout_height="200dp"/>
+</LinearLayout>
+```
+
+通过布局文件的描述如果是普通的 View 显示的状态应该是这样的
+
+![image-20190824182806710](assets/image-20190824182806710.png)
+
+
+
+而我们期待的状态应该是这样的：SquareimageView 的宽高均为 300dp。
+
+![image-20190824184207686](assets/image-20190824184207686.png)
+
+但是最终的结果却是下图，虽然我们使用了 LinearLayout 但是我们通过` layout()` 方法改变了 SquareImageView 的的大小，LinearLayout 并不知道这件事，所以会发生布局重叠的问题。**所以一般情况下不要使用 `layout（）`方法**。
+
+![image-20190824183744689](assets/image-20190824183744689.png)
+
+* 通过 `onMeasure` 方法更改尺寸。
+
+```java
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        // super.onMeasure 中已经完成了 View 的测量
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // 获取测量的结果比较后得出最大值
+        int height = getMeasuredHeight();
+        int width = getMeasuredWidth();
+        int size = Math.max(width, height);
+        // 将结果设置回去
+        setMeasuredDimension(size, size);
+    }
+
+```
+
+**总结**
+
+简单来说，更改已有 View 的尺寸主要分为以下步骤
+
+1. 重写 `onMeasure（）`
+2. 用`getMeasureWidth` 和 `getMeasureHeight()`获取测量到的尺寸
+3. 计算最终要的尺寸
+4. 用 `setMeasuredDimension(width, height) `把结果保存
+
+### 完全自定义 View 的尺寸
+
+此处我们用绘制圆形的 View：CircleView 做一个例子。对于这个 View 的期望是：View 的大小有内部的圆决定。
+
+![image-20190824191402384](assets/image-20190824191402384.png)
+
+首先换一个圆形看看
+
+```java
+/**
+ * 自定义 View 简单测量
+ * Created by im_dsd on 2019-08-15
+ */
+public class CircleView extends View {
+    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    /**
+     * 为了方便简单，固定尺寸
+     */
+    private static final float PADDING = DisplayUtils.dp2px(20);
+    private static final float RADIUS = DisplayUtils.dp2px(80);
+
+    public CircleView(Context context) {
+        super(context);
+    }
+
+    public CircleView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        mPaint.setColor(Color.RED);
+        canvas.drawCircle(PADDING + RADIUS, PADDING + RADIUS, RADIUS, mPaint);
+    }
+}
+```
+
+```java
+    <com.example.dsd.demo.ui.custom.layout.CircleView
+        android:background="@android:color/background_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+```
+
+此时将大小设置为 wrap_content 包裹布局，结果会是怎么样的呢？
+
+![image-20190824192535840](assets/image-20190824192535840.png)
+
+竟然和填充了屏幕！根本就没有包裹内容，此时就需要我们大展身手了
+
+```java
+  @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        // 没有必要再让 view 自己测量一遍了，浪费资源
+        // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        
+        // 计算期望的 size
+        int size = (int) ((PADDING + RADIUS) * 2);
+        // 获取父 View 传递来的可用大小
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+
+        // 开始计算
+        int result = 0;
+        switch (widthMode) {
+            // 不超过
+            case MeasureSpec.AT_MOST:
+                // 在 AT_MOST 模式下，去二者的最小值
+                if (widthSize < size) {
+                    result = widthSize;
+                } else {
+                    result = size;
+                }
+                break;
+            // 精准的
+            case MeasureSpec.EXACTLY:
+                // 父 View 给多少用多少
+                result = widthSize;
+                break;
+            // 无限大，没有指定大小
+            case MeasureSpec.UNSPECIFIED:
+                // 使用计算出的大小
+                result = size;
+                break;
+            default:
+                result = 0;
+                break;
+        }
+        // 设置大小
+        setMeasuredDimension(result, result);
+    }
+```
+
+![image-20190824193549345](assets/image-20190824193549345.png)
+
+上面的代码就是 `onMeasure(int,int)` 的模板代码了，要注意一点的是需要注释 super 的 onMeasure 方法，此处面试的时候普遍会问。
+
+```java
+ // 没有必要再让 view 自己测量一遍了，浪费资源
+ // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+```
+
+这段模版代码其实 Android SDK 里面早就有了很好的封装 ： `resolveSize(int size, int measureSpec)` 和 `resolveSizeAndState(int size, int measureSpec, int childMeasuredState)` ，两行代码直接搞定。
+
+```java
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        // 没有必要再让 view 自己测量一遍了，浪费资源
+        // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        
+        // 计算期望的 size
+        int size = (int) ((PADDING + RADIUS) * 2);
+        // 指定期望的 size
+        int width = resolveSize(size, widthMeasureSpec);
+        int height = resolveSize(size, heightMeasureSpec);
+        // 设置大小
+        setMeasuredDimension(width, height);
+    }
+
+```
+
+使用的时候完全可以这样做，但是非常建议大家都自己手写几遍理解其中的含义，因为面试会问到其中的细节。
+
+还有一点很遗憾，就是 `resolveSizeAndState(int, int, int)` 不好用。不要用的原因不是因为方法的问题，而是很多自定义 View 包括很多原生的 View 都没有使用 `resolveSizeAndState(int, int, int)` 方法，或者没用指定 sate （state 传递父 View 对于子 View 的期望，相比`resolveSize(int, in）` 方法对于子 View 的控制更好）所以就算设置了，也不会起作用。
+
+
+
+**总结**
+
+完全自定义 View 的尺寸主要分为以下步骤：
+
+1. 重写 `onMeasure（）`
+2. 计算自己期望的尺寸
+3. 用 `resolveSize()` 或者 `resolveSizeAndState（）`修正结果
+4. 用 `setMeasuredDimension(width, height) `保存结果
+
+### 自定义 Layout
+
+**总结**
+
+自定义 Layout 的主要步骤分为以下几点：
+
+1. 重写 `onMeasure()`
+   * 遍历每一个子 View，用 `measureChildWidthMargins()` 测量 View
+     * MarginLayoutParams 和 generateLayoutParams()
+     * 有些子 View 可能需要多次测量
+     * 测量完成后，得出子 View 的实际尺寸和位置，并暂时保存
+   * 测量出所有子 View 的位置和尺寸后，计算出自己的尺寸，并用` setMeasuredDimension(width, height)`保存
+2. 重写 `onLayout()`
+   * 遍历每个子 View，调用它们的 layout() 方法来将位置和尺寸传递给它们。
+
+
+
+## getMeasureWidth 与 getWidth 的区别
+
+getMeasureXX 代表的是 onMeasure 方法结束后（准确的说应该是测量结束后）**测量**的值，而 getXX 代表的是 layout 阶段 right - left、bottom - top 的**真实显示**值，所以第一个不同点就是**赋值的阶段不同**，可见 getXXX 在 layout（） 之前一直为 0， 而 getMeasureXX 可能不是最终值( onMeasure 可能会被调用多次），但是最终的时候二者的数值都会是相同的。使用那个还需要看具体的场景。
+
+总结: getMeasureXX 获取的是临时的值，而 getXX 获取的时候最终定稿的值，一般在绘制阶段、触摸反馈阶段使用 getXXX，在 onMeasure 阶段被迫使用 getMeasureXX 。
+
+
+
+# 自定义View —— 自定义属性
+
+**[此文已于19年8月12日发表到博客上 ——「[Android 自定义 View] 自定义属性你真的理解吗？」在博客上的阅读效果更好推荐到博客查看](https://blog.csdn.net/qq_23191031/article/details/99201766)**
 
 自定义属性其实就是一些 xml 标签，他们通过 xml 文件的形式，可以配置某些 View 的信息，让自定义 View 使用起来更加灵活。
 
-### 属性的定义
+## 属性的定义
 
-#### 必须是 res/values/attrs.xml吗？
+### 必须是 res/values/attrs.xml吗？
 
 很多文章都说：需要在 res/values 目录下创建 attrs.xml 文件然后在里面写我们需要的属性，其实这是不太准确的，通过实验证明，文件的名字可以随意指定，不一定必须是 attrs.xml ！
 
@@ -118,7 +397,7 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 例如笔者自定义了一个 custom.xml 文件里面的内容符合自定义属性的规范，在 View 中也是可以正常访问到的。（具体原因尚不清楚，可能是 Android Stuido 的功能）
 
-#### 文件结构
+## 文件结构
 
 ![image-20190809011607792](assets/image-20190809011607792.png)
 
@@ -187,7 +466,7 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 
 
-### 属性的使用
+## 属性的使用
 
 1. 定义属性
 
@@ -261,7 +540,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 
 
 
-### AttributeSet、TypedArray 、declare-styleable
+## AttributeSet、TypedArray 、declare-styleable
 
 **AttributeSet** ：
 
@@ -295,24 +574,18 @@ TypedArray里面装的就是具体的属性了，我们可以通过 :`array.getX
 
 
 
-## getMeasureWidth 与 getWidth 的方法
-
-getMeasureXX 代表的是 onMeasure 方法结束后（准确的说应该是测量结束后）**测量**的值，而 getXX 代表的是 layout 阶段 right - left、bottom - top 的**真实显示**值，所以第一个不同点就是**赋值的阶段不同**，可见 getXXX 在 layout（） 之前一直为 0， 而 getMeasureXX 可能不是最终值( onMeasure 可能会被调用多次），但是最终的时候二者的数值都会是相同的。使用那个还需要看具体的场景
-
-总结: getMeasureXX 获取的是临时的值，而 getXX 获取的时候最终定稿的值，一般在绘制阶段、触摸反馈阶段使用 getXXX，在 onMeasure 阶段被迫使用 getMeasureXX 
-
-## 自定义 ImageView 要注意的点
-直接重写`onDraw()`方法就可以了，后去需要绘制的图片通过`getDrawable()`方法
+# 自定义 ImageView 要注意的点
+直接重写`onDraw()`方法就可以了，可以通过`getDrawable()`方法获取到前景图。在自定义 ImageView 的时候一般都会和 Bitmap Drawable 打交道，关于二者的细节见下文「Bitmap 与 Drawable」
 
 ## 绘制文字包围文字 Demo
 
 ```
-
+待续……
 ```
 
 
 
-## Cavans 几何变换
+# Cavans 几何变换
 cavans.translate、cavans.rotate、cavans.scale 、cavans.sew 这些变化针对的都是 Cavans，并不是我们绘制的内容。 如果想要绘制的效果作用到内容上，我们有一个办法：**把效果倒着写！**
 
 例如我们的需求是先将

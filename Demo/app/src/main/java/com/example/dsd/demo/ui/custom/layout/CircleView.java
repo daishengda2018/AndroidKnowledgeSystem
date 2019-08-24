@@ -16,9 +16,11 @@ import com.example.dsd.demo.utils.DisplayUtils;
  */
 public class CircleView extends View {
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    /**
+     * 为了方便简单，固定尺寸
+     */
     private static final float PADDING = DisplayUtils.dp2px(20);
     private static final float RADIUS = DisplayUtils.dp2px(80);
-
 
     public CircleView(Context context) {
         super(context);
@@ -32,35 +34,38 @@ public class CircleView extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    public CircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // 没有必要再让 view 自己测量一遍了，浪费时间
+        // 没有必要再让 view 自己测量一遍了，浪费资源
         // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = (int) ((PADDING + RADIUS) * 2);
 
+        // 计算期望的 size
+        int size = (int) ((PADDING + RADIUS) * 2);
+        // 获取父 View 传递来的可用大小
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 
+        // 开始计算
         int result = 0;
         switch (widthMode) {
             // 不超过
             case MeasureSpec.AT_MOST:
+                // 在 AT_MOST 模式下，去二者的最小值
                 if (widthSize < size) {
                     result = widthSize;
                 } else {
                     result = size;
                 }
                 break;
-            // 精准的,
+            // 精准的
             case MeasureSpec.EXACTLY:
+                // 父 View 给多少用多少
                 result = widthSize;
                 break;
             // 无限大，没有指定大小
             case MeasureSpec.UNSPECIFIED:
+                // 使用计算出的大小
                 result = size;
                 break;
             default:
@@ -68,13 +73,12 @@ public class CircleView extends View {
                 break;
         }
 
-
-        // 指定最小的 size
-        int width = resolveSize(size, widthMeasureSpec);
-        int height = resolveSize(size, heightMeasureSpec);
+//        // 指定期望的 size
+//        int width = resolveSize(size, widthMeasureSpec);
+//        int height = resolveSize(size, heightMeasureSpec);
 
         // 设置大小
-        setMeasuredDimension(width, height);
+        setMeasuredDimension(result, result);
     }
 
     @Override
