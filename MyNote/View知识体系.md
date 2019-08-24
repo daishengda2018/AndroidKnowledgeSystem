@@ -100,10 +100,6 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 
 
-### 个体流程
-
-
-
 ### 自定义 TabLayout
 
 
@@ -210,9 +206,9 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
    在布局文件中使用，首先需要引入命名空间，这样才能找到我们包中的 attrs，这里我们引入了命名空间 app，res-auto 表示自动查找
    
-   ```java
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-   ```
+```java
+xmlns:app="http://schemas.android.com/apk/res-auto"
+```
 
 ```java
 <?xml version="1.0" encoding="utf-8"?>
@@ -239,9 +235,7 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 2. 在自定义 View 中使用
 
-   ```java
-   
-   ```
+```java
 
   /**
    * 自定义属性 Demo
@@ -263,7 +257,7 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
           array.recycle();
       }
     }
-   ```
+```
 
 
 
@@ -271,16 +265,14 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 **AttributeSet** ：
 
-​```java
-A collection of attributes, as found associated with a tag in an XML document. Often you will not want to use this interface directly, instead passing it to {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int) Resources.Theme.obtainStyledAttributes()}
-   ```
+>  A collection of attributes, as found associated with a tag in an XML document. Often you will not want to use this interface directly, instead passing it to {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int) Resources.Theme.obtainStyledAttributes()}
+
 
 可以看到 AtttirbuteSet 是一个大的属性集合，装载了此 View 所有的属性，用户可以通过方法：
 
 ```java
  Context.obtainStyledAttributes(AttributeSet, R.styleable.XXXX);
 ```
-
 获取指定的属性集合（一个明确的小集合 TypedArray) 
 
 
@@ -312,7 +304,7 @@ getMeasureXX 代表的是 onMeasure 方法结束后（准确的说应该是测�
 ## 自定义 ImageView 要注意的点
 直接重写`onDraw()`方法就可以了，后去需要绘制的图片通过`getDrawable()`方法
 
-## 绘制文字包围文字
+## 绘制文字包围文字 Demo
 
 ```
 
@@ -401,7 +393,7 @@ translationX表示的是当前View对于父View发生的偏移量，一开始的
 
 常用的事件传递就三个方法
 
-```java
+​```java
 dispathTouchEvent()
 onInterceptTouchEvent()
 onTouchEvent()

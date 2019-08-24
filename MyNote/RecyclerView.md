@@ -79,7 +79,7 @@ findeViewById 使用的算法的时间复杂度是 O(n)
 
 ![image-20190811234626581](assets/image-20190811234626581.png)
 
-# RecyclerView 的性能优化
+
 
 **注意** ：在 ListView 中缓存的是 item view，而 RecyclerView 缓存的是 View holder 但是二者的区别并不大，因为 View holder 和 item view 是一对一的关系。！
 
