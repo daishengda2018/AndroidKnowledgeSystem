@@ -100,17 +100,17 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 ##onMeasure 方法
 
-首先要明确的一个问题： 什么时候需要我们自己实现 onMeasure 方法呢？
+要明确的一个问题是： 什么时候需要我们自己实现 onMeasure 方法呢？
 
 答：具体开发的时候又以下三种场景：
 
 * 当我们继承一个已有 View 的时候，简单改写他们的尺寸，比如自定义一个正方形的 ImageView，取宽高中较小的值为边长。
 * 完全进行自定义尺寸的计算。比如实现一个绘制圆形的 View 我们需要在尺寸为 warp_content 的时候指定一个大小。
-* 自定义 Layout，这时候内部所有的子 View 的尺寸和位置都需要我们自己控制，需要重写 `onMeasure()` 和 `onLayout()`方法。例如下文中的「综合演练 —— 自定义 TabLayout」
+* 自定义 Layout，这时候内部所有的子 View 的尺寸和位置都需要我们自己控制，需要重写 `onMeasure()` 和 `onLayout()`方法。例如下文中的「综合演练 —— 自定义 Layout」
 
 ## onLayout 方法
 
-
+onLayout 方法是 ViewGroup 中用于控制子 View 位置的方法。放置子 View 位置的过程很简单，只需重写 ViewGroup 中的 onLayout 方法，然后获取子 View 的实例，调用子 View 的 layout 方法实现布局。在实际开发中，一般要配合 onMeasure 测量方法一起使用。在下文「综合演练 —— 自定义 Layout」中会详细演示。
 
 ## 综合演练 
 
@@ -357,6 +357,298 @@ public class CircleView extends View {
 4. 用 `setMeasuredDimension(width, height) `保存结果
 
 ### 自定义 Layout
+
+以 TagLayout 为例一步一步实现一个自定义 Layout。具体期望的效果如下图：
+
+![网络截图](assets/image-20190824202927270.png)
+
+#### 重写 `onLayout()`
+
+在继承 ViewGroup 的时候 `onLayout()` 是必须要实现的，这意味着子 View 的位置摆放的规则，全部交由开发者定义。
+
+```java
+/**
+ * 自定义 Layout Demo
+ *
+ * Created by im_dsd on 2019-08-11
+ */
+public class TagLayout extends ViewGroup {
+
+    public TagLayout(Context context) {
+        super(context);
+    }
+
+    public TagLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public TagLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            // 此时所有的子 View 都和 TagLayout 一样大
+            child.layout(l, t, r, b);
+        }
+    }
+}
+
+```
+
+实验一下是否和期望的效果一样呢 
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.dsd.demo.ui.custom.layout.TagLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:background="#ffee00"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="音乐" />
+
+</com.example.dsd.demo.ui.custom.layout.TagLayout>
+```
+
+![image-20190824203849801](assets/image-20190824203849801.png)
+
+的确和期望一致。如果想要 TextView 显示为 TagLayout 的四分之一呢？
+
+```xml
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            // 子 View 显示为 TagLayout 的 1/4
+            child.layout(l, t, r / 4, b / 4);
+        }
+    }
+```
+
+效果达成！！！很明显`onLayout`可以非常灵活的控制 View 的位置
+
+![image-20190824204034040](assets/image-20190824204034040.png)
+
+再尝试让两个 View 呈对角线布局呢？
+
+```xml
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (i == 0 ){
+                child.layout(0, 0, (r - l) / 2, (b - t)  / 2);
+            } else {
+                child.layout((r - l) / 2, (b - t)  / 2, (r - l), (b - t));
+            }
+        }
+    }
+```
+
+![image-20190824204701652](assets/image-20190824204701652.png)
+
+`onLayout`的方法还是很简单的，但是在真正布局中怎么获取 View 的位置才是真正的难点！如何获取呢，这时候就需要 `onMeasure` 的帮助了！
+
+#### 计算
+
+在写具体的代码之前，先来搭建大体的框架。主要的思路就是在 `onMeasure()`方法中计算好子 View 的尺寸和位置信息包括 TagLayout 的具体尺寸，然后在`onLayout()`方法中摆放子 View。
+
+在计算过程中涉及到三个难点，具体请看注释
+
+```java
+private List<Rect> mChildRectList = new ArrayList<>();
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        // 没有必要让 View 自己算了，浪费资源。 
+        // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            // 难点1: 计算出对于每个子 View 的尺寸
+            child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+            // 难点2：计算出每一个子 View 的位置并保存。
+            Rect rect = new Rect(?, ?, ?, ?);
+            mChildRectList.add(rect);
+        }
+        // 难点3：根据所有子 View 的尺寸计算出 TagLayout 的尺寸
+        int measureWidth = ?;
+        int measureHeight = ?;
+        setMeasuredDimension(measureWidth, measureHeight);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        if (mChildRectList.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < getChildCount(); i++) {
+            if (mChildRectList.size() <= i) {
+                return;
+            }
+            View child = getChildAt(i);
+            // 通过保存好的位置，设置子 View
+            Rect rect = mChildRectList.get(i);
+            child.layout(rect.left, rect.top, rect.right, rect.bottom);
+        }
+    }
+```
+
+##### 难点1 ：如何计算子 View 的尺寸。
+
+主要涉及两点：开发者对于子 View 的尺寸设置和父 View 的具体可用空间。获取开发者对于子 View 尺寸的设置就比较简单了：
+
+```java
+// 获取开发者对于子 View 尺寸的设置
+LayoutParams layoutParams = child.getLayoutParams();
+int width = layoutParams.width;
+int height = layoutParams.height;
+```
+
+获取父 View (TagLayout)的具体可用空间要结合两点：1. TagLayout 的父 View 对于他的尺寸限制，2.TagLayout 的剩余空间。我们用 width为例有伪代码简单分析一下如何计算子 View 的尺寸
+
+```java
+int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+// TagLayout 已经使用过的空间，此处的计算是个难点，此处不是本例子重点，一会儿讨论
+int widthUseSize = 0;
+for (int i = 0; i < getChildCount(); i++) {
+	View child = getChildAt(i);
+  // 获取开发者对于子 View 尺寸的设置
+  LayoutParams layoutParams = child.getLayoutParams();
+  int childWidthMode;
+  int childWidthSize;
+  // 获取父 View 具体的可用空间
+  switch (layoutParams.width) {
+  // 如果说子 View 被开发者设置为 match_parent
+  	case LayoutParams.MATCH_PARENT:
+    	switch (widthMode) {
+      	case MeasureSpec.EXACTLY:
+        // TagLayout 为 EXACTLY 模式下，子 View 可以填充的部位就是 TagLayout 的可用空间
+        case MeasureSpec.AT_MOST:
+        // TagLayout 为 AT_MOST 模式下有一个最大可用空间，子 View 要是想 match_parent 其实是和 
+        // EXACTLY 模式一样的
+        childWidthMode = MeasureSpec.EXACTLY;
+        childWidthSize = widthSize - widthUseSize;
+        break;
+        case MeasureSpec.UNSPECIFIED:
+        // 当 TagLayout 为 UNSPECIFIED 不限制尺寸的时候，意味着可用空间无限大！空间无限大还想
+        // match_parent 二者完全是悖论，所以我们也要将子 View 的 mode 指定为 UNSPECIFIED
+        childWidthMode = MeasureSpec.UNSPECIFIED;
+        // 此时 size 已经没有作用了，写 0 就可以了
+        childWidthSize = 0;
+        break;
+        }
+      case LayoutParams.WRAP_CONTENT:
+       break;
+      default:
+      // 具体设置的尺寸
+      break;
+}
+// 获取 measureSpec
+int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, childWidthMode);
+```
+
+**补充一下什么时候会是 UNSPECIFIED 模式呢？比如说横向或纵向滑动的 ScrollView，他的宽度或者高度的木模式就是 UNSPECIFIED**
+
+伪代码仅仅模拟了开发者将子 View 的 size 设置为 match_parent 的情况，其他的情况读者要是感兴趣可以自己分析一下。笔者就不做过多的分析了！因为 Android SDK 早就为我们提供好了可用的 API： `measureChildWithMargins(int, int, int, int)`一句话就完成了对于子 View 的测量。
+
+##### 难点2：计算出每一个子 View 的位置并保存。
+
+##### 难点3：根据所有子 View 的尺寸计算出 TagLayout 的尺寸
+
+有了 `measureChildWithMargins` 方法，对于子 View 的测量就很简单啦。 一口气解决难点 2 3。
+
+```java
+  @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int lineHeightUsed = 0;
+        int lineWidthUsed = 0;
+        int widthUsed = 0;
+        int heightUsed = 0;
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            // 测量子 View 尺寸。TagLayout 的子 view 是可以换行的，所以设置 widthUsed 参数为 0
+            // 让子 View 的尺寸不会受到挤压。
+            measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, heightUsed);
+            if (widthMode != MeasureSpec.UNSPECIFIED && lineWidthUsed + child.getMeasuredWidth() > widthSize) {
+                // 需要换行了
+                lineWidthUsed = 0;
+                heightUsed += lineHeightUsed;
+                measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, heightUsed);
+            }
+            Rect childBound;
+            if (mChildRectList.size() >= i) {
+                // 不存在则创建
+                childBound = new Rect();
+                mChildRectList.add(childBound);
+            } else {
+                childBound = mChildRectList.get(i);
+            }
+            // 存储 child 位置信息
+            childBound.set(lineWidthUsed, heightUsed, lineWidthUsed + child.getMeasuredWidth(),
+                            heightUsed + child.getMeasuredHeight());
+            // 更新位置信息
+            lineWidthUsed += child.getMeasuredWidth();
+            // 获取一行中最大的尺寸
+            lineHeightUsed = Math.max(lineHeightUsed, child.getMeasuredHeight());
+            widthUsed = Math.max(lineWidthUsed, widthUsed);
+        }
+
+        // 使用的宽度和高度就是 TagLayout 的宽高啦
+        heightUsed += lineHeightUsed;
+        setMeasuredDimension(widthUsed, heightUsed);
+    }
+```
+
+终于写完代码啦，运行起来瞧瞧看。
+
+![image-20190825204518467](assets/image-20190825204518467.png)
+
+竟然奔溃了！通过日志可以定位到是
+
+```java
+  // 对于子 View 的测量
+  measureChildWithMargins(child, widthMeasureSpec, widthUsed, 
+                                                          heightMeasureSpec, heightUsed);
+```
+
+这一句出了问题，通过源码得知`measureChildWithMargins`方法会有一个类型转换导致了崩溃
+
+```java
+protected void measureChildWithMargins(int, int ,int, int) {
+	final MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+	………………
+}
+```
+
+解决办法就是在 TagLayout 中重写方法 `generateLayoutParams(AttributeSet)` 返回一个 MarginLayoutParams 就可以解决问题了。
+
+```java
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new MarginLayoutParams(getContext(), attrs);
+    }
+```
+
+再次运行达到最终目标！
+
+![image-20190825214300636](assets/image-20190825214300636.png)
+
+
 
 **总结**
 
@@ -666,7 +958,7 @@ translationX表示的是当前View对于父View发生的偏移量，一开始的
 
 常用的事件传递就三个方法
 
-​```java
+```java
 dispathTouchEvent()
 onInterceptTouchEvent()
 onTouchEvent()
@@ -688,7 +980,7 @@ Drawable 是一个可以调用 Cavans 来进行绘制的上层工具。调用 `D
 
 ## 代码：Bitmap2Drawable
 
-```java
+​```java
  public static Drawable bitmap2Drawable(Bitmap bitmap) {
         return new BitmapDrawable(Resources.getSystem(), bitmap);
     }
