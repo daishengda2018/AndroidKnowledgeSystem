@@ -24,27 +24,27 @@
 
 1. 运行前，开发者会根据自己的需求在 xml 文件中写下对于 View 大小的**期望值**
 
-2. 在运行的时候，父 View 会在 `onMeaure()`中，根据开发者在 xml 中写的对子 View 的**要求**， 和自身的实际可用空间，得出对于子 View 的更具尺寸**要求**
+2. 在运行的时候，父 View 会在 `onMeaure()`中，根据开发者在 xml 中写的对子 View 的**要求**， 和自身的实际可用空间，得出对于子 View 的具体尺寸**要求**
 
 3. 子 View 在自己的 `onMeasure`中，根据 xml 中指定的**期望值**和自身特点（指 View 的定义者在`onMeasrue`中的声明）算出自己的**期望**
-   * 如果是 ViewGroup， 还会在 `onMeasure` 中，调用每个子 View 的 measure () 进行测量.            
+   * 如果是 ViewGroup 还会在 `onMeasure` 中，调用每个子 View 的 measure () 进行测量.            
 
-4. 父 View 在子 View 计算出**期望**尺寸后，得出⼦ View 的**实际**尺⼨寸和位置
+4. 父 View 在子 View 计算出**期望**尺寸后，得出⼦ View 的**实际**尺寸和位置
 
-5. ⼦ View 在自己的 layout() ⽅方法中，将父 View 传进来的自己的实际尺寸和位置保存
-   * 如果是 ViewGroup，还会在 onLayout() ⾥调用每个字 View 的 layout() 把它们的尺寸 置传给它们
+5. ⼦ View 在自己的 layout() ⽅法中将父 View 传进来的自己的实际尺寸和位置保存
+   * 如果是 ViewGroup，还会在 onLayout() ⾥调用每个字 View 的 layout() 把它们的尺寸置传给它们
 
 ### 为啥需要两个过程呢？
 
 * ##### **原因一**
 
-measure 的测量过程可能不止一次，比如有三个子 View 在一个 ViewGroup 里面，ViewGroup 的宽度是 warp_content，A 的宽度是 match_parent, B 和 C 是 warp_content, 但 ViewGroup 的宽度是不固定的，怎么确定A 的 match_parent 到底有多大呢？此时是如何测量的呢？
+measure 的测量过程可能不止一次，比如有三个子 View 在一个 ViewGroup 里面，ViewGroup 的宽度是 warp_content，A 的宽度是 match_parent, B 和 C 是 warp_content, 此时 ViewGroup 的宽度是不固定的，怎么确定 A 的 match_parent 到底有多大呢？此时是如何测量的呢？
 
-以 LinerLayout 为例：第一次测量 LinerLayout 的大小也是没有确定的，所以无法确定 A 的 match_parent 到底有多大，这时候的 LinerLayout 会对 A 直接测量为 0 ，然后测量 B、C 的宽度，因为 B、C 的大小是包裹内容的，在测量后就可以确定 LinerLayout 的宽度了：即为最长的 B 的宽度。
+以 LinearLayout 为例：第一次测量 LinearLayout 的大小也是没有确定的，所以无法确定 A 的 match_parent 到底有多大，这时候的 LinearLayout 会对 A 直接测量为 0 ，然后测量 B、C 的宽度，因为 B、C 的大小是包裹内容的，在测量后就可以确定 LinearLayout 的宽度了：即为最长的 B 的宽度。
 
 ![image-20190816011514042](assets/image-20190816011514042.png)
 
-这时候再对 A 进行第二次测量，直接设置为同 LinerLayout 同宽度，就达到了和 match_parent 的效果。
+这时候再对 A 进行第二次测量，直接设置为与 LinearLayout 相同的宽度，至此达到了 match_parent 的效果。
 
 ![image-20190816011559286](assets/image-20190816011559286.png)
 
@@ -60,13 +60,13 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 ### 拓展
 
-上面的例子仅仅限制与 LinerLayout，每种布局的测量机制是不同的。那么如果 A B C 三个 View 都是 match_parent 的呢？LinerLayout是如何做的呢？
+上面例子中的情况仅仅存在于 LinearLayout中，每种布局的测量机制是不同的。那么如果 A B C 三个 View 都是 match_parent LinearLayout 是如何做的呢？
 
-* 第一轮测量：LinerLayout 无法确定自己的大小，所以遇到子 View match_parent 都会测量为 0
+* 第一轮测量：LinearLayout 无法确定自己的大小，所以遇到子 View match_parent 都会测量为 0
 
 ![image-20190816013740231](assets/image-20190816013740231.png)
 
-* 第二轮测量：都没有大小，LinerLayout 会让所有子 View 自由测量（父 View 不限制宽度）。每个测量之后都会变为和最宽的一样的宽度。
+* 第二轮测量：都没有大小，LinearLayout 会让所有子 View 自由测量（父 View 不限制宽度）。每个测量之后都会变为和最宽的一样的宽度。
 
   ![image-20190816013805676](assets/image-20190816013805676.png)
 
@@ -92,7 +92,7 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 - 为什么不把对于尺寸的要求直接交个子 View 而是要交给父 View 呢？
 
-  因为有些场景，子 View 的大小需要父 View 进行规划，例如上面的例子中 LinearLayout 的子 View 设置了 weight。
+  因为有些场景子 View 的大小需要父 View 进行规划，例如上面的例子中 LinearLayout 的子 View 设置了 weight。
 
 * layout() 很少被使用到，因为他的改变没有通知父 View，这可能会导致布局重叠等问题 。在下面的「综合演练 —— 简单改写已有 View 的尺寸」中会有一个证明。
 
@@ -102,15 +102,15 @@ measure 的测量过程可能不止一次，比如有三个子 View 在一个 Vi
 
 要明确的一个问题是： 什么时候需要我们自己实现 onMeasure 方法呢？
 
-答：具体开发的时候又以下三种场景：
+答：具体开发的时候有以下三种场景：
 
-* 当我们继承一个已有 View 的时候，简单改写他们的尺寸，比如自定义一个正方形的 ImageView，取宽高中较小的值为边长。
-* 完全进行自定义尺寸的计算。比如实现一个绘制圆形的 View 我们需要在尺寸为 warp_content 的时候指定一个大小。
+* 当我们继承一个已有 View 的时候，简单改写他们的尺寸，比如自定义一个正方形的 ImageView，取宽高中较大的值为边长。
+* 完全进行自定义尺寸的计算。比如实现一个绘制圆形的 View 我们需要在尺寸为 warp_content 时指定一个大小例如下文中的「综合演练 —— 完全自定义 View 的尺寸」。
 * 自定义 Layout，这时候内部所有的子 View 的尺寸和位置都需要我们自己控制，需要重写 `onMeasure()` 和 `onLayout()`方法。例如下文中的「综合演练 —— 自定义 Layout」
 
 ## onLayout 方法
 
-onLayout 方法是 ViewGroup 中用于控制子 View 位置的方法。放置子 View 位置的过程很简单，只需重写 ViewGroup 中的 onLayout 方法，然后获取子 View 的实例，调用子 View 的 layout 方法实现布局。在实际开发中，一般要配合 onMeasure 测量方法一起使用。在下文「综合演练 —— 自定义 Layout」中会详细演示。
+onLayout 方法是 ViewGroup 中用于控制子 View 位置的方法。放置子 View 位置的过程很简单，只需重写  onLayout 方法，然后获取子 View 的实例，调用子 View 的 layout 方法实现布局。在实际开发中，一般要配合 onMeasure 测量方法一起使用。在下文「综合演练 —— 自定义 Layout」中会详细演示。
 
 ## 综合演练 
 
@@ -181,11 +181,11 @@ public class SquareImageView extends android.support.v7.widget.AppCompatImageVie
 
 
 
-而我们期待的状态应该是这样的：SquareimageView 的宽高均为 300dp。
+而我们期待的状态应该是这样的：SquareImageView 的宽高均为 300dp。
 
 ![image-20190824184207686](assets/image-20190824184207686.png)
 
-但是最终的结果却是下图，虽然我们使用了 LinearLayout 但是我们通过` layout()` 方法改变了 SquareImageView 的的大小，LinearLayout 并不知道这件事，所以会发生布局重叠的问题。**所以一般情况下不要使用 `layout（）`方法**。
+但是最终的结果却是下图，虽然我们使用了 LinearLayout 但是我们通过` layout()` 方法改变了 SquareImageView 的大小，对于这个变化LinearLayout 并不知道，所以会发生布局重叠的问题。**可见一般情况下不要使用 `layout()`方法**。
 
 ![image-20190824183744689](assets/image-20190824183744689.png)
 
@@ -211,17 +211,17 @@ public class SquareImageView extends android.support.v7.widget.AppCompatImageVie
 简单来说，更改已有 View 的尺寸主要分为以下步骤
 
 1. 重写 `onMeasure（）`
-2. 用`getMeasureWidth` 和 `getMeasureHeight()`获取测量到的尺寸
+2. 用`getMeasureWidth` 和 `getMeasureHeight()`获取测量尺寸
 3. 计算最终要的尺寸
 4. 用 `setMeasuredDimension(width, height) `把结果保存
 
 ### 完全自定义 View 的尺寸
 
-此处我们用绘制圆形的 View：CircleView 做一个例子。对于这个 View 的期望是：View 的大小有内部的圆决定。
+此处用绘制圆形的 CircleView 做一个例子。对于这个 View 的期望是：View 的大小有内部的圆决定。
 
 ![image-20190824191402384](assets/image-20190824191402384.png)
 
-首先换一个圆形看看
+首先画一个圆形看看
 
 ```java
 /**
@@ -268,7 +268,7 @@ public class CircleView extends View {
 
 ![image-20190824192535840](assets/image-20190824192535840.png)
 
-竟然和填充了屏幕！根本就没有包裹内容，此时就需要我们大展身手了
+竟然填充了屏幕！根本就没有包裹内容，此时就需要我们大展身手了
 
 ```java
   @Override
@@ -287,7 +287,7 @@ public class CircleView extends View {
         switch (widthMode) {
             // 不超过
             case MeasureSpec.AT_MOST:
-                // 在 AT_MOST 模式下，去二者的最小值
+                // 在 AT_MOST 模式下，取二者的最小值
                 if (widthSize < size) {
                     result = widthSize;
                 } else {
@@ -315,7 +315,7 @@ public class CircleView extends View {
 
 ![image-20190824193549345](assets/image-20190824193549345.png)
 
-上面的代码就是 `onMeasure(int,int)` 的模板代码了，要注意一点的是需要注释 super 的 onMeasure 方法，此处面试的时候普遍会问。
+上面的代码就是 `onMeasure(int,int)` 的模板代码了，要注意一点的是需要注释 `super.onMeasure` 方法，此处面试的时候普遍会问。
 
 ```java
  // 没有必要再让 view 自己测量一遍了，浪费资源
@@ -343,7 +343,7 @@ public class CircleView extends View {
 
 使用的时候完全可以这样做，但是非常建议大家都自己手写几遍理解其中的含义，因为面试会问到其中的细节。
 
-还有一点很遗憾，就是 `resolveSizeAndState(int, int, int)` 不好用。不要用的原因不是因为方法的问题，而是很多自定义 View 包括很多原生的 View 都没有使用 `resolveSizeAndState(int, int, int)` 方法，或者没用指定 sate （state 传递父 View 对于子 View 的期望，相比`resolveSize(int, in）` 方法对于子 View 的控制更好）所以就算设置了，也不会起作用。
+还有一点很遗憾，就是 `resolveSizeAndState(int, int, int)` 不好用。不好用的原因不是方法有问题，而是很多自定义 View 包括原生的 View 都没有使用 `resolveSizeAndState(int, int, int)` 方法，或者没用指定 sate （state 传递父 View 对于子 View 的期望，相比`resolveSize(int, in）` 方法对于子 View 的控制更好）所以就算设置了，也不会起作用。
 
 
 
@@ -461,7 +461,7 @@ public class TagLayout extends ViewGroup {
 
 ![image-20190824204701652](assets/image-20190824204701652.png)
 
-`onLayout`的方法还是很简单的，但是在真正布局中怎么获取 View 的位置才是真正的难点！如何获取呢，这时候就需要 `onMeasure` 的帮助了！
+`onLayout`的方法还是很简单的，但是在真正布局中怎么获取 View 的位置才是难点！如何获取呢，这时候就需要 `onMeasure` 的帮助了！
 
 #### 计算
 
@@ -518,7 +518,10 @@ int width = layoutParams.width;
 int height = layoutParams.height;
 ```
 
-获取父 View (TagLayout)的具体可用空间要结合两点：1. TagLayout 的父 View 对于他的尺寸限制，2.TagLayout 的剩余空间。我们用 width为例有伪代码简单分析一下如何计算子 View 的尺寸
+获取父 View (TagLayout) 的可用空间要结合两点：
+
+1. TagLayout 的父 View 对于他的尺寸限制
+2. TagLayout 的剩余空间。我们用 width 为例用伪代码简单分析一下如何计算子 View 的尺寸
 
 ```java
 int widthMode = MeasureSpec.getMode(widthMeasureSpec);
@@ -562,7 +565,7 @@ for (int i = 0; i < getChildCount(); i++) {
 int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, childWidthMode);
 ```
 
-**补充一下什么时候会是 UNSPECIFIED 模式呢？比如说横向或纵向滑动的 ScrollView，他的宽度或者高度的木模式就是 UNSPECIFIED**
+**补充一下什么时候会是 UNSPECIFIED 模式呢？比如说横向或纵向滑动的 ScrollView，他的宽度或者高度的模式就是 UNSPECIFIED**
 
 伪代码仅仅模拟了开发者将子 View 的 size 设置为 match_parent 的情况，其他的情况读者要是感兴趣可以自己分析一下。笔者就不做过多的分析了！因为 Android SDK 早就为我们提供好了可用的 API： `measureChildWithMargins(int, int, int, int)`一句话就完成了对于子 View 的测量。
 
@@ -637,7 +640,7 @@ protected void measureChildWithMargins(int, int ,int, int) {
 }
 ```
 
-解决办法就是在 TagLayout 中重写方法 `generateLayoutParams(AttributeSet)` 返回一个 MarginLayoutParams 就可以解决问题了。
+解决办法就是在 TagLayout 中重写方法 `generateLayoutParams(AttributeSet)` 返回 MarginLayoutParams 就可以解决问题了。
 
 ```java
     @Override
@@ -984,7 +987,7 @@ Drawable 是一个可以调用 Cavans 来进行绘制的上层工具。调用 `D
 
 ## 代码：Bitmap2Drawable
 
-​```java
+```java
  public static Drawable bitmap2Drawable(Bitmap bitmap) {
         return new BitmapDrawable(Resources.getSystem(), bitmap);
     }
@@ -992,7 +995,7 @@ Drawable 是一个可以调用 Cavans 来进行绘制的上层工具。调用 `D
 
 ## 代码：Drawable2Bitmap
 
-```java
+​```java
  public static Bitmap drawable2Btimap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
