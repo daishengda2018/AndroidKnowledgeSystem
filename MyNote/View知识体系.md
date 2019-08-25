@@ -358,6 +358,8 @@ public class CircleView extends View {
 
 ### 自定义 Layout
 
+[源码地址](https://github.com/daishengda2018/AndroidKnowledgeSystem/blob/master/Demo/app/src/main/java/com/example/dsd/demo/ui/custom/TabLayout.java)
+
 以 TagLayout 为例一步一步实现一个自定义 Layout。具体期望的效果如下图：
 
 ![网络截图](assets/image-20190824202927270.png)
@@ -670,6 +672,8 @@ protected void measureChildWithMargins(int, int ,int, int) {
 getMeasureXX 代表的是 onMeasure 方法结束后（准确的说应该是测量结束后）**测量**的值，而 getXX 代表的是 layout 阶段 right - left、bottom - top 的**真实显示**值，所以第一个不同点就是**赋值的阶段不同**，可见 getXXX 在 layout（） 之前一直为 0， 而 getMeasureXX 可能不是最终值( onMeasure 可能会被调用多次），但是最终的时候二者的数值都会是相同的。使用那个还需要看具体的场景。
 
 总结: getMeasureXX 获取的是临时的值，而 getXX 获取的时候最终定稿的值，一般在绘制阶段、触摸反馈阶段使用 getXXX，在 onMeasure 阶段被迫使用 getMeasureXX 。
+
+
 
 
 
