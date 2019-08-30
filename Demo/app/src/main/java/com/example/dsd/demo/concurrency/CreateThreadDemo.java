@@ -2,8 +2,10 @@ package com.example.dsd.demo.concurrency;
 
 import android.support.annotation.NonNull;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
 /**
@@ -17,7 +19,8 @@ public class CreateThreadDemo {
 //        runnale();
 //        threadAndRunnable();
 //        threadFactory();
-        executor();
+//        executor();
+        callable();
     }
 
     /**
@@ -102,6 +105,32 @@ public class CreateThreadDemo {
     }
 
     private static void callable() {
+        Callable<String> callback = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                try {
+                    System.out.println("started");
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return "Done!";
+            }
+        };
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(callback);
+
+        try {
+            // future.get() 方法会阻塞线程，可以使用 future.isDone(）+ while 的形式判断。
+            String result = future.get();
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 循环判断是否结束
+//        while (!future.isDone()) {
+//        }
     }
 }
