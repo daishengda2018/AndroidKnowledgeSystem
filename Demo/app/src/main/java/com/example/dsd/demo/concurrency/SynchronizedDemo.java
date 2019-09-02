@@ -39,6 +39,24 @@ public class SynchronizedDemo {
     }
 
 
+    /**
+     * 此时 synchronized 锁住的是当前对象！
+     */
+    public synchronized void methodA() {
 
+    }
+
+    /**
+     * staticA 的写法等价于 staticB
+     */
+    public static synchronized void staticA() {
+
+    }
+
+    public static void staticB() {
+        synchronized (SynchronizedDemo.class){
+
+        }
+    }
 
 }

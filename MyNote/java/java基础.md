@@ -21,6 +21,256 @@
   * CPU 线程：CPU 线程是通过物理手段支持的，简单的来说就是 CPU 可以同时干多少件事情。
   * 操作系统线程：通过时间分片模拟出来的线程，是一种逻辑线程。我们所说的一般都是操作系统线程。通过这种时间分片的模式，哪怕 CPU 仅支持单线程，操作系统也可以模拟出几百个逻辑线程。
 
+## 创建线程的方式
+
+### thread
+
+```java
+    /**
+     * 通过 thread 直接创建
+     */
+    private static void thread() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                // 需要执行的逻辑
+                System.out.println("Thread started");
+            }
+        };
+
+        // 启动新的线程执行逻辑
+        thread.start();
+    }
+```
+
+### runnable
+
+```java
+/**
+ * 通过 runnable 的方式
+ */
+private static void runnale() {
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("Thread started");
+        }
+    };
+
+    Thread thread = new Thread(runnable);
+    thread.start();
+}
+```
+
+### threadAndRunnable
+
+```java
+    /**
+     * 此方式两个 run 方法都会执行，
+     */
+    private static void threadAndRunnable() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Thread started 1");
+            }
+        };
+
+        Thread thread = new Thread(runnable) {
+            @Override
+            public void run() {
+                // super.run() 不能少，否者 Runnable 不能执行
+                super.run();
+                System.out.println("Thread started 2");
+            }
+        };
+        thread.start();
+    }
+```
+
+### threadFactory
+
+```java
+/**
+     * 通过工厂方法生产 thread
+     */
+    private static void threadFactory() {
+        // 一个简单的工厂方法，用于生产 thread
+        ThreadFactory threadFactory = new ThreadFactory() {
+            @Override
+            public Thread newThread(@NonNull Runnable r) {
+                return new Thread(r);
+            }
+        };
+        Runnable runnable = () -> System.out.println(Thread.currentThread().getName() + " stared ");
+
+        Thread thread1 = threadFactory.newThread(runnable);
+        thread1.start();
+        Thread thread2 = threadFactory.newThread(runnable);
+        thread2.start();
+    }
+```
+
+### execute
+
+```java
+   private static void executor() {
+        Runnable runnable = () -> System.out.println(Thread.currentThread().getName() + " stared ");
+        ExecutorService threadPool = Executors.newCachedThreadPool();
+        threadPool.execute(runnable);
+        // submit 会返回一个 Future 可以获取返回值
+        threadPool.submit(runnable);
+    }
+```
+
+### callback
+
+```java
+    private static void callable() {
+        Callable<String> callback = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                try {
+                    System.out.println("started");
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return "Done!";
+            }
+        };
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(callback);
+
+        try {
+            // future.get() 方法会阻塞线程，可以使用 future.isDone(）+ while 的形式判断。
+            String result = future.get();
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 循环判断是否结束
+//        while (!future.isDone()) {
+//        }
+    }
+```
+
+## 停止线程
+
+### stop
+
+stop 方法已经被弃用了，原因是 stop 方法过于霸道，调用 stop 后立即终止线程内执行的逻辑，导致整个过程不可控，出现意想不到的异常。
+
+```java
+    private static void thread() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                // 需要执行的逻辑
+                System.out.println("Thread started");
+                for (int i = 0; i < 1_000_000; i++) {
+                    System.out.println("number  " + i);
+                }
+            }
+        };
+
+        // 启动新的线程执行逻辑
+        thread.start();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // 立即停止线程
+        thread.stop();
+    }
+```
+
+
+
+### interrupt
+
+interrupt 的本意是打断、中断的意思，此方法仅仅是给线程加了一个标记，并没有停止线程。开发者可以在线程内通过 `isInterrupted()` 判断当前线程的状态，做出响应。
+
+```java
+    private static void thread() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                // 需要执行的逻辑
+                System.out.println("Thread started");
+                for (int i = 0; i < 1_000_000; i++) {
+                    // 根据标记操作逻辑
+                    if (isInterrupted()) {
+                        break;
+                    }
+                    System.out.println("number  " + i);
+                }
+            }
+        };
+
+        // 启动新的线程执行逻辑
+        thread.start();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // 为线程加上标记
+        thread.interrupt();
+    }
+```
+
+除了`isInterrupted()` 方法外 `Thread.interrupted()`也有一样的功能，而且调用后会重置 interrupt 的状态。可以下次再次使用此线程。
+```java
+// 在判断后将 interrupt 重置
+if (Thread.interrupted()) {
+	break;
+}
+```
+
+
+
+## InterruptedException
+
+```java
+     try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+```
+
+
+
+## 锁
+
+## synchronized
+
+直接锁住公共内存，
+
+* monitor的感念
+* 保证资源、数据的同步
+
+Synchronzied 是一个很重的方法。
+
+## 线程安全
+
+什么是死锁
+
+
+
+## 乐观锁、悲观锁
+
+
+
+## volatile
+
 * 线程池
 
   * shutdown ： 较柔和，不再让新的任务进入，等待正在执行的任务执行完成
@@ -39,3 +289,10 @@
 * 
 
 将线程数和 CPU 数量挂钩：让代码的积极度在不同机器上的表现是一致的。并不是说可以提高 CPU 的利用率。
+
+
+
+# HashMap
+
+# concurrentHashMap
+

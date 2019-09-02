@@ -15,12 +15,12 @@ import java.util.concurrent.ThreadFactory;
  */
 public class CreateThreadDemo {
     public static void main(String[] args) {
-//        thread();
+        thread();
 //        runnale();
 //        threadAndRunnable();
 //        threadFactory();
 //        executor();
-        callable();
+//        callable();
     }
 
     /**
@@ -33,11 +33,30 @@ public class CreateThreadDemo {
                 super.run();
                 // 需要执行的逻辑
                 System.out.println("Thread started");
+                for (int i = 0; i < 1_000_000; i++) {
+                    // 根据标记操作逻辑
+//                    if (isInterrupted()) {
+//                        break;
+//                    }
+                    if (Thread.interrupted()) {
+                        break;
+                    }
+                    System.out.println("number  " + i);
+                }
             }
         };
 
         // 启动新的线程执行逻辑
         thread.start();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // 立即停止线程
+        //thread.stop();
+        // 为线程加上标记
+        thread.interrupt();
     }
 
     /**
