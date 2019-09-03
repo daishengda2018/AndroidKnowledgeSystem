@@ -38,6 +38,14 @@ private static class MyHandler extend Handler {
     }
 }
 ```
+## 线程造成的内存泄漏
+
+**JVM 不会回收正在运行中的线程**，所有如果 Thread 中运行着一个长任务并且引用了 Activity，那么就会造成内存泄漏，例如 AsyncTask 造成内存泄漏的本质其实也是此原因，所以 AsyncTask 的内存泄漏并不是他自身的特点，而是所有线程的都会造成内存泄漏的风险。
+
+但是，需要运行的任务时间是短暂的例如开发者设定了一个短暂的运行时间，那么其实可以忽略这种，当然可以使用 Activity 弱引用的方式使用线程。
+
+
+
 # Activity（19.8.5）
 
 ## 监听所有Actvity的生命周期回调
@@ -45,6 +53,102 @@ private static class MyHandler extend Handler {
 ```java
 Applicaiton —> registerActivityLifecycleCallbacks();
 ```
+
+## 设置进入和退出动画
+
+* 【anim】in_from_up.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="300"
+        android:fromYDelta="100%p"
+        android:toYDelta="0%p" />
+
+</set>
+```
+
+* 【anim】out_to_down.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="300"
+        android:fromYDelta="0%p"
+        android:toYDelta="100%p" />
+
+</set>
+```
+
+* 【style.xml】
+
+```java
+ <!--自下而上进入 自上而下退出 -->
+    <style name="AppAnimationTheme" parent="继承默认app主题即可">
+        <!-- 将Activity的Theme设置成透明 -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:activityOpenEnterAnimation">@anim/in_from_up</item>
+        <item name="android:activityOpenExitAnimation">@anim/in_from_up</item>
+        <item name="android:activityCloseEnterAnimation">@anim/out_to_down</item>
+        <item name="android:activityCloseExitAnimation">@anim/out_to_down</item>
+    </style>
+
+```
+
+* 【AndroidManifest.xml】设置主题
+
+```xml
+<activity android:theme="@style/AppAnimationTheme" />
+```
+
+* 【Activity跳转页面】
+
+```java
+Intent intent = new Intent();
+startActivity(intent);
+// overridePendingTransition 是 Activity 的方法
+overridePendingTransition(R.anim.in_from_up, android.R.anim.fade_out);
+```
+* 【Activity目标页面】重写finish
+
+```java
+@Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.out_to_down, R.anim.out_to_down);
+    }
+```
+
+## 设置透明背景
+
+* 【style.xml】
+
+```xml
+  <style name="Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+```
+
+*  【AndroidManifest.xml】设置主题
+
+```xml
+<activit
+            android:name=".join.RequestJoinListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent" />
+```
+
+## 设置状态栏颜色
+
+```java
+StatusBarUtil.setColor(this, Color.TRANSPARENT);
+```
+
+
 
 # Fragment（19.7.5）
 
@@ -245,3 +349,34 @@ Activity作为根部，根据视图树一层一层遍历 Child 的 onSavenInstan
 
 
 用于恢复的方法：onResotrInstanceSate(Bundle)  会在 onStart 与 onPostCreate(Bundle）之间调用
+
+
+
+
+
+# Handler
+
+默认情况下，在什么线程创建Handler， post 里面执行的内容就会执行在那个线程里。
+
+可以手动指定线程 
+
+```java
+Handler mHandler = new Handler(Looper.getMainLooper());
+```
+
+* Handler 是如何将详细 post 到启动线程中的呢？
+* 阅读 Handler Looper HandlerThread 源码。
+
+
+
+## ThreadLocal
+
+并不是一个线程，而是一个线程间不贡献的内存空间。
+
+Looper.MyLooper 有使用到
+
+
+
+
+
+# A

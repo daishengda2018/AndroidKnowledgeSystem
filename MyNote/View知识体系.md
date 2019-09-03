@@ -995,7 +995,7 @@ Drawable 是一个可以调用 Cavans 来进行绘制的上层工具。调用 `D
 
 ## 代码：Drawable2Bitmap
 
-​```java
+```java
  public static Bitmap drawable2Btimap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
@@ -1070,8 +1070,8 @@ public class DrawableDemo extends Drawable {
         }
     }
 }
-```
 
+```
 
 
 # 手势监听
@@ -1085,3 +1085,4 @@ todo
 ```java
 ViewCompat.postInvalidateOnAnimation(View)
 ```
+

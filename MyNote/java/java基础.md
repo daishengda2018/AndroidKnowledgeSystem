@@ -160,7 +160,7 @@ private static void runnale() {
 
 ## 停止线程
 
-### stop
+### Thrad#stop()
 
 stop 方法已经被弃用了，原因是 stop 方法过于霸道，调用 stop 后立即终止线程内执行的逻辑，导致整个过程不可控，出现意想不到的异常。
 
@@ -192,7 +192,7 @@ stop 方法已经被弃用了，原因是 stop 方法过于霸道，调用 stop 
 
 
 
-### interrupt
+### Thrad#interrupt()
 
 interrupt 的本意是打断、中断的意思，此方法仅仅是给线程加了一个标记，并没有停止线程。开发者可以在线程内通过 `isInterrupted()` 判断当前线程的状态，做出响应。
 
@@ -236,15 +236,29 @@ if (Thread.interrupted()) {
 
 
 
-## InterruptedException
+### InterruptedException
+
+当阻塞方法收到中断请求(`interrupt()`调用的时候)的时候就会抛出InterruptedException异常。
+
+例如：在当前线程 sleep 的这一秒过程中调用 `interrupt()`方法，就会立即停止 sleep 并抛出异常。**InterruptedException 被触发后会和 `Thread.interrupted() ` 一样重置 interrupt 的状态 **
 
 ```java
      try {
-            Thread.sleep(50);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 ```
+
+```java
+     try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+```
+
+这个知识点能够牵扯出来的内容很多，可以参考[InterruptedException异常处理](https://www.jianshu.com/p/a8abe097d4ed) 这篇文章，具体的内容日后总结。
 
 
 
@@ -261,7 +275,11 @@ Synchronzied 是一个很重的方法。
 
 ## 线程安全
 
-什么是死锁
+### 什么是死锁
+
+### 读写锁
+
+
 
 
 
@@ -289,6 +307,40 @@ Synchronzied 是一个很重的方法。
 * 
 
 将线程数和 CPU 数量挂钩：让代码的积极度在不同机器上的表现是一致的。并不是说可以提高 CPU 的利用率。
+
+## 线程间的交互
+
+
+
+### Wait & notify
+
+wait 并不是线程的方法，他是 Object 方法，相当于控制的是 monitor。如果没有 monitor 的情况（例如没有 synchronize）使用 wait 方法会直接报错
+
+`notiryAll()` 唤醒所有线程。
+
+
+
+### Thread#join()
+
+相当于不需要 synchronized 的 wait 方法。
+
+### Thread.yield()
+
+做出**一下**让步，让步给同优先级的线程。
+
+
+
+## 线程池
+
+
+
+
+
+### 线程造成的内存泄漏
+
+JVM 不会回收正在运行中的线程。
+
+Static 
 
 
 
