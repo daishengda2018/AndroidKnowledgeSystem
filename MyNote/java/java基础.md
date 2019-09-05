@@ -262,55 +262,73 @@ if (Thread.interrupted()) {
 
 
 
+## 线程同步与线程安全
+
 ## 锁
-
-## synchronized
-
-直接锁住公共内存，
-
-* monitor的感念
-* 保证资源、数据的同步
-
-Synchronzied 是一个很重的方法。
-
-## 线程安全
 
 ### 什么是死锁
 
 ### 读写锁
 
+### 乐观锁、悲观锁
 
+## synchronized 关键字
 
+直接锁住公共内存，
 
+- monitor的概念
+- 保证资源、数据的同步
 
-## 乐观锁、悲观锁
+Synchronzied 是一个很重的方法。
+
+```java
+      // 此方式将会锁住当前实例
+        synchronized (this) {
+
+        }
+
+        // 锁住字节码文件，意味着 SynchronizedDemo 的所有实例都会被锁住
+        synchronized (SynchronizedDemo.class) {
+
+        }
+
+        // 锁住指定的实例，这种方式一般用于单独判读
+        synchronized (monitor) {
+
+        }
+```
 
 
 
 ## volatile
 
-* 线程池
 
-  * shutdown ： 较柔和，不再让新的任务进入，等待正在执行的任务执行完成
-  * shutdownNow：暴力，立即停止所有的任务。
 
-  
+## 线程池
 
-  newSingleThreadExcutor
+常用线程池
 
-  newCacheThreadExcutor
 
-  newFixedThreadPool
 
-  newSchudleThreadExcutor
+* newSingleThreadExcutor
 
-* 
+* newCacheThreadExcutor
+
+* newFixedThreadPool
+
+* newSchudleThreadExcutor
+
+shutdown ： 较柔和，不再让新的任务进入，等待正在执行的任务执行完成
+
+shutdownNow：暴力，立即停止所有的任务。
+
+
 
 将线程数和 CPU 数量挂钩：让代码的积极度在不同机器上的表现是一致的。并不是说可以提高 CPU 的利用率。
 
+
+
 ## 线程间的交互
-
-
 
 ### Wait & notify
 
@@ -347,4 +365,5 @@ Static
 # HashMap
 
 # concurrentHashMap
+
 

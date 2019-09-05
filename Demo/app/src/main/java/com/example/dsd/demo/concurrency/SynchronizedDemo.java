@@ -12,7 +12,7 @@ public class SynchronizedDemo {
     private final Object monitor = new Object();
 
 
-    {
+    public synchronized void methodB() {
         // 此方式将会锁住当前实例
         synchronized (this) {
 
@@ -54,7 +54,7 @@ public class SynchronizedDemo {
     }
 
     public static void staticB() {
-        synchronized (SynchronizedDemo.class){
+        synchronized (SynchronizedDemo.class) {
 
         }
     }
