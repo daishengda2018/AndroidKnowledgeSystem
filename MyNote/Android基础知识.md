@@ -158,7 +158,7 @@ StatusBarUtil.setColor(this, Color.TRANSPARENT);
 
 ## Fragment常用方法
 
-1. `isResume`
+1. `isResumed`
 
 ##  选择正确的 Fragment#commitXXX() 函数
 **异常：Can not perform this action after onSaveInstaceState()**
@@ -354,7 +354,64 @@ Activity作为根部，根据视图树一层一层遍历 Child 的 onSavenInstan
 
 
 
-# Handler
+# Android 消息机制 —— Handler
+
+Android 的消息机制主要指的是 Handler 的运行机制，从开发者的角度来说 Handler 是 Android 消息机制的上层接口，而底层的逻辑则是由 MessageQueue、 Looper来完成的。
+
+Handler 的设计目的是为了解决 Android 主线程中不能做耗时操作而又只有主线程才能访问 UI 的矛盾。通过 Handler 消息机制可以让开发者在子线程中完成耗时操作后在主线程中更新UI。
+
+
+
+**这里要思考一个问题：为什么 Android 非要规定只有主线程才能更新 UI 呢？**
+
+因为 Android 的所有 View 控件都不是线程安全的，如果在多线程中并发访问很可能造成意想不到的结果。对于加锁这种方案也不可取，首先加锁之后会让 UI 访问逻辑变的很复杂，开发者需要时刻考虑多线程并发将会带来的问题，其次锁机制太重了它会严重影响 UI 访问效率。介于这两个缺点，最简单且高效的方法就是采用单线程的方式访问 UI。Handler 机制应运而生。
+
+
+
+## ThreadLocal
+
+ThreadLocal 并不是 Thread ，他的特点很有意思: 每一个线程存储的值相互隔离的：
+
+```java
+public class TreadLocalDemo {
+    // 就算设置为 static 结果也是一样的
+    ThreadLocal<Boolean> mThreadLocal = new ThreadLocal<Boolean>();
+
+    public void runDemo() {
+        mThreadLocal.set(true);
+        System.out.println(Thread.currentThread().getName() + "  " + mThreadLocal.get());
+        new Thread("Thread#1") {
+            @Override
+            public void run() {
+                super.run();
+                mThreadLocal.set(false);
+                System.out.println(Thread.currentThread().getName() + "  " + mThreadLocal.get());
+            }
+        }.start();
+
+        new Thread("Thread#2") {
+            @Override
+            public void run() {
+                super.run();
+                System.out.println(Thread.currentThread().getName() + "  " + mThreadLocal.get());
+            }
+        }.start();
+        System.out.println(Thread.currentThread().getName() + "  " + mThreadLocal.get());
+    }
+}
+```
+
+运行后的结果：
+
+![image-20190905231656636](assets/image-20190905231656636.png)
+
+线程之间的存储的值相互独立的彼此不受影响！
+
+
+
+- MessageQueue
+- Looper
+- 
 
 默认情况下，在什么线程创建Handler， post 里面执行的内容就会执行在那个线程里。
 
