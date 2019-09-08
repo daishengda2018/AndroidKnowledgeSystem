@@ -1,6 +1,6 @@
 package com.example.dsd.demo;
 
-import com.example.dsd.demo.handler.TreadLocalDemo;
+import com.example.dsd.demo.handler.HandlerDemo;
 
 /**
  * Java 代码入口
@@ -9,6 +9,7 @@ import com.example.dsd.demo.handler.TreadLocalDemo;
  */
 public class Main {
     public static void main(String[] args) {
-        new TreadLocalDemo().runDemo();
+//        new TreadLocalDemo().runDemo();
+        new HandlerDemo().startThreadHandler();
     }
 }

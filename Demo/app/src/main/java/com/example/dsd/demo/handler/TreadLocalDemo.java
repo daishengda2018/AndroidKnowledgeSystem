@@ -30,4 +30,6 @@ public class TreadLocalDemo {
         }.start();
         System.out.println(Thread.currentThread().getName() + "  " + mThreadLocal.get());
     }
+
+
 }
