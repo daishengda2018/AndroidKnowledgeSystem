@@ -199,7 +199,7 @@ Recycler 是 RecyclerView 最核心的实现。对于 LayoutManager 来说 Recyc
 
 Hencoder Puls 内部课程
 
-
+[RecyclerView的回收复用机制解密](https://mp.weixin.qq.com/s/Ucj-xrXIO-P1xLftwIXPpQ)
 
 # Recyclerview.ViewHolder
 
