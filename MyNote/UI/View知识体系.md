@@ -914,12 +914,12 @@ cavas.traslate(100,100)
 
 ### 获取View位置的常见方法：
 
-1. View.getTop、View.getBotoom、View.getTop、View.getRight
+1. View.getTop、View.getBotoom、View.getLeft、View.getRight
 2. View.getX、 View.getY
 3. View.getTranslationX、View.getTranslationY
 4. View.getLocationInWindow、 View.getLocationOnScreen
 
-### View.getTop等
+### View.getTop 等
 
 这些方法获取的都是**相对父容器的原始位置**，什么是原始位置呢？就是说当View发生移动的时候这些方法的值都是保持不变得。
 可以通过这些方法获取View的宽度和高度
@@ -933,11 +933,11 @@ height = getBottom() -getTop()
 
 getX = getTranslationX + getLeft
 getY = getTranslationY + getTop
-表示的相对于父容器的相对位置坐标。当View没有发生移动的时其实是和getLeft相同的
+表示的相对于父容器的相对位置坐标。当 View 没有发生移动的时其实是和 getLeft 相同的
 
 ### translationX、translationY
 
-translationX表示的是当前View对于父View发生的偏移量，一开始的时候translationX = 0，当View有移动的时候才会有变化，简单说：当View发生移动的时候getTop、getRight这写方法是不会发生改变的，改变的是表示偏移量的translationX
+translationX 表示的是当前 View 对于父 View 发生的偏移量，一开始的时候 translationX = 0，当 View有移动的时候才会有变化，简单说：当 View 发生移动的时候 getTop、getRight 这些值是不会发生改变的，改变的是表示偏移量的 translationX 
 
 ### getLocatonInWindow()、getLocationOnScreen() 
 
@@ -949,9 +949,9 @@ translationX表示的是当前View对于父View发生的偏移量，一开始的
 `getLocationInWindow() `是以B为原点的C的坐标。
 `getLocationOnScreen` 以A为原点，包括了状态栏的高度
 
-一般情况下一个正常的 Activity 的Window是充满屏幕的，所以这两个方法将会返回同样的 x 和 y 坐标，仅仅在一些特殊的场景下，例如 dialog 他有属于自己的 window 这个 window 和屏幕是存在偏移量的，这两个方法返回的结果将不同
+一般情况下一个正常的 Activity 的 Window 是充满屏幕的，所以这两个方法将会返回同样的 x 和 y 坐标，仅仅在一些特殊的场景下，例如 dialog 他有属于自己的 window 这个 Acitivty 的 Window 和屏幕是存在偏移量的，这两个方法返回的结果将不同。
 
- **注意：**这两个方法在Activity的onCreate中使用获取的坐标永远是0，要等UI控件都加载完成之后才能获取。在`onWindowFocusChanged()` 中获取最好。因为在生命周期：onCreate、onStart、onResume中真正的View都没有可见。
+ **注意：**这两个方法在 Activity 的 onCreate 中获取的坐标永远是0，要等 UI 控件都加载完成之后才能获取。在`onWindowFocusChanged()` 中获取最好。因为在生命周期：onCreate、onStart、onResume中真正的View都没有可见。
 
 引自 `onWindowFocusChanged()` 官方文档：
 
