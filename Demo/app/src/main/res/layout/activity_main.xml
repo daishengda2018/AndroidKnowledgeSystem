@@ -6,4 +6,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".MainActivity">
 
+    <com.example.dsd.demo.ui.XfermodeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>

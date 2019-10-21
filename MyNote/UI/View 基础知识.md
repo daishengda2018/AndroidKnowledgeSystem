@@ -271,9 +271,13 @@ computeCurrentVelocity 方法的参数表示的是一个时间间隔，单位是
 
 使用的机会并不多，如果只是监听滑动的相关动作，建议自己在 onTouchEvent 中实现，如果要监听双击这种行为的话，再使用 GestureDetector
 
-具体使用可以参数 《Android 开发艺术探究》、Demo -> GestureDetectorDemo
+具体使用可以参考  [看完这篇还不会 GestureDetector 手势检测，我跪搓衣板！](https://www.cnblogs.com/yuanhao-1999/p/11081980.html)、 《Android 开发艺术探究》、Demo -> GestureDetectorDemo
 
 ## Scroller
+
+具体可以参考之前的文章 [【Android View事件（三）】Scroll类源码分析与应用](https://blog.csdn.net/qq_23191031/article/details/78452364)
+
+**这里只强调一点**：scrollTo 和 scrollBy 只能改变 View 中内容的位置，并不能改变 View 在布局中的位置。
 
 #参考：
 

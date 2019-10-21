@@ -8,7 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 /**
- * todo
+ * 显示工具类
+ *
  * Created by im_dsd on 2019/4/10
  */
 public class DisplayUtils {
@@ -20,6 +21,9 @@ public class DisplayUtils {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Resources.getSystem().getDisplayMetrics());
     }
 
+    /**
+     * drawable 转换为 bitmap
+     */
     public static Bitmap drawable2Btimap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
