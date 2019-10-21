@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 public class TouchEventDemo extends ViewGroup {
     private float mLastTouchX;
     private float mLastTouchY;
-    private boolean 父容器需要此点击事件 = true;
+    private boolean isParentNeedEvent = true;
 
     public TouchEventDemo(Context context) {
         super(context);
@@ -37,7 +37,7 @@ public class TouchEventDemo extends ViewGroup {
                 intercept = false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (父容器需要此点击事件) {
+                if (isParentNeedEvent) {
                     intercept = true;
                 } else {
                     intercept = false;
@@ -67,7 +67,7 @@ public class TouchEventDemo extends ViewGroup {
                 getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (父容器需要此点击事件) {
+                if (isParentNeedEvent) {
                     getParent().requestDisallowInterceptTouchEvent(false);
                 }
                 break;
@@ -85,6 +85,7 @@ public class TouchEventDemo extends ViewGroup {
      * 内部拦截法：part 2
      * 在父 View 中重写方法。
      */
+    /*
     @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (MotionEvent.ACTION_DOWN == ev.getAction()) {
             return false;
@@ -92,4 +93,5 @@ public class TouchEventDemo extends ViewGroup {
             return true;
         }
     }
+    */
 }
