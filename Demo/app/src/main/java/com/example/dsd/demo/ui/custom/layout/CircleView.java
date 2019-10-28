@@ -39,7 +39,6 @@ public class CircleView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // 没有必要再让 view 自己测量一遍了，浪费资源
         // super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         // 计算期望的 size
         int size = (int) ((PADDING + RADIUS) * 2);
         // 获取父 View 传递来的可用大小
@@ -72,7 +71,6 @@ public class CircleView extends View {
                 result = 0;
                 break;
         }
-
 //        // 指定期望的 size
 //        int width = resolveSize(size, widthMeasureSpec);
 //        int height = resolveSize(size, heightMeasureSpec);

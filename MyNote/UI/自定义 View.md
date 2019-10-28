@@ -1,5 +1,49 @@
 [TOC]
 
+# 自定义 View 的分类
+
+## 继承 View 重写 onDraw 方法
+
+需要自己重写 onDraw() 方法，还需要自己支持 wrap_content，并且 padding 也需要自己处理。
+
+## 继承 ViewGroup 派生特殊的 Layout
+
+直接继承 ViewGroup 定制自己的 Layout 这个方式比较复杂，需要合理的对 ViewGroup 进行测量、布局这两个过程，并同时处理子元素的测量和布局过程。
+
+## 继承特定的 View(如  TextView)
+
+这种方式相当于对原有功能的拓展，实现起来比较简单，开发者不需要自己处理 wrap_content 和 padding
+
+## 继承特定的 ViewGroup
+
+这种方式也是比较常见的，对于已有的 Layout 的进行拓展。
+
+
+
+# 自定义 View 须知
+
+## 让 View 支持 wrap_content
+
+如果是继承 View 或者 ViewGroup 的控件，如果不在 onMeasre 中对 wrap_content 处理，那么当布局中出现 wrap_content 的时候就会失效。
+
+## 如果有必要，让你的 View 支持 padding
+
+如果直接继承 View 的控件，如果不在 onDraw 中处理 padding 那么 padding 属性将会失效。
+
+如果直接继承 ViewGroup 控件，还要在 onMeasure 和 onLayout 中考虑 padding 和子元素的 margin 对其造成的影响，不然 padding 和 margin 都会失效。
+
+## 尽量不要在 View 中使用 Handler，没必要
+
+View 本身就提供了 post 系列方法，完全可以替代 Handler 的作用。
+
+## View 中开启了子线程或者动画，要及时停止，参考 View#onDetachedFromWindow
+
+![image-20191022120407666](assets/image-20191022120407666.png)
+
+## View 带有滑动嵌套模式，需要处理好滑动冲突
+
+需要提前处理滑动冲突。可以参考「View 事件体系」一篇。
+
 
 
 # 自定义View —— onMeasure、 onLayout
@@ -22,14 +66,13 @@
 
 对于每一个 View：
 
-1. 运行前，开发者会根据自己的需求在 xml 文件中写下对于 View 大小的**期望值**
+1. 运行前，开发者会根据自己的需求在 xml 文件中写下对于 View 大小的**期望值**(最后的大小不一定是设置的值)
 
-2. 在运行的时候，父 View 会在 `onMeaure()`中，根据开发者在 xml 中写的对子 View 的**要求**， 和自身的实际可用空间，得出对于子 View 的具体尺寸**要求**
+2. 在运行的时候，父 View 会在 `onMeaure()`中，根据子 View 的 LayoutParams 和自身的可用空间，计算出 MeasureSpc 传递给子 View。
 
-3. 子 View 在自己的 `onMeasure`中，根据 xml 中指定的**期望值**和自身特点（指 View 的定义者在`onMeasrue`中的声明）算出自己的**期望**
-   * 如果是 ViewGroup 还会在 `onMeasure` 中，调用每个子 View 的 measure () 进行测量.            
-
-4. 父 View 在子 View 计算出**期望**尺寸后，得出⼦ View 的**实际**尺寸和位置
+3. 子 View 的 `onMeasure`中，根据传递进来的 MeasureSpec 并结合自身属性(开发者可以控制的)计算尺寸；如果是 ViewGroup 还会在 `onMeasure` 中递归每个子 View 的 measure () 。
+   
+4. 父 View 在子 View 计算出**期望**尺寸后，通过 onLayout 得出⼦ View 的**实际**尺寸和位置。
 
 5. ⼦ View 在自己的 layout() ⽅法中将父 View 传进来的自己的实际尺寸和位置保存
    * 如果是 ViewGroup，还会在 onLayout() ⾥调用每个字 View 的 layout() 把它们的尺寸置传给它们
@@ -882,207 +925,4 @@ TypedArray里面装的就是具体的属性了，我们可以通过 :`array.getX
 待续……
 ```
 
-
-
-# Cavans 几何变换
-cavans.translate、cavans.rotate、cavans.scale 、cavans.sew 这些变化针对的都是 Cavans，并不是我们绘制的内容。 如果想要绘制的效果作用到内容上，我们有一个办法：**把效果倒着写！**
-
-例如我们的需求是先将
-
-```
-cavas.traslate(100,100)
-```
-
-
-
-### cavarns.save()  与  cavans.restore()  方法的作用
-
-[可以参考这篇文章](https://blog.csdn.net/u011043551/article/details/73692134)
-
-1. save 方法相当于保存之前的所有操作，然后「复制」一个新的 cavans 进行绘制，不论做任何的几何变化都不会影响直接的结果，而 restore 的作用有点像是「merge」将结果进行融合。
-2. save 方法在 clipXXX 方法的作用很明显，相当于标记了 clipXXX 方法的作用范围。否者 clipXXX 之后的代码都会受到 影响。
-
-
-
-
-
-# View 的事件体系
-
-## View 的位置与坐标系
-
-获取位置相关内容(19.7.9 绘制引导遇到的问题)
-
-### 获取View位置的常见方法：
-
-1. View.getTop、View.getBotoom、View.getLeft、View.getRight
-2. View.getX、 View.getY
-3. View.getTranslationX、View.getTranslationY
-4. View.getLocationInWindow、 View.getLocationOnScreen
-
-### View.getTop 等
-
-这些方法获取的都是**相对父容器的原始位置**，什么是原始位置呢？就是说当View发生移动的时候这些方法的值都是保持不变得。
-可以通过这些方法获取View的宽度和高度
-
-```java
-width = getRight()- getLeft()
-height = getBottom() -getTop()
-```
-
-### View.getX、 View.getY
-
-getX = getTranslationX + getLeft
-getY = getTranslationY + getTop
-表示的相对于父容器的相对位置坐标。当 View 没有发生移动的时其实是和 getLeft 相同的
-
-### translationX、translationY
-
-translationX 表示的是当前 View 对于父 View 发生的偏移量，一开始的时候 translationX = 0，当 View有移动的时候才会有变化，简单说：当 View 发生移动的时候 getTop、getRight 这些值是不会发生改变的，改变的是表示偏移量的 translationX 
-
-### getLocatonInWindow()、getLocationOnScreen() 
-
-`getLocationInWindow()` ：获取的是一个控件在其所在 window 的坐标位置
-`getLocationOnScreent()`: 获取的是控件在屏幕上的坐标位置
-
-![getLocationOnScreen](assets/Center.png)
-
-`getLocationInWindow() `是以B为原点的C的坐标。
-`getLocationOnScreen` 以A为原点，包括了状态栏的高度
-
-一般情况下一个正常的 Activity 的 Window 是充满屏幕的，所以这两个方法将会返回同样的 x 和 y 坐标，仅仅在一些特殊的场景下，例如 dialog 他有属于自己的 window 这个 Acitivty 的 Window 和屏幕是存在偏移量的，这两个方法返回的结果将不同。
-
- **注意：**这两个方法在 Activity 的 onCreate 中获取的坐标永远是0，要等 UI 控件都加载完成之后才能获取。在`onWindowFocusChanged()` 中获取最好。因为在生命周期：onCreate、onStart、onResume中真正的View都没有可见。
-
-引自 `onWindowFocusChanged()` 官方文档：
-
-> Called when the current `Window` of the activity gains or loses focus. This is the best indicator of whether this activity is visible to the user. The default implementation clears the key tracking state, so should always be called.
-
-[参考 staticoverflow](https://stackoverflow.com/questions/17672891/getlocationonscreen-vs-getlocationinwindow/20154562#20154562)
-
-
-
-## 事件传递
-
-常用的事件传递就三个方法
-
-```java
-dispathTouchEvent()
-onInterceptTouchEvent()
-onTouchEvent()
-```
-
-
-
-# Bitmap 与 Drawable
-
-## Bitmap 是什么
-
-Bitmap是位图信息的存储，即一个举行图像每个像素点的颜色信息的存储
-
-## Drawable 是什么
-
-Drawable 是一个可以调用 Cavans 来进行绘制的上层工具。调用 `Drawable.draw(Canvas)` 可以把 Drawable 这是的绘制内容绘制到 Canvas 中。
-
-由于 Drawable 存储的只是绘制规则，因此在它的`draw（）`方法调用前，需要设置 `Drawable.setBound()`来设置绘制边界。
-
-## 代码：Bitmap2Drawable
-
-```java
- public static Drawable bitmap2Drawable(Bitmap bitmap) {
-        return new BitmapDrawable(Resources.getSystem(), bitmap);
-    }
-```
-
-## 代码：Drawable2Bitmap
-
-```java
- public static Bitmap drawable2Btimap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        int w = drawable.getIntrinsicWidth();
-        int h = drawable.getIntrinsicHeight();
-        if (w > 0 && h > 0) {
-            Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
-            // 这一步很关键，设置 bounds 指定了绘制的区域，否者绘制有问题。
-            drawable.setBounds(0, 0, w, h);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.draw(canvas);
-            return bitmap;
-        }
-      return null;
-    }
-```
-
-# 自定义 Drawable
-
-## 怎么做
-
-* 重写几个抽象的方法
-* 重写 setAlpha() 的时候要记得重写 getAlpha()
-* 重写 draw(Canvas）方法，用户绘制具体内容
-
-```java
-/**
- * 自定义 Drawable
- * Created by im_dsd on 2019-08-01
- */
-public class DrawableDemo extends Drawable {
-
-    private Paint mPaint;
-
-    {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    }
-
-    @Override
-    public void draw( @NonNull Canvas canvas) {
-        // 自己想绘制的内容
-    }
-
-    // 注意： setAlpha 和 getAlpha 必须成对出现，不然白写，没有意义
-    @Override public void setAlpha(int alpha) {
-        mPaint.setAlpha(alpha);
-    }
-
-    // 注意：setAlpha 和 getAlpha 必须成对出现，不然白写，没有意义
-    @Override public int getAlpha() {
-        return mPaint.getAlpha();
-    }
-
-    // 设置颜色过滤器
-    @Override public void setColorFilter( @Nullable ColorFilter colorFilter) {
-        mPaint.setColorFilter(colorFilter);
-    }
-
-    // 设置不透明度，这个方法返回的并不是具体的值，还是三种状态：不透明，半透明，全透明
-    @Override public int getOpacity() {
-        if (mPaint.getAlpha() == 0Xff) {
-            // 不透明
-            return PixelFormat.OPAQUE;
-        } else if (mPaint.getAlpha() == 0) {
-            // 全透明
-            return PixelFormat.TRANSPARENT;
-        } else {
-            // 半透明
-            return PixelFormat.TRANSLUCENT;
-        }
-    }
-}
-
-```
-
-
-# 手势监听
-
-
-
-todo
-
-1. ViewDragHelper
-
-```java
-ViewCompat.postInvalidateOnAnimation(View)
-```
 

@@ -22,7 +22,7 @@ public class XfermodeView extends View {
     /**
      * PorterDuff模式常量 可以在此更改不同的模式测试
      */
-    private static final PorterDuff.Mode MODE = PorterDuff.Mode.CLEAR;
+    private static final PorterDuff.Mode MODE = PorterDuff.Mode.SRC_IN;
     private PorterDuffXfermode mPorterDuffXfermode;
     /**
      * 屏幕宽高
@@ -32,8 +32,8 @@ public class XfermodeView extends View {
     /**
      * 源图和目标图宽高
      */
-    private int width = 120;
-    private int height = 120;
+    private int width = 500;
+    private int height = 500;
     private Paint mPaint;
 
     public XfermodeView(Context context) {

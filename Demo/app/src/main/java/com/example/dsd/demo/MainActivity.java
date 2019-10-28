@@ -3,6 +3,8 @@ package com.example.dsd.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 
 import com.example.dsd.demo.handler.HandlerDemo;
 
@@ -12,7 +14,6 @@ import com.example.dsd.demo.handler.HandlerDemo;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
       */
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TOUCH --- onClick ", "!! onClick !!");
+            }
+        });
     }
 
     @Override

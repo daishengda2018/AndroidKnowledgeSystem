@@ -25,7 +25,9 @@ Xfermode 是 transfer mode 的组合，直接翻译过来是：过渡模式。�
 
 ##  常用模式
 
-**1. PorterDuff.Mode.SRC_OVER**。中文描述：正常绘制显示，源图像居上显示。
+等多内容参考[Android图像处理——Paint之Xfermode](https://blog.csdn.net/allen315410/article/details/45077165)后半部分。
+
+ **PorterDuff.Mode.SRC_OVER**。中文描述：正常绘制显示，源图像居上显示。
 
 ```java
 private static final PorterDuff.Mode MODE = PorterDuff.Mode.SRC_OVER;
@@ -33,7 +35,7 @@ private static final PorterDuff.Mode MODE = PorterDuff.Mode.SRC_OVER;
 
 ![img](assets/20150421103640587.png)
 
-**1. PorterDuff.Mode.SRC_IN**。中文描述： 取两层绘制交集中的源图像。
+**PorterDuff.Mode.SRC_IN**。中文描述： 取两层绘制交集中的源图像。
 
 ```java
 private static final PorterDuff.Mode MODE = PorterDuff.Mode.SRC_IN;

@@ -129,8 +129,6 @@ getWindow().findViewById(Window.ID_ANDROID_CONTENT).getDrawingRect(rect);
 
 
 
-
-
 # 获取 View 位置的常见方法：
 
 1. View.getTop、View.getBotoom、View.getLeft、View.getRight
