@@ -119,3 +119,14 @@
 
 **注意** 父容器不能拦截 ACTION_DOWN 方法，因为 ACTION_DOWN 这个事件并不受 `requestDisallowInterceptTouchEvent ` 方法内的 FLAG_DISALLOW_INTERCEPT 这个标记位的控制。所以一旦父容器拦截 ACTION_DOWN 事件，那么所有的事件都无法传递到子元素中，这样内部拦截就失效了。
 
+
+
+# 问：有一个ViewGroup, 然后手指头接触Button,手指头滑开了,滑开又松手的过程,整个事件发生了什么?经历了什么?
+
+答：
+
+一开始 ViewGroup 会接受到整个事件序列的第一个事件：ACTION_DOWN，ViewGroup#dispatchTouchEvent 收到 ACTION_DOWN 后开始询问 ViewGroup#onInterceptTouchEvent 是否需要拦截，默认情况下 ViewGroup#onInterceptTouchEvent 返回 false 不拦截，开始向下传递 ACTION_DOWN 事件，Buttton#dispatchTouchEvent 收到 ACTION_DOWN 询问 onTouchEvent 是否处理，Button 默认处理，此后的所有事件序列都直接跨过 ViewGroup#onInterceptTouchEvent 的判断直接传递给 Button，但 ViewGroup#dispatchTouchEvent 会收到所有事件。
+
+在 move 过程中 Button#onTouchEvent 发现当前坐标已经移出 Button 区域，会 remove 掉 onClick 的回调(源码位于 View#onTouchEvent 尾部 case MotionEvent.ACTION_MOVE 中)，虽然 Button 收到并处理了 ACTION_DOWN -> ACTION_MOVE -> ACTION_UP 整个事件过程，但是并不会触发 onClick 回调。
+
+这个事件过程并没有网上所说的 ACTION_CANCEL，ACTION_CANCEL 出现的条件是：ViewGroup 在传递过程中拦截了本应交由 Button 处理的事件，此时 Button 会收到 ACTION_CANCEL 表示事件中断

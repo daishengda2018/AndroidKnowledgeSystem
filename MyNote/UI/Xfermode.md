@@ -55,6 +55,59 @@ private static final PorterDuff.Mode MODE = PorterDuff.Mode.DST_IN;
 
 
 
+# Demo
+
+# 橡皮擦效果 
+
+```java
+ /**
+     * 初始化实例
+     */
+    private void init() {
+        mPath = new Path();
+        // 开启抗锯齿、抗抖动
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        mPaint.setColor(Color.TRANSPARENT);
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        mPaint.setStyle(Paint.Style.STROKE);
+        // 设置路径结合处样式
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        // 设置笔触类型
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(50);
+        // 生成前景图, config 必须有 alpha 通道
+        mFgBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_4444);
+        mCanvas = new Canvas(mFgBitmap);
+        // 绘制画布背景为中性灰
+        mCanvas.drawColor(0xFF808080);
+        mBgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
+        mBgBitmap = Bitmap.createScaledBitmap(mBgBitmap, mWidth, mHeight, true);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.drawBitmap(mBgBitmap, 0, 0, null);
+        canvas.drawBitmap(mFgBitmap, 0, 0, null);
+        /*
+         * 这里要注意canvas和mCanvas是两个不同的画布对象
+         * 当我们在屏幕上移动手指绘制路径时会把路径通过mCanvas绘制到fgBitmap上
+         * 每当我们手指移动一次均会将路径mPath作为目标图像绘制到mCanvas上，而在上面我们先在mCanvas上绘制了中性灰色
+         * 两者会因为DST_IN模式的计算只显示中性灰，但是因为mPath的透明，计算生成的混合图像也会是透明的
+         * 所以我们会得到“橡皮擦”的效果
+         */
+        mCanvas.drawPath(mPath, mPaint);
+    }
+```
+
+
+
+##  IrregularDrawableView 例子
+
+## 微信 Tab 切换
+
+
+
 # Bitmap & Drawable 
 
 ## Bitmap 是什么
@@ -236,6 +289,8 @@ public class DrawableDemo extends Drawable {
 ### 用来干什么
 
 需要共享多个View之间的绘制代码，写在 Drawable 里，然后在定义 View 里面之后引用相同的 Drawable 就可以了，而且不用相互粘贴代码。例如金融软件的 K 线图，可以把共享的界面放进去。
+
+
 
 
 

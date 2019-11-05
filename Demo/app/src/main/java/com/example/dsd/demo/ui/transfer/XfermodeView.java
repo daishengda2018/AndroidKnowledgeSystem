@@ -1,4 +1,4 @@
-package com.example.dsd.demo.ui;
+package com.example.dsd.demo.ui.transfer;
 
 import android.app.Activity;
 import android.content.Context;

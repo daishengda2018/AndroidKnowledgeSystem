@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.dsd.demo.ui.touch.MyLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.dsd.demo.ui.touch.MyLayout2
+    <com.example.dsd.demo.ui.transfer.EraserView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-        <com.example.dsd.demo.ui.touch.MyButton
-            android:id="@+id/button"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-    </com.example.dsd.demo.ui.touch.MyLayout2>
-
-
-</com.example.dsd.demo.ui.touch.MyLayout>
+</FrameLayout>
