@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_height="60dp">
+
+        <com.example.dsd.demo.ui.transfer.wechat.WeChatTagView
+            android:id="@+id/id_indicator_1"
+            app:icon="@drawable/actionbar_icon"
+            app:color="@color/colorPrimary"
+            app:textSize="12sp"
+            app:text="test"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <com.example.dsd.demo.ui.transfer.wechat.WeChatTagView
+            android:id="@+id/id_indicator_2"
+            app:icon="@drawable/mine"
+            app:color="@color/colorPrimary"
+            app:textSize="12sp"
+            app:text="test"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <com.example.dsd.demo.ui.transfer.wechat.WeChatTagView
+            android:id="@+id/id_indicator_3"
+            app:icon="@drawable/actionbar_search_icon"
+            app:color="@color/colorPrimary"
+            app:textSize="12sp"
+            app:text="test"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <com.example.dsd.demo.ui.transfer.wechat.WeChatTagView
+            android:id="@+id/id_indicator_4"
+            app:icon="@drawable/mine"
+            app:color="@color/colorPrimary"
+            app:textSize="12sp"
+            app:text="test"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>

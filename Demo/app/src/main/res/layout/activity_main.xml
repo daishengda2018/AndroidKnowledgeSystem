@@ -6,7 +6,10 @@
     tools:context=".MainActivity">
 
     <com.example.dsd.demo.ui.transfer.EraserView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+  <include layout="@layout/layout_wechat_tab_demo"/>
 
 </FrameLayout>
