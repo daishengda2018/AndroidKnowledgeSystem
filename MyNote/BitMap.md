@@ -1,6 +1,19 @@
 [toc]
 
+# Bitmap 的高效加载
 
+## 如何加载 Bitmap
+
+使用 BitmapFactory#decodeXXXX 方法。
+
+```java
+   BitmapFactory.decodeResource();
+   BitmapFactory.decodeByteArray();
+   BitmapFactory.decodeFile();
+   BitmapFactory.decodeStream();
+```
+
+高效加载 Bitmap 的重点是：采用 BitmapFactory.Options
 
 # Bitmap的处理
 

@@ -67,8 +67,8 @@ public class EraserView extends View {
         mWidth = outMetrics.widthPixels;
         mHeight = outMetrics.heightPixels;
         mScaledTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-
     }
+
 
     /**
      * 初始化实例
@@ -130,7 +130,7 @@ public class EraserView extends View {
                 float dx = Math.abs(x - mPreX);
                 float dy = Math.abs(y - mPreY);
                 if (dx >= mScaledTouchSlop || dy >= mScaledTouchSlop) {
-                    // quadTo 可以让线段画的更平滑
+                    // 绘制贝塞尔曲线，可以让线段画的更平滑
                     mPath.quadTo(mPreX, mPreY, (x + mPreX) / 2, (y + mPreY) / 2);
                     mPreX = x;
                     mPreY = y;

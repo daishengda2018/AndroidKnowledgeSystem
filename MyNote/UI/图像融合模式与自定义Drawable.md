@@ -57,7 +57,7 @@ private static final PorterDuff.Mode MODE = PorterDuff.Mode.DST_IN;
 
 # Demo
 
-# 橡皮擦效果 
+## 橡皮擦效果 
 
 ```java
  /**
@@ -100,11 +100,44 @@ private static final PorterDuff.Mode MODE = PorterDuff.Mode.DST_IN;
     }
 ```
 
+* 设置画笔但始末端样式 ：  mPaint.setStrokeCap(Paint.Cap.ROUND);
 
+![1689990-b3c61498d862d2d3.png](https://upload-images.jianshu.io/upload_images/1689990-b3c61498d862d2d3.png)
 
-##  IrregularDrawableView 例子
+* 路径结合处样式： mPaint.setStrokeJoin(Paint.Join.ROUND);
+
+![img](assets/493196-20170406093647785-467573461.png)
 
 ## 微信 Tab 切换
+
+```java
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        int alpha = (int) Math.ceil((255 * mAlpha));
+        // 绘制颜色
+        mPaint.setAlpha(alpha);
+        // 离屏渲染，将图层保存起来
+        int layer = canvas.saveLayer(mIconRect, mPaint, Canvas.ALL_SAVE_FLAG);
+        canvas.drawRect(mIconRect, mPaint);
+        mPaint.setXfermode(mXfermode);
+        canvas.drawBitmap(mIcon.getBitmap(), null, mIconRect, mPaint);
+        // 复原状态
+        mPaint.setXfermode(null);
+        canvas.restoreToCount(layer);
+
+        drawSourceText(canvas, alpha);
+        drawTargetText(canvas, alpha);
+    }
+```
+
+
+
+![img](assets/20160420063332282.png)
+
+![img](assets/u=3408854701,773575648&fm=26&gp=0.jpg)
+
+##  IrregularDrawableView
 
 
 
@@ -177,7 +210,7 @@ Drawable 是一个可以调用 Canvas 来进行绘制的上层工具，调用 Dr
 
 Drawable 内部存储的是绘制的规则，这个规则可以是一个具体的 Btimap，也可以是一个纯粹的颜色，甚至可以是一个抽象、灵活的描述。Drawable 可以不包含具体的像素信息，只要他含有的信息足以在 draw(Canvas) 方法被调用时进行绘制就足够了。
 
-在绘制之前需要调用 Drawable.setBounds() 来为他设置绘制的边界。
+**在绘制之前需要调用 Drawable.setBounds() 来为他设置绘制的边界。**
 
 
 
@@ -233,6 +266,12 @@ Drawable 内部存储的是绘制的规则，这个规则可以是一个具体�
 
 ## 自定义 Drawalbe
 
+### 有什么用
+
+* 更加抽象专注、仅仅用于绘制自定义 View 的模块，它比View更轻量，可以嵌入到任何一个View上面，甚至还可以在SurfaceView里面直接draw；
+* 更专注于draw，因为它没有像View或ViewGroup那样需要measure和layout；
+* 既然变得更轻量了，也代表着某些能力没有了，比如说处理触摸事件——在Drawable中可是不能像View那样可以直接接收到MotionEvent的。
+
 ```java
 /**
  * 自定义 Drawable
@@ -282,9 +321,7 @@ public class DrawableDemo extends Drawable {
 }
 ```
 
-### 有什么用
 
-更加抽象专注、仅仅用于绘制自定义 View 的模块。
 
 ### 用来干什么
 
@@ -292,7 +329,23 @@ public class DrawableDemo extends Drawable {
 
 
 
+## Demo 
 
+https://github.com/Ifxcyr/ArrowDrawable
+
+https://blog.csdn.net/u011387817/article/details/94607919
+
+
+
+![在这里插入图片描述](assets/20190710230342912.jpg)
+
+![在这里插入图片描述](assets/20190704124926420.gif)![img](assets/preview4.gif)
+
+
+
+
+
+drawArrowSkewing
 
 # 参考
 

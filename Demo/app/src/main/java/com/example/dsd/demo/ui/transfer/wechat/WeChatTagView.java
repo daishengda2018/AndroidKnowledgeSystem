@@ -62,7 +62,7 @@ public class WeChatTagView extends View {
 
         mTextPaint = new Paint();
         mTextPaint.setTextSize(mTextSize);
-        mTextPaint.setColor(0xff555555);
+        mTextPaint.setColor(Color.BLACK);
         // 得到text绘制范围
         mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
 
@@ -102,10 +102,12 @@ public class WeChatTagView extends View {
         int alpha = (int) Math.ceil((255 * mAlpha));
         // 绘制颜色
         mPaint.setAlpha(alpha);
+        // 离屏渲染，将图层保存起来
         int layer = canvas.saveLayer(mIconRect, mPaint, Canvas.ALL_SAVE_FLAG);
         canvas.drawRect(mIconRect, mPaint);
         mPaint.setXfermode(mXfermode);
         canvas.drawBitmap(mIcon.getBitmap(), null, mIconRect, mPaint);
+        // 复原状态
         mPaint.setXfermode(null);
         canvas.restoreToCount(layer);
 
