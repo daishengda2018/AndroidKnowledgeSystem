@@ -115,8 +115,7 @@ public class WeChatTagView extends View {
         drawTargetText(canvas, alpha);
     }
 
-    private void drawSourceText(Canvas canvas, int alpha)
-    {
+    private void drawSourceText(Canvas canvas, int alpha) {
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setColor(0xff333333);
         mTextPaint.setAlpha(255 - alpha);
@@ -124,8 +123,7 @@ public class WeChatTagView extends View {
             mIconRect.bottom + mTextBound.height(), mTextPaint);
     }
 
-    private void drawTargetText(Canvas canvas, int alpha)
-    {
+    private void drawTargetText(Canvas canvas, int alpha) {
         mTextPaint.setColor(mColor);
         mTextPaint.setAlpha(alpha);
         canvas.drawText(mText, mIconRect.left + mIconRect.width() / 2 - mTextBound.width() / 2,
