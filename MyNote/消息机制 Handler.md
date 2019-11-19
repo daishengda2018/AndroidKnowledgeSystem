@@ -1,3 +1,7 @@
+[toc]
+
+
+
 # Android 消息机制 —— Handler
 
 ![img](assets/16c0641a5f63bed0.png)
@@ -729,3 +733,238 @@ setContentView 知识建立了 View 树，并没有进行渲染工作 (其实真
 2. 知乎问答：[《Android中为什么主线程不会因为Looper.loop()里的死循环卡死》](https://www.zhihu.com/question/34652589)
 3. StackOverflow： [《android - what is message queue native poll once in android?》](https://stackoverflow.com/questions/38818642/android-what-is-message-queue-native-poll-once-in-android)
 4. [《Handler 是如何做到发送延时消息的》](https://www.jianshu.com/p/1b475dc531b1)
+
+
+
+
+
+# Handler 的再理解与总结
+
+## MessageQueue#next()
+
+这个方法里面是一个死循环，但是里面的方法 nativePollOnce 运用了 Linux 的 epoll 机制，在没有消息的时候回会将线程挂起，注意此时的挂起相当于 Object.wait() : 它会释放 CPU 资源，等待唤醒。有消息进入的时候回到用  MessageQueue#enqueueMessage()  加入数据，此时 MessageQueue#enqueueMessage() 内部的 nativeWeak 会重新唤醒线程，
+
+
+
+可以发现：
+
+1. 虽然是死循环但是他空闲时间并不消耗资源，死循环的目是为了防止获消息的逻辑退出
+2. Loop#loop() 也是个死循环，但是没有 message 的时候同样会被 MessageQueue#next 挂起，不会控轮询消耗资源。
+3. 当有消息进入的时候 next 方法会被立即唤醒，但是是否将消息返回不一定，要看是不是延时消息。
+
+
+
+### 延时消息
+
+MessageQueue#next() 中会判断消息的时间，如果还没有到消息执行的时间，会将消息**定时挂起**（这个是我猜的）我们记录它 为 A。如果这个时候有新的消息到来(记录为 B)，在 B 调用 MessageQueue#enqueueMessage() 时会继续判断 A 的时间，如果没到时间，就把 B 提到队头，再唤醒线程处理。
+
+等到 A 的阻塞时间到的时候就会立即唤醒 next 方法处理。 
+
+
+
+### 为什么 MessageQueue#next() 需要死循环? loop 的死循环还不够用吗？
+
+Loop#loop 里面的死循环是为了防止退出的，而 MessageQueue#next() 的死循环是为了确认到底有没有消息 [参考：对于 MessageQueue 的解读](https://www.jianshu.com/p/06d6031e0fd1)
+
+```java
+Message next() {
+        // Return here if the message loop has already quit and been disposed.
+        // This can happen if the application tries to restart a looper after quit
+        // which is not supported.
+        final long ptr = mPtr;
+        if (ptr == 0) {
+            return null;
+        }
+
+        //为-1时，说明是第一次循环，在当前没有消息队列中没有MSG的情况下，需要处理注册的Handler
+        int pendingIdleHandlerCount = -1; // -1 only during first iteration
+        // 超时时间。即等待xxx毫秒后，该函数返回。如果值为0，则无须等待立即返回。如果为-1，则进入无限等待，直到有事件发生为止
+        int nextPollTimeoutMillis = 0;
+        for (;;) {
+            if (nextPollTimeoutMillis != 0) {//???
+                Binder.flushPendingCommands();
+            }
+
+            // 该函数提供阻塞操作。如果nextPollTimeoutMillis为0，则该函数无须等待，立即返回。
+            //如果为-1，则进入无限等待，直到有事件发生为止。
+            //在第一次时，由于nextPollTimeoutMillis被初始化为0，所以该函数会立即返回
+            //从消息链的头部获取消息
+            nativePollOnce(ptr, nextPollTimeoutMillis);
+
+            synchronized (this) {
+                // Try to retrieve the next message.  Return if found.
+                final long now = SystemClock.uptimeMillis();//记录当前时间
+                Message prevMsg = null;
+                Message msg = mMessages;
+                if (msg != null && msg.target == null) {//message不为空，但没有执行者
+                    // Stalled by a barrier.  Find the next asynchronous message in the queue.
+                    do {//寻找Asynchronous的消息
+                        prevMsg = msg;
+                        msg = msg.next;
+                    } while (msg != null && !msg.isAsynchronous());
+                }
+                if (msg != null) {
+                    if (now < msg.when) {
+                        //判断头节点所代表的message执行的时间是否小于当前时间
+                        //如果小于，让loop()函数执行message分发过程。否则，需要让线程再次等待(when–now)毫秒
+                        // Next message is not ready.  Set a timeout to wake up when it is ready.
+                        nextPollTimeoutMillis = (int) Math.min(msg.when - now, Integer.MAX_VALUE);
+                    } else {
+                        // Got a message.
+                        mBlocked = false;//将队列设置为非 blocked 状态
+                        if (prevMsg != null) {
+                            prevMsg.next = msg.next;
+                        } else {
+                            mMessages = msg.next;
+                        }
+                        msg.next = null;
+                        if (false) Log.v("MessageQueue", "Returning message: " + msg);
+                        msg.markInUse(); //将消息设置为 inuse
+                        return msg;
+                    }
+                } else {
+                //如果头节点为空，消息链中无消息，设置nextPollTimeoutMillis为-1，让线程阻塞住，
+                //直到有消息投递（调用enqueueMessage方法），并利用nativeWake方法解除阻塞
+                    // No more messages.
+                    nextPollTimeoutMillis = -1;
+                }
+
+                // Process the quit message now that all pending messages have been handled.
+                if (mQuitting) {
+                    dispose();
+                    return null;
+                }
+
+                // If first time idle, then get the number of idlers to run.
+                // Idle handles only run if the queue is empty or if the first message
+                // in the queue (possibly a barrier) is due to be handled in the future.
+                if (pendingIdleHandlerCount < 0
+                        && (mMessages == null || now < mMessages.when)) {
+                    //第一次进入，当前无消息，或还需要等待一段时间消息才能分发，获得idle handler的数量
+                    pendingIdleHandlerCount = mIdleHandlers.size();
+                }
+                if (pendingIdleHandlerCount <= 0) {
+                    //如果没有idle handler需要执行，阻塞线程进入下次循环
+                    // No idle handlers to run.  Loop and wait some more.
+                    mBlocked = true;
+                    continue;
+                }
+
+                if (mPendingIdleHandlers == null) {
+                    mPendingIdleHandlers = new IdleHandler[Math.max(pendingIdleHandlerCount, 4)];
+                }
+                mPendingIdleHandlers = mIdleHandlers.toArray(mPendingIdleHandlers);
+            }
+
+            // Run the idle handlers.
+            // We only ever reach this code block during the first iteration.
+            for (int i = 0; i < pendingIdleHandlerCount; i++) {
+                final IdleHandler idler = mPendingIdleHandlers[i];
+                mPendingIdleHandlers[i] = null; // release the reference to the handler
+
+                boolean keep = false;
+                try {
+                    keep = idler.queueIdle();
+                } catch (Throwable t) {
+                    Log.wtf("MessageQueue", "IdleHandler threw exception", t);
+                }
+
+                //如果keep=false，表明此idler只执行一次，把它从列表中删除。如果返回true，则表示下次空闲时，会再次执行
+                if (!keep) {
+                    synchronized (this) {
+                        mIdleHandlers.remove(idler);
+                    }
+                }
+            }
+        
+            //pendingIdleHandlerCount=0，是为了避免第二次循环时，再一次通知listeners
+            //如果想剩余的listeners再次被调用，只有等到下一次调用next()函数了
+            // Reset the idle handler count to 0 so we do not run them again.
+            pendingIdleHandlerCount = 0;
+
+            // nextPollTimeoutMillis=0，是为了避免在循环执行idler.queueIdle()时，有消息投递。
+            //所以nextPollTimeoutMillis=0后，第二次循环在执行nativePollOnce时，会立即返回
+            //如果消息链中还是没有消息，那么将会在continue;处执行完第二次循环，进行第三次循环，然后进入无限等待状态
+            // While calling an idle handler, a new message could have been delivered
+            // so go back and look again for a pending message without waiting.
+            nextPollTimeoutMillis = 0;
+        }
+    }
+```
+
+重点：
+
+1.   nativePollOnce(ptr, nextPollTimeoutMillis); nextPollTimeoutMillis： 0 不阻塞，-1 无限阻塞等待唤醒。
+2. 死循环最多执行三次：
+   1. 第一次循环，如果消息链中有合适的消息，就抛出 message 去处理。如果没有，则会通知各 listeners 线程空闲了。执行完后为了避免在 listners 执行的过程中有消息投递，那么此时重置 nextPollTimeoutMillis = 0。
+   2. 然后进行第二次循环，由于此时 nextPollTimeoutMillis 为0，则 nativePollOnce 不会阻塞，立即返回，取出 message，如果此时消息链中还是没有 message，则会在将会在 continue 处结束第二次循环，此时 nextPollTimeoutMillis 已被设置为-1，
+   3. 第三次循环时，nativePollOnce 发现 nextPollTimeoutMillis 为-1，则进入无限等待状态，直到有新的message 被投递到队列中来。当有新的 message 后，由于 enqueueMessage 中调用了 nativeWake 函数，nativePollOnce 会从等待中恢复回来并返回，继续执行，然后将新的 message 抛出处理，for 循环结束。
+
+
+
+## enqueueMessage
+
+enqueueMessage 有排序功能，按照时间入队。
+
+```java
+ boolean enqueueMessage(Message msg, long when) {
+        if (msg.target == null) {
+            throw new IllegalArgumentException("Message must have a target.");
+        }
+        if (msg.isInUse()) {
+            throw new IllegalStateException(msg + " This message is already in use.");
+        }
+
+        synchronized (this) {
+            if (mQuitting) {//如果正在退出，就不能插入消息
+                IllegalStateException e = new IllegalStateException(
+                        msg.target + " sending message to a Handler on a dead thread");
+                Log.w("MessageQueue", e.getMessage(), e);
+                msg.recycle();//把这个消息放回到消息池中
+                //获得msg时，先去消息池中看看有没有被回收的msg，如果有，就不用创建新的msg了
+                return false;
+            }
+
+            msg.markInUse();
+            msg.when = when;//从消息队列中取出绝对时间戳
+            Message p = mMessages;//指向队首
+            boolean needWake;
+            //如果当前的消息链为空，或者要插入的MSG为QUIT消息，或者要插入的MSG时间小于消息链的第一个消息
+            //在队首插入
+            if (p == null || when == 0 || when < p.when) {
+                // New head, wake up the event queue if blocked.
+                msg.next = p;
+                mMessages = msg;
+                needWake = mBlocked;
+            } else {
+                //否则，我们需要遍历该消息链，将该MSG插入到合适的位置
+                // Inserted within the middle of the queue.  Usually we don't have to wake
+                // up the event queue unless there is a barrier at the head of the queue
+                // and the message is the earliest asynchronous message in the queue.
+                needWake = mBlocked && p.target == null && msg.isAsynchronous();
+                Message prev;
+                for (;;) {
+                    prev = p;
+                    p = p.next;
+                    if (p == null || when < p.when) {
+                        break;
+                    }
+                    if (needWake && p.isAsynchronous()) {
+                        needWake = false;
+                    }
+                }
+                msg.next = p; // invariant: p == prev.next
+                prev.next = msg;
+            }
+
+//neekWake=mBlocked, 如果mBlocked为ture，表面当前线程处于阻塞状态，即nativePollOnce处于阻塞状态
+//当通过enqueueMessage插入消息后，就要把状态改为非阻塞状态，所以通过执行nativeWake方法，触发nativePollOnce函数结束等待
+            // We can assume mPtr != 0 because mQuitting is false.
+            if (needWake) {
+                nativeWake(mPtr);
+            }
+        }
+        return true;
+    }
+```
+

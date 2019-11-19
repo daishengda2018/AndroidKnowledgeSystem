@@ -29,7 +29,7 @@ public class WeChatDemoActivity extends FragmentActivity implements ViewPager.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_wechat_tab_demo);
         mViewPager = findViewById(R.id.id_viewpager);
         initDatas();
         mViewPager.setAdapter(mAdapter);
