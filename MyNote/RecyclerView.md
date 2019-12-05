@@ -540,7 +540,7 @@ touchHelper.attachToRecyclerView(RecyclerView);
 ## 如何统计 item 的 impression 统计
 
 - ListView 通过 getView() 统计
-- RecyclerView 通过` onViewAttachedToWindow` 统计，不能通过` onBindViewHolder` 因为 scrap、cache、ViewCacheExtension 都不会执行` onBindViewHolder` 方法，统计会丢失很多的。
+- 通过 Adapter#` onViewAttachedToWindow` 统计，不能通过` onBindViewHolder` 因为 scrap、cache、ViewCacheExtension 都不会执行` onBindViewHolder` 方法，统计会丢失很多的。
 
 # 实践 Demo
 

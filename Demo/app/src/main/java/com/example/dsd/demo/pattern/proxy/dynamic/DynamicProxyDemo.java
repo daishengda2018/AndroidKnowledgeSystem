@@ -20,7 +20,7 @@ public class DynamicProxyDemo {
                 System.out.println("在方法执行前做点什么");
                 System.out.println(method.getName());
                 Object invoke = method.invoke(dynamicProxy, args);
-                System.out.println("在方法执行后做点什么");
+                System.out.println("在方法执行后做点什么 " + invoke);
                 return invoke;
             }
         };
@@ -29,8 +29,4 @@ public class DynamicProxyDemo {
 
         instance.age();
     }
-
-
-
-
 }

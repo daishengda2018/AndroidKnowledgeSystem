@@ -6,6 +6,7 @@ package com.example.dsd.demo.pattern.proxy.dynamic;
  * Created by im_dsd on 2019-08-26
  */
 public class DynamicProxy implements IDynamicProxy {
+    int age = 25;
     @Override
     public String name() {
         return "DSD";
@@ -13,6 +14,6 @@ public class DynamicProxy implements IDynamicProxy {
 
     @Override
     public int age() {
-        return 25;
+        return ++ age;
     }
 }
