@@ -21,7 +21,6 @@ public class RetrofitDemo {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                response.body().
             }
 
             @Override

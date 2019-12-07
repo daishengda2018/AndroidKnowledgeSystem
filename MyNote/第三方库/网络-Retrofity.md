@@ -4,6 +4,16 @@ Retrofit 是对于 OkHttp 的封装，通过注解的形式将请求过程声明
 
 
 
+# CallAdapter 工作原理
+
+
+
+CallAdapter 是如何工作，怎么把 OkHttpCall 转换成 Retrofity2#Call 或者自定义的返回对象
+
+
+
+
+
 # 学习资源
 
 [*从架构角度看Retrofit的作用、原理和启示](https://www.jianshu.com/p/f57b7cdb1c99)
