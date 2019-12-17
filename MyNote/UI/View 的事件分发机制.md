@@ -18,6 +18,12 @@
 
 # 滑动冲突解决方案
 
+两个处理方案的原理：
+
+![image-20191216233204046](assets/image-20191216233204046.png)
+
+具体请参见：《Android 开发艺术探索》3.4.2 147页位置。
+
 ## 1.外部拦截法
 
 指点击事件都要经过父容器的拦截处理，如果父容器需要此事件就拦截，如果不需要此事件就不拦截，外部拦截法需要重写 `onIntercepttouchEvent` 方法，在内部做相应的拦截。
@@ -64,6 +70,14 @@
 * ACTION_MOVE: 这个事件就需要根据业务逻辑分类处理了，父容器要是想处理就返回 true，要交由子 View 处理就返回 false。
 
 * **ACTION_UP: 这个事件必须返回 false**，因为如果父容器在 ACTION_UP 时返回了 true，子 View 就无法接收到 ACTION_UP 事件，导致子 View onClick 事件无法触发。但是父容器不一样，一旦他开始拦截了一个事件，那么后续的所有事件都将会跳过  `onIntercepttouchEvent` 方法判断，直接交由自己处理，而作为最后的一个事件的 ACTION_UP 当然也是，即便父容器的 `onIntercepttouchEvent`方法在 ACTION_UP 的时候返回了 false，因为根本就不会走。
+
+### 总结:
+
+外部拦截法的关进是讲：在 ViewGroup#onInterceptTouchEvent 中 ACTION_DOWN、ACTION_UP 不能做拦截，必须返回 false，ACTION_DOWN 是让所有的事件都可以传递到 child 中，否者 ACTION_DOWN 一旦被拦截（返回 true）则  ViewGroup#onInterceptTouchEvent 将不会在执行。而 ACTION_UP 不做拦截是为了保证 child 可以正常接受到它从而触发 onClick 方法，ViewGroup 如果处理了事件，那么 ViewGroup#onInterceptTouchEvent 将不会在执行，不会扰乱正常的时间流程。ACTION_MOVE 中就是具体的业务逻辑了，在不同的条件下判断将事件交给谁去处理 => child 处理 返回 false 不拦截，父容器要处理返回 true ，此后 ViewGroup#onInterceptTouchEvent 将不会被调用了。
+
+
+
+这种处理方式应该比较常用了，符合正常事件分发机制。
 
 
 
@@ -119,14 +133,25 @@
 
 **注意** 父容器不能拦截 ACTION_DOWN 方法，因为 ACTION_DOWN 这个事件并不受 `requestDisallowInterceptTouchEvent ` 方法内的 FLAG_DISALLOW_INTERCEPT 这个标记位的控制。所以一旦父容器拦截 ACTION_DOWN 事件，那么所有的事件都无法传递到子元素中，这样内部拦截就失效了。
 
+### 总结：
+
+内部拦截法是一种特殊的方式，通过 `requestDisallowInterceptTouchEvent(true)`干预事件分发过程。
+
+**`requestDisallowInterceptTouchEvent(true)` 的作用是请求父容器不要拦截除了 ACTION_DOWN 以外的事件**
+
+设置为 true 后，所有的事件都将交由 child 处理并且 ViewGroup#onInterceptTouchEvent() 将被跳过不再调用。为了让你 child 获得 ACTION_DOWN 事件，ViewGroup#onInterceptTouchEvent() 就不能拦截 ACTION_DOWN 事件（返回 false），在 ACTION_MOVE 中根据业务逻辑判断将事件传递给谁，如果 ViewGroup 需要处理，则将  `requestDisallowInterceptTouchEvent(false)` 设置为 false，让  ViewGroup#onInterceptTouchEvent() 重新调用，为了能够正常处理事件，需要将接收到的所有事件拦截（返回 true）
+
 
 
 # 问：有一个ViewGroup, 然后手指头接触Button,手指头滑开了,滑开又松手的过程,整个事件发生了什么?经历了什么?
 
 答：
 
-一开始 ViewGroup 会接受到整个事件序列的第一个事件：ACTION_DOWN，ViewGroup#dispatchTouchEvent 收到 ACTION_DOWN 后开始询问 ViewGroup#onInterceptTouchEvent 是否需要拦截，默认情况下 ViewGroup#onInterceptTouchEvent 返回 false 不拦截，开始向下传递 ACTION_DOWN 事件，Buttton#dispatchTouchEvent 收到 ACTION_DOWN 询问 onTouchEvent 是否处理，Button 默认处理，此后的所有事件序列都直接跨过 ViewGroup#onInterceptTouchEvent 的判断直接传递给 Button，但 ViewGroup#dispatchTouchEvent 会收到所有事件。
+一开始 ViewGroup 会接受到整个事件序列的第一个事件：ACTION_DOWN，ViewGroup#dispatchTouchEvent 收到 ACTION_DOWN 后开始询问 ViewGroup#onInterceptTouchEvent 是否需要拦截，默认情况下 ViewGroup#onInterceptTouchEvent 返回 false 不拦截，开始向下传递 ACTION_DOWN 事件，Buttton#dispatchTouchEvent 收到 ACTION_DOWN 询问 onTouchEvent 是否处理，Button 默认处理，~~此后的所有事件序列都直接跨过 ViewGroup#onInterceptTouchEvent 的判断直接传递给 Button，但 ViewGroup#dispatchTouchEvent 会收到所有事件。~~这句话是错的,：此时 ViewGroup#onInterceptTouchEvent 每次都会调用，而如果此事件被 ViewGroup 自己消耗了，则 ViewGroup#onInterceptTouchEvent才不会调用）
 
 在 move 过程中 Button#onTouchEvent 发现当前坐标已经移出 Button 区域，会 remove 掉 onClick 的回调(源码位于 View#onTouchEvent 尾部 case MotionEvent.ACTION_MOVE 中)，虽然 Button 收到并处理了 ACTION_DOWN -> ACTION_MOVE -> ACTION_UP 整个事件过程，但是并不会触发 onClick 回调。
 
 这个事件过程并没有网上所说的 ACTION_CANCEL，ACTION_CANCEL 出现的条件是：ViewGroup 在传递过程中拦截了本应交由 Button 处理的事件，此时 Button 会收到 ACTION_CANCEL 表示事件中断
+
+
+
