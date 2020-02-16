@@ -1,6 +1,9 @@
 # 主线程和子线程
 
-为啥更新UI必须在主线程：因为所有的视图控件都不是线程安全的。
+为啥更新UI必须在主线程：因为所有的视图控件都不是线程安全的。如果是线程安全你的会存在两个问题：
+
+1. 卡顿
+2. 开发者时刻要关心线程安全问题，很难用繁琐。
 
 ## AsyncTask
 
@@ -15,3 +18,4 @@ Handler 与 Thread 结合的产物，使用 HandlerThread#getHandler() 可以把
 ## IntentService
 
 执行完毕后会自动停止。它是一个抽象的方法，需要用户继承并手动实现 onHandlerIntent 方法。当 onHandlerIntent 方法执行完最有一个任务时，会调用 stopSelt 停止服务。
+

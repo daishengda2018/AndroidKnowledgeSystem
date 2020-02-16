@@ -70,3 +70,7 @@ Activity作为根部，根据视图树一层一层遍历 Child 的 onSavenInstan
 
 用于恢复的方法：onResotrInstanceSate(Bundle)  会在 onStart 与 onPostCreate(Bundle）之间调用
 
+## 参考
+
+[Android 文档 —— 保存界面状态](<https://developer.android.com/topic/libraries/architecture/saving-states.html?hl=zh_cn>)
+
