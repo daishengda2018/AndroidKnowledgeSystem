@@ -2,8 +2,6 @@
 
 [TOC]
 
-![img](assets/1*c3ZNDVEacext2teveN4_3A.gif)
-
 
 
 <font color = red>思维导图占位</font>
@@ -21,8 +19,6 @@ RecyclerView 是一个弹性的 View 在有限的 window 上展示无限的数�
 ## ListView 的局限性
 
 ListView is a scrollable viewgroup (A special View that can contain other views) that helps in displaying data from a dataset in a vertical order, where each item is placed immediately below the previous view. The listview enjoyed a large amount of time on the throne for displaying a list. And Google hadn’t come up with a better option yet. It displayed similar data collection in each row and was helpful in creating list like these.
-
-![img](assets/1*rdTrmGcQMDIpntYzfJSYTQ.png)
 
 1. **Only Vertical Scrolling:** Android allows listviews to be scrollable only in verticle direction. No horizontal lists allowed. And also, If you want to use Grid as a ListView, you cannot! You need to use another widget, which is GridView. This is a putting off limitation of ListView.
 2. **Lagged Scrolling:** Lists rendered using ListView widget have low performance. It provides us with a scrolling list that lags too much. This is because ListView has a habit of creating as many views (rows) as there are data items in the dataset. This creation of views and using findViewById() method is a costly affair. (Sorry for including a method in the high-level-view but I couldn’t resist) And the reason why this is lagged and how it was overcome, will be done in the remaining parts to come.
@@ -71,11 +67,7 @@ Adatper 是一种设计模式：适配器模式（Adapter Pattern) ，但是适�
 >
 > RecyclerView.Adapter 提供了将特定数据集到 RecycleView 中显示 View 的绑定。
 
-
-
-![img](assets/1*T1EO7kddSPpgCpgv0mjHgA.jpeg)
-
- 
+![img](assets/1_T1EO7kddSPpgCpgv0mjHgA.jpeg)
 
 RecyclerView.Adapter 主要负责以下几部分的工作：
 
@@ -89,15 +81,11 @@ RecyclerView.Adapter 主要负责以下几部分的工作：
 
 * 多类型布局的支持
 
-  RecyclerView.Adaper 可以任意指定一个整形数做为 ViewType，不用像 ListView 的 ViewType 必须连续，因为RecyclerView 并不关心这个 ViewType 到底是什么。在[RecyclerView ins and outs - Google I/O 2016视频里面](https://www.youtube.com/watch?v=LqBlYJTfLP4) 说的到：完全可以直接使用布局资源作为 ViewType，因为 AEPT 保证了 布局 ID 的唯一性（**现在有待确认还行不行**）
+  RecyclerView.Adaper 可以任意指定一个整形数做为 ViewType，不用像 ListView 的 ViewType 必须连续，因为 RecyclerView 并不关心这个 ViewType 到底是什么。在[RecyclerView ins and outs - Google I/O 2016视频里面](https://www.youtube.com/watch?v=LqBlYJTfLP4) 说的到：完全可以直接使用布局资源作为 ViewType，因为 AEPT 保证了 布局 ID 的唯一性（**现在有待确认还行不行**）
 
 * 回收再利用(onFailedToRecyclerView)
 
-
-
 ## RecyclerView.LayoutManager
-
-![img](assets/1*scNhy-bScx_KlAcaRF3OeA.png)
 
 LayoutManger 主要负责一下几个部分工作
 
@@ -111,11 +99,20 @@ LayoutManger 主要负责一下几个部分工作
 
 * **Focus traversal**
 
-  当焦点转移导致需要一个新的 item 的出现的在可视区域时， 也是由 LayoutManger 处理的。
+  当焦点转移导致需要一个新的 item 的出现在可视区域时， 也是由 LayoutManger 处理的。
 
-  
+
+这几点功能在 [RecyclerView刷新机制](https://www.jianshu.com/p/a57608f2695f) 、[RecyclerView复用机制](<https://www.jianshu.com/p/aeb9ccf6a5a4>) 文章中表现很好
 
 ## RecyclerView.ItemAnimator
+
+负责 item 的动画
+
+
+
+## 参考
+
+[RecyclerView的基本设计结构](https://github.com/SusionSuc/AdvancedAndroid/blob/master/AndroidFramework源码分析/recyclerview/RecyclerView的基本设计结构.md)
 
 
 
@@ -125,9 +122,80 @@ LayoutManger 主要负责一下几个部分工作
 
 ![img](assets/2934684-1b8fadc84223ea0a.png)
 
+1. 绘制工作都是由 `LayoutManger` 完成的。
+2. `LayoutManager `在布局`子 View` 时会向 `Recycler` 索要一个 `ViewHolder`。
+
+## 参考：
+
 [RecyclerView刷新机制](https://www.jianshu.com/p/a57608f2695f)
 
-# RecyclerView 缓存机制
+
+
+# RecyclerView 复用\缓存机制
+
+RecyclerView 复用是一套解决 UI 卡顿，提升界面流畅性的缓存复用机制。
+
+findViewById 是一个很耗时的方法(内部使用了深度遍历)。如果每次界面刷新 RecyclerView 都对 Item View 进行 findViewById 操作，那么必定会有界面卡顿的问题。所以 RecyclerView 复用\缓存机出现了。
+
+
+
+## 如何使用
+
+对于开发者来讲这一套机制并不是十分透明，我们需要构建一个`VH extend RecyclerView.ViewHolder` 
+
+```java
+public class TestRecyclerViewHolder extends RecyclerView.ViewHolder {
+
+    public TestRecyclerViewHolder(@NonNull View itemView) {
+        super(itemView);
+        // findViewById ……
+    }
+    
+    public void bindData(数据) {
+        // 对于 view 进行数据绑定
+    }
+}
+```
+
+然后构建 Adapter
+
+```java
+public class TestAdapter extends RecyclerView.Adapter<TestRecyclerViewHolder> {
+
+        @NonNull
+        @Override
+        public TestRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+              LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+    		  return new TestRecyclerViewHolder(layoutInflater);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull TestRecyclerViewHolder viewHolder, int i) {
+            viewHolder.bindData(数据集合.get(i));
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return 数据集合.size();
+        }
+    }
+```
+
+只要进行上面的操作 RecyclerView 就回自动完成主要缓存和复用机制。
+
+## 如何实现
+
+我们知道 LayoutManager 在布局子 View 时会向 Recycler 索要一个 ViewHolder 。那么 ViewHolder 是什么时候放到 Recycler 中，如何放的？什么时候取、怎么取得呢？带着这个四个问题阅读下面文字。
+
+
+
+文章继续之前要知道：
+
+1. **`Recycler`管理的基本单元是`ViewHolder`**
+2. **`LayoutManager`操作的基本单元是`View`，即`ViewHolder`的`itemview`**。
+
+所以我们看见：ViewHolder 和 View 是一对一的关系。
 
 RecyclerView 的内部类 Recycler 负责了缓存的具体工作。RecyclerView 有四级缓存，他们各司其职功能不同，首先通过 Height Level 的角度看一些其中涉及到的概念。
 
@@ -139,9 +207,9 @@ RecyclerView 的内部类 Recycler 负责了缓存的具体工作。RecyclerView
 
 ![image-20190811234626581](assets/image-20190811234626581.png)
 
-1. Scrap (mAttachedScrap)：屏幕上活跃的 ViewHolder，在 View 16ms 渲染的时候复用。<font color = #c60c0e>**通过 position 寻找缓存 ViewHolder 是固定的直接拿来复用，不用重新绑定数据**</font>。
+1. Scrap (mAttachedScrap)：用于布局过程中屏幕可见表项的回收和复用。用于保存数据刷新被 detach 的 ViewHolder <font color = #c60c0e>**通过 position 寻找缓存 ViewHolder 是固定的直接拿来复用，不用重新绑定数据**</font>。
 
-2. Cache  (mCacheViews)：出了屏幕的 ViewHolder，<font color = #c60c0e>**同样是通过 postion 确定 ViewHolder 所以直接复用，不用重新绑定数据**</font>。 大小默认为 2，不会被清除数据，相当于一个高速缓存，在用户滑出屏幕后，再次滑动回来，此时 ViewHolder 数据是不用在次绑定的。Scrap、Cache 缓存都是直接复用。
+2. Cache  (mCacheViews)：用于移出屏幕表项的回收和复用，且只能用于指定位置的表项，有点像“回收池预备队列”，即总是先回收到`mCachedViews`，当它放不下的时候，按照先进先出原则将最先进入的`ViewHolder`存入回收池。，<font color = #c60c0e>**同样是通过 postion 确定 ViewHolder 所以直接复用，不用重新绑定数据**</font>。 大小默认为 2，不会被清除数据，相当于一个高速缓存，在用户滑出屏幕后，再次滑动回来，此时 ViewHolder 数据是不用在次绑定的。Scrap、Cache 缓存都是直接复用。
 
 3. ViewCacheExtension:  很特殊，返回的是 item view！很少被使用。需要用户手动实现的。不实现就相当于没有开启这个功能。这个场景网上找找看吧。
 
@@ -154,13 +222,17 @@ RecyclerView 的内部类 Recycler 负责了缓存的具体工作。RecyclerView
 
 ## 具体实现
 
-Recycler 是 RecyclerView 最核心的实现。对于 LayoutManager 来说 Recycler 是 ViewHolder 的提供者，对于 RecyclerView 来说他是 ViewHolder 的管理者。下面的图描述了 Recycler 的结构组成。
+Recycler 是 RecyclerView 最核心的实现。**对于 LayoutManager 来说 Recycler 是 ViewHolder 的提供者**，**对于 RecyclerView 来说他是 ViewHolder 的管理者**。
+
+下面的图描述了 Recycler 的结构组成。
 
 ![img](assets/2934684-0978416753d58872.png)
 
 ## Attached vs Changed scrap
 
+* `mChangedScrap` : 用来保存`RecyclerView`做**动画**时，被detach的`ViewHolder`。
 
+* `mAttachedScrap` : 用来保存`RecyclerView`做**数据刷新(`notify`)**，被detach的`ViewHolder`
 
 ## RecyclerViewPool 机制
 
@@ -191,15 +263,20 @@ Recycler 是 RecyclerView 最核心的实现。对于 LayoutManager 来说 Recyc
 
 
 
-## 本章参考
+## 参考
 
-[Android ListView 与 RecyclerView 对比浅析—缓存机制](https://zhuanlan.zhihu.com/p/23339185)
+1. [Android ListView 与 RecyclerView 对比浅析—缓存机制](https://zhuanlan.zhihu.com/p/23339185)
 
-[踩坑记录:Recyclerview的缓存机制](https://www.jianshu.com/p/32c963b1ebc1)
+2. [踩坑记录:Recyclerview的缓存机制](https://www.jianshu.com/p/32c963b1ebc1)
 
-Hencoder Puls 内部课程
+3. Hencoder Puls 内部课程
 
-[RecyclerView的回收复用机制解密](https://mp.weixin.qq.com/s/Ucj-xrXIO-P1xLftwIXPpQ)
+4. [RecyclerView的回收复用机制解密](https://mp.weixin.qq.com/s/Ucj-xrXIO-P1xLftwIXPpQ)
+5. [RecyclerView复用机制](<https://www.jianshu.com/p/aeb9ccf6a5a4>)
+6. [RecyclerView缓存机制系列](<https://juejin.im/post/5c6cf69fe51d4501377b988c>)
+7. 
+
+
 
 # Recyclerview.ViewHolder
 
@@ -310,14 +387,14 @@ LayoutManager 请求 RecyclerView 移除某一个位置的 View
 
 
 
-## 本章参考
+## 参考
 
 [图解 RecyclerView 的缓存机制](https://blog.csdn.net/weixin_43130724/article/details/90068112)
 [RecyclerView 知识梳理(1) - 综述](https://www.jianshu.com/p/21a1384df9a1)
 
 # RecyclerView 的动画
 
-https://www.jianshu.com/p/ae370a13a2ed
+[RecyclerView动画源码浅析](https://www.jianshu.com/p/ae370a13a2ed)
 
 # RecyclerView 的性能优化
 
@@ -544,7 +621,9 @@ touchHelper.attachToRecyclerView(RecyclerView);
 
 # 实践 Demo
 
-## RecyclerAdapter
+## 打造可配置多 view type 类型的 Adapter
+
+
 
 ## LayoutManager
 

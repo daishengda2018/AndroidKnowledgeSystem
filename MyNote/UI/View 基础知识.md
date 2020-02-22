@@ -1,5 +1,3 @@
-![Photo by [Matam Jaswanth](https://unsplash.com/@mjaswanth?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/search/photos/android?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)](assets/1*eq5G9dtospwi9imF7_phCg.jpeg)
-
 [TOC]
 
 
