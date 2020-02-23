@@ -8,7 +8,7 @@ Bitmap是位图信息的存储，即一个举行图像每个像素点的颜色�
 
 Drawable 是一个可以调用 Cavans 来进行绘制的上层工具。调用 `Drawable.draw(Canvas)` 可以把 Drawable 这是的绘制内容绘制到 Canvas 中。
 
-由于 Drawable 存储的只是绘制规则，因此在它的`draw（）`方法调用前，需要设置 `Drawable.setBound()`来设置绘制边界。
+由于 Drawable 存储的只是绘制规则，因此在它的`draw（）`方法调用前，==需要设置 `Drawable.setBound()`来设置绘制边界，否者会显示异常==。
 
 # 代码：Bitmap2Drawable
 

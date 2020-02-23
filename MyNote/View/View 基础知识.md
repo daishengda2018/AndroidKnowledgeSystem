@@ -36,13 +36,13 @@ ViewParent 定义了一些作为 View 父类应具有的功能，当一个 View 
 - 非根节点也就是非DecorView,其getParent()一定是它的父View，DecorView是View树中根节点，其getParent()为null
 - Activity的View树中任何节点调用getRootView都是DecorView
 
-### 示例2：inflate 形成View树并且 rootView 传递以 null
+### 示例2：inflate 形成 View 树并且 rootView 传递 null
 
 ```java
 View view = LayoutInflater.from(this).inflate(R.layout.title_bar,null);
 ```
 
-使用布局是title_bar.xml
+使用布局是 title_bar.xml
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -109,7 +109,7 @@ getWindow().findViewById(Window.ID_ANDROID_CONTENT).getDrawingRect(rect);
 
 
 
-##Android View 坐标系
+## Android View 坐标系
 
 ![QQ截图20170801223001.png](assets/format,png-20191008144555186.png)
 
