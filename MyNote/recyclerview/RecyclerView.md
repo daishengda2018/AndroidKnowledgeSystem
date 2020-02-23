@@ -2,10 +2,6 @@
 
 [TOC]
 
-
-
-<font color = red>思维导图占位</font>
-
 # 从更高的角度着眼：RecyclerView 
 
 Google 给了 RecyclerView 如下的定义：
@@ -34,9 +30,9 @@ ListView is a scrollable viewgroup (A special View that can contain other views)
 
 
 
-# RecyclerView 的架构
+# RecyclerView 的架构与基本结构
 
-![image-20190916173155747](assets/image-20190916173155747.png)
+![image-20190916173155747](.RecyclerView.assets/image-20190916173155747.png)
 
 RecylerView 体系包含三大组件：
 
@@ -53,7 +49,7 @@ RecylerView 体系包含三大组件：
 
 Adatper 是一种设计模式：适配器模式（Adapter Pattern) ，但是适配器到底是什么呢？就是下图的东西（个人觉得如果翻译成转换器或许更为清晰）。
 
-![image-20190916162343113](assets/image-20190916162343113.png)
+![image-20190916162343113](.RecyclerView.assets/image-20190916162343113.png)
 
 他的意图是为两个不兼容的接口之间的桥梁，将一个类的接口转换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
 
@@ -67,7 +63,7 @@ Adatper 是一种设计模式：适配器模式（Adapter Pattern) ，但是适�
 >
 > RecyclerView.Adapter 提供了将特定数据集到 RecycleView 中显示 View 的绑定。
 
-![img](assets/1_T1EO7kddSPpgCpgv0mjHgA.jpeg)
+![img](.RecyclerView.assets/1_T1EO7kddSPpgCpgv0mjHgA.jpeg)
 
 RecyclerView.Adapter 主要负责以下几部分的工作：
 
@@ -110,9 +106,117 @@ LayoutManger 主要负责一下几个部分工作
 
 
 
+## Recyclerview.ViewHolder
+
+> A ViewHolder describes an item view and metadata about its place within the RecyclerView.
+
+
+
+### ViewHolder 解决的是什么问题？
+
+findeViewById 使用的算法的时间复杂度是 O(n)
+
+![image-20190811232117866](.RecyclerView.assets/image-20190811232117866.png)
+
+**ViewHolder 想要解决的问题是减少少 findViewById() 的过程，提高效率!**
+
+> `View.setTag(Object)` 把任何 Object 存储到 View 中，需要使用的时候通过 `getTag` 获取出来。
+
+![image-20190811232335603](.RecyclerView.assets/image-20190811232335603.png)
+
+### ViewHolder 和 item view 是一对一？ 一对多？多对多？
+
+![image-20190811232612843](.RecyclerView.assets/image-20190811232612843.png)
+
+### 复用 ViewHolder 还复用 item view 吗？
+
+复用 ViewHolder 还是会复用 item view 的，ViewHolder 的本质就是为了较少 `findViewById()` 的过程。
+
+![image-20190811232926117](.RecyclerView.assets/image-20190811232926117.png)
+
+
+
+### ViewHolder 的生命周期
+
+***下面涉及到图一定要手绘一次，注意细节加深理解。***
+
+#### 1. 搜索
+
+一起都是从 LayoutManager 请求 RecyclerView 提供指定 position 的 View 开始的。
+
+
+
+##### 1-1. Cache 中搜索
+
+ViewHolder 和 View 是绑定的一一对应关系，ViewHolder 是 RecyclerView 缓存机制的主要跟踪单元，（**RecyclerView 到底几层缓存中文的都说是两层，上面的课程说是 4 层，需要确认一下**）当 LayoutManager 向 RecyclerView 请求位于某个位置的 View 的时候，RecyclerView 会先从 Cache 中根据 position 寻找。
+
+如果在 Cache 中需要到了 View 直接返回使用，不会调用 Adapter 的`onCreateViewHolder`或者`onBindViewHolder`方法
+
+![img](.RecyclerView.assets/1949836-a37f09d9e89688c8.png)
+
+如果没有在 Cache 中找到，则需要在 ViewCacheExtension 中寻找，没有则开始在 recycled pool 中寻找。       
+
+##### 1-2. 根据 ViewType 在 recycled pool 中搜索
+
+如果 recycled pool 中存在此类型的 ViewHolder，会回调 Adapter 的`onBindViewHolder`方法，使用最近数据、position 更新`ViewHolder`内绑定的`itemView`状态。
+
+![img](.RecyclerView.assets/1949836-7d2ccb23089cfc21.png)
+
+
+
+如果 recycled pool 中不存在此类型的 ViewHolder，则进入下一阶段：创建。
+
+
+
+#### 2. 创建
+
+如果经过了一次完整的搜索都没有找到 ViewHolder 的缓存，此时会回调用 Adapter 的 `onCreateViewHolder` 方法，创建一个对应此 ViewType 的 ViewHolder 从而完成 View 与 ViewHolder 的绑定工作，并在 `onBindViewHolder` 方法中将绑定具体数据。
+
+![img](.RecyclerView.assets/1949836-15dbd6842926d475.png)
+
+#### 3. 添加
+
+在 LayoutManager 获得到 View 之后，会通过 addView 的方法将 View 添加到 RecyclerView 中
+
+RecyclerView 通过 `onViewattachToWindwo(ViewHolder)` 的方法通知 Adapter 这个 ViewHolder 所关联的 itemView 已经添加到布局当中了。
+
+![img](.RecyclerView.assets/1949836-66c5387b73233253.png)
+
+#### 4. 移除
+
+LayoutManager 请求 RecyclerView 移除某一个位置的 View 
+
+##### 普通情况
+
+当 LayoutManager 发现不再需要一个 position 的 View 的时候(例如：彻底划出屏幕，删除)，他会通知 RecyclerView，RecyclerView 会通过 `onViewDatachFromWindow(ViewHolder)` 通知 Adapter 与 ItemView 绑定的 ViewHolder 被移除了。
+
+此时 RecyclerView 会判断是否需要进行缓存，如果可以缓存则分为以下条件
+
+1. 是划出屏幕的，并且没有超过 Cache 的 size 则进入 Cache，然后在 Cache 中判读是否需要转移到 recycled pool 中。在放入缓存之后通过 `onViewRecycled` 通知 Adapter 此 ViewHolder 被回收了。
+2. 如果删除，这直接判断否需要转移到 recycled pool 中。
+
+<font color = red>以上两个观点需要验证是否正确 19.9.16 - 23:11</font>
+
+![img](.RecyclerView.assets/1949836-81e6ffb86f8175d2.png)
+
+##### 异常情况
+
+在上面的普通的情况中，`onViewDetachFromWindow(VH viewHolder)`是立即被回调的。然而在实际当中，由于我们需要对`View`的添加、删除做一些过度动画，这时候，我们需要等待`ItemAnimator`进行完动画操作之后，才做`detach`和`recycle`的逻辑，这一过程对于`LayoutManager`是不可见的。
+
+![img](.RecyclerView.assets/1949836-5ba58d576f731088.png)
+
+#### 5. 销毁
+
+##### ViewHolder 所绑定的 itemView 当前状态异常
+
+##### recycled pool中已经没有足够的空间
+
+
+
 ## 参考
 
-[RecyclerView的基本设计结构](https://github.com/SusionSuc/AdvancedAndroid/blob/master/AndroidFramework源码分析/recyclerview/RecyclerView的基本设计结构.md)
+[图解 RecyclerView 的缓存机制](https://blog.csdn.net/weixin_43130724/article/details/90068112)
+[RecyclerView 知识梳理(1) - 综述](https://www.jianshu.com/p/21a1384df9a1)
 
 
 
@@ -120,7 +224,7 @@ LayoutManger 主要负责一下几个部分工作
 
 先用一张图大致描述他们之间的关系,这张图是`adapter.notifyXX()`时`RecyclerView`的执行逻辑涉及到的一些类:
 
-![img](assets/2934684-1b8fadc84223ea0a.png)
+![img](.RecyclerView.assets/2934684-1b8fadc84223ea0a.png)
 
 1. 绘制工作都是由 `LayoutManger` 完成的。
 2. `LayoutManager `在布局`子 View` 时会向 `Recycler` 索要一个 `ViewHolder`。
@@ -199,13 +303,13 @@ public class TestAdapter extends RecyclerView.Adapter<TestRecyclerViewHolder> {
 
 RecyclerView 的内部类 Recycler 负责了缓存的具体工作。RecyclerView 有四级缓存，他们各司其职功能不同，首先通过 Height Level 的角度看一些其中涉及到的概念。
 
-![image-20190811235027483](assets/image-20190811235027483.png)
+![image-20190811235027483](.RecyclerView.assets/image-20190811235027483.png)
 
 **注意** ：在 ListView 中缓存的是 item view，而 RecyclerView 缓存的是 ViewHolder 但是二者的区别并不大，因为 ViewHolder 和 item view 是一对一的关系。
 
-## 概述
+### 概述
 
-![image-20190811234626581](assets/image-20190811234626581.png)
+![image-20190811234626581](.RecyclerView.assets/image-20190811234626581.png)
 
 1. Scrap (mAttachedScrap)：用于布局过程中屏幕可见表项的回收和复用。用于保存数据刷新被 detach 的 ViewHolder <font color = #c60c0e>**通过 position 寻找缓存 ViewHolder 是固定的直接拿来复用，不用重新绑定数据**</font>。
 
@@ -218,23 +322,23 @@ RecyclerView 的内部类 Recycler 负责了缓存的具体工作。RecyclerView
 
 如果没有找到缓存，Create ViewHolder。
 
-![img](assets/v2-746b3372c1f813d990681280fe5e93b3_hd.jpg)
+![img](.RecyclerView.assets/v2-746b3372c1f813d990681280fe5e93b3_hd.jpg)
 
-## 具体实现
+### 具体实现
 
 Recycler 是 RecyclerView 最核心的实现。**对于 LayoutManager 来说 Recycler 是 ViewHolder 的提供者**，**对于 RecyclerView 来说他是 ViewHolder 的管理者**。
 
 下面的图描述了 Recycler 的结构组成。
 
-![img](assets/2934684-0978416753d58872.png)
+![img](.RecyclerView.assets/2934684-0978416753d58872.png)
 
-## Attached vs Changed scrap
+### Attached vs Changed scrap
 
 * `mChangedScrap` : 用来保存`RecyclerView`做**动画**时，被detach的`ViewHolder`。
 
 * `mAttachedScrap` : 用来保存`RecyclerView`做**数据刷新(`notify`)**，被detach的`ViewHolder`
 
-## RecyclerViewPool 机制
+### RecyclerViewPool 机制
 
 我们必须回答以下一下几个问题。
 
@@ -242,13 +346,9 @@ Recycler 是 RecyclerView 最核心的实现。**对于 LayoutManager 来说 Rec
 - ViewHolder 的缓存存储在什么地方并且从那里获取
 - 缓存的目的是什么
 
-## 拓展：itemView 已经在屏幕中了如何复用？
-
-在每次渲染 `onDraw` 执行（16ms 执行一次）的时候，屏幕上的内容会全部清空，此时数据和View的状态都没有发生改变，可以直接复用。
-
 ## 拓展：ListView 缓存
 
-![image-20190811233413279](assets/image-20190811233413279.png)
+![image-20190811233413279](.RecyclerView.assets/image-20190811233413279.png)
 
 - RecycleBin:  专门用于管理 ListView的缓存的。
 - 两层缓存（如下图）：
@@ -259,7 +359,7 @@ Recycler 是 RecyclerView 最核心的实现。**对于 LayoutManager 来说 Rec
 
   先从 1 找，再从2 找，找了个之后直接绑定数据，如果都找不到则执行 Create View。
 
-![image-20190811233815518](assets/image-20190811233815518.png)
+![image-20190811233815518](.RecyclerView.assets/image-20190811233815518.png)
 
 
 
@@ -278,120 +378,6 @@ Recycler 是 RecyclerView 最核心的实现。**对于 LayoutManager 来说 Rec
 
 
 
-# Recyclerview.ViewHolder
-
-> A ViewHolder describes an item view and metadata about its place within the RecyclerView.
-
-
-
-## ViewHolder 解决的是什么问题？
-
-findeViewById 使用的算法的时间复杂度是 O(n)
-
-![image-20190811232117866](assets/image-20190811232117866.png)
-
-**ViewHolder 想要解决的问题是减少少 findViewById() 的过程，提高效率!**
-
-> `View.setTag(Object)` 把任何 Object 存储到 View 中，需要使用的时候通过 `getTag` 获取出来。
-
-![image-20190811232335603](assets/image-20190811232335603.png)
-
-## ViewHolder 和 item view 是一对一？ 一对多？多对多？
-
-![image-20190811232612843](assets/image-20190811232612843.png)
-
-## 不用 ViewHolder 还复用 item view 吗？
-
-不用 ViewHolder 还是会复用 item view 的，ViewHolder 的本质就是为了较少 `findViewById()` 的过程。
-
-![image-20190811232926117](assets/image-20190811232926117.png)
-
-
-
-
-
-## ViewHolder 的生命周期
-
-***下面涉及到图一定要手绘一次，注意细节加深理解。***
-
-### 1. 搜索
-
-一起都是从 LayoutManager 请求 RecyclerView 提供指定 position 的 View 开始的。
-
-
-
-#### 1-1. Cache 中搜索
-
-ViewHolder 和 View 是绑定的一一对应关系，ViewHolder 是 RecyclerView 缓存机制的主要跟踪单元，（**RecyclerView 到第几层缓存中文的都说是两层，上面的课程说是 4 层，需要确认一下**）当 LayoutManager 向 RecyclerView 请求位于某个位置的 View 的时候，RecyclerView 会先从 Cache 中根据 position 寻找。
-
-如果在 Cache 中需要到了 View 直接返回使用，不会调用 Adapter 的`onCreateViewHolder`或者`onBindViewHolder`方法
-
-![img](assets/1949836-a37f09d9e89688c8.png)
-
-如果没有在 Cache 中找到，则需要在 ViewCacheExtension 中寻找，没有则开始在 recycled pool 中寻找。       
-
-#### 1-2. 根据 ViewType 在 recycled pool 中搜索
-
-如果 recycled pool 中存在此类型的 ViewHolder，会回调 Adapter 的`onBindViewHolder`方法，使用最近数据、position 更新`ViewHolder`内绑定的`itemView`状态。
-
-![img](assets/1949836-7d2ccb23089cfc21.png)
-
-
-
-如果 recycled pool 中不存在此类型的 ViewHolder，则进入下一阶段：创建。
-
-
-
-### 2. 创建
-
-如果经过了一次完整的搜索都没有找到 ViewHolder 的缓存，此时会回调用 Adapter 的 `onCreateViewHolder` 方法，创建一个对应此 ViewType 的 ViewHolder 从而完成 View 与 ViewHolder 的绑定工作，并在 `onBindViewHolder` 方法中将绑定具体数据。
-
-![img](assets/1949836-15dbd6842926d475.png)
-
-### 3. 添加
-
-在 LayoutManager 获得到 View 之后，会通过 addView 的方法将 View 添加到 RecyclerView 中
-
-RecyclerView 通过 `onViewattachToWindwo(ViewHolder)` 的方法通知 Adapter 这个 ViewHolder 所关联的 itemView 已经添加到布局当中了。
-
-![img](assets/1949836-66c5387b73233253.png)
-
-### 4. 移除
-
-LayoutManager 请求 RecyclerView 移除某一个位置的 View 
-
-#### 普通情况
-
-当 LayoutManager 发现不再需要一个 position 的 View 的时候(例如：彻底划出屏幕，删除)，他会通知 RecyclerView，RecyclerView 会通过 `onViewDatachFromWindow(ViewHolder)` 通知 Adapter 与 ItemView 绑定的 ViewHolder 被移除了。
-
-此时 RecyclerView 会判断是否需要进行缓存，如果可以缓存则分为以下条件
-
-1. 是划出屏幕的，并且没有超过 Cache 的 size 则进入 Cache，然后在 Cache 中判读是否需要转移到 recycled pool 中。在放入缓存之后通过 `onViewRecycled` 通知 Adapter 此 ViewHolder 被回收了。
-2. 如果删除，这直接判断否需要转移到 recycled pool 中。
-
-<font color = red>以上两个观点需要验证是否正确 19.9.16 - 23:11</font>
-
-![img](assets/1949836-81e6ffb86f8175d2.png)
-
-#### 异常情况
-
-在上面的普通的情况中，`onViewDetachFromWindow(VH viewHolder)`是立即被回调的。然而在实际当中，由于我们需要对`View`的添加、删除做一些过度动画，这时候，我们需要等待`ItemAnimator`进行完动画操作之后，才做`detach`和`recycle`的逻辑，这一过程对于`LayoutManager`是不可见的。
-
-![img](assets/1949836-5ba58d576f731088.png)
-
-### 5. 销毁
-
-#### ViewHolder 所绑定的 itemView 当前状态异常
-
-#### recycled pool中已经没有足够的空间
-
-
-
-## 参考
-
-[图解 RecyclerView 的缓存机制](https://blog.csdn.net/weixin_43130724/article/details/90068112)
-[RecyclerView 知识梳理(1) - 综述](https://www.jianshu.com/p/21a1384df9a1)
-
 # RecyclerView 的动画
 
 [RecyclerView动画源码浅析](https://www.jianshu.com/p/ae370a13a2ed)
@@ -402,15 +388,15 @@ LayoutManager 请求 RecyclerView 移除某一个位置的 View
 
 会不停的产生 View.OnClickListenr 对象
 
-![image-20190812002850149](assets/image-20190812002850149.png)
+![image-20190812002850149](.RecyclerView.assets/image-20190812002850149.png)
 
 在 onCreateViewHolder 只会创建的时候创建一次
 
-![image-20190812003041685](assets/image-20190812003041685.png)
+![image-20190812003041685](.RecyclerView.assets/image-20190812003041685.png)
 
 ## LinearLayoutManger.setInitialPrefetchItemCount(int)
 
-![image-20190812003309150](assets/image-20190812003309150.png)
+![image-20190812003309150](.RecyclerView.assets/image-20190812003309150.png)
 
 如图，纵向滑动的 RecyclerView 中的 ViewHolder 是一个横向滑动的 RecylerView
 
@@ -424,25 +410,25 @@ LayoutManager 请求 RecyclerView 移除某一个位置的 View
 
 ## RecyclerView.setHasFiexedSize(Bollean)
 
-RecyclerView 内容有变化的时候（插入、删除、内容变化）如果存在固定的大小则直接` layoutChildren`   否则就会执行`requestLayout `这意味着 `onMeasure` 、`onLayout` 、`onDraw` 这些绘制流程都会重新执行一遍，是很耗时的。
+RecyclerView 内容有变化的时候（插入、删除、内容变化）如果 item view 存在固定的尺寸则直接` layoutChildren`   否则就会执行`requestLayout `这意味着 `onMeasure` 、`onLayout` 、`onDraw` 这些绘制流程都会重新执行一遍，是很耗时的。
 
-![image-20190812004007062](assets/image-20190812004007062.png)
+![image-20190812004007062](.RecyclerView.assets/image-20190812004007062.png)
 
 **如果 Adapter 的数据变化的时候不会导致 RecyclerView 大小的变化，这时候可以使用RecyclerView.setHasFiexedSize(true) 进行优化**，这个方法一般人不知道，但是很有用！
 
 
 
-##多个 RecyclerView 公共 RecycledViewPool
+## 多个 RecyclerView 公共 RecycledViewPool
 
 view type 大量相同的时候，我们就可以同享缓存池，<font color = red>但是绑定之后，要注意解除绑</font>
 
-![image-20190812004905460](assets/image-20190812004905460.png)	
+![image-20190812004905460](.RecyclerView.assets/image-20190812004905460.png)	
 
 
 
 # [DiffUtil](https://developer.android.com/reference/android/support/v7/util/DiffUtil)
 
-![image-20190812005156588](assets/image-20190812005156588.png)
+![image-20190812005156588](.RecyclerView.assets/image-20190812005156588.png)
 
 更多内容可以参考[【Android】RecyclerView的好伴侣：详解DiffUtil](https://blog.csdn.net/zxt0601/article/details/52562770)
 
