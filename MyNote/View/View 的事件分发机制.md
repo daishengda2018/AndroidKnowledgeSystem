@@ -141,6 +141,19 @@
 
 设置为 true 后，所有的事件都将交由 child 处理并且 ViewGroup#onInterceptTouchEvent() 将被跳过不再调用。为了让你 child 获得 ACTION_DOWN 事件，ViewGroup#onInterceptTouchEvent() 就不能拦截 ACTION_DOWN 事件（返回 false），在 ACTION_MOVE 中根据业务逻辑判断将事件传递给谁，如果 ViewGroup 需要处理，则将  `requestDisallowInterceptTouchEvent(false)` 设置为 false，让  ViewGroup#onInterceptTouchEvent() 重新调用，为了能够正常处理事件，需要将接收到的所有事件拦截（返回 true）
 
+## 总结
+
+- 当我们滑动方向不同的时候，采用外部解决法和内部解决法，复杂度差不多。
+- 当我们滑动的方向相同的话，建议采用内部解决法来解决，因为采用外部解决法复杂度比较高。而且有时候我们是采用别人的开源控件，这时候去修改别人的源码可能会发生一些意想不到的bug。
+
+
+
+# 滑动冲突实战
+
+[ViewPager，ScrollView 嵌套ViewPager滑动冲突解决](https://blog.csdn.net/gdutxiaoxu/article/details/52939127)
+
+
+
 
 
 # 问：有一个ViewGroup, 然后手指头接触Button,手指头滑开了,滑开又松手的过程,整个事件发生了什么?经历了什么?

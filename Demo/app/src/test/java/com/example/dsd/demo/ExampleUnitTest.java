@@ -40,4 +40,39 @@ public class ExampleUnitTest {
     public void text() {
         isAnagram("anagram", "nagaram");
     }
+
+    @Test
+    public void test() {
+        removeNthFromEnd(new ListNode(1), 1);
+    }
+
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        int step = 0;
+        ListNode emptyNode = new ListNode(-1);
+        emptyNode.next = head;
+        ListNode fast = emptyNode.next;
+        ListNode slow = emptyNode;
+        while (fast != null) {
+            fast = fast.next;
+            step++;
+            if (step > n) {
+                slow = slow.next;
+            }
+        }
+        slow.next = slow.next.next;
+        return emptyNode.next;
+    }
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
 }
