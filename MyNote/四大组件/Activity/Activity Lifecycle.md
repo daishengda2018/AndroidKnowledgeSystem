@@ -10,17 +10,13 @@ Applicaiton —> registerActivityLifecycleCallbacks();
 
 # onWindowFocusChanged
 
-
-
-
+Activity 生命周期中  onCreate、onStart、onResume 这些方法都不是界面 visible 的真正时刻，在`onWindowFocusChanged()`方法回调后才是真正 visible 时刻。
 
 # onSaveInstanceState(Bundle)
 
 ```java
 protected void onSaveInstanceState (Bundle outState)
 ```
-
-
 
 > onSaveInstanceSate()是防止Activity在内存不足等情况下被系统杀死而导致数据丢失。
 
@@ -70,3 +66,6 @@ Activity作为根部，根据视图树一层一层遍历 Child 的 onSavenInstan
 
 用于恢复的方法：onResotrInstanceSate(Bundle)  会在 onStart 与 onPostCreate(Bundle）之间调用
 
+## 参考
+
+[Android 文档 —— 保存界面状态](<https://developer.android.com/topic/libraries/architecture/saving-states.html?hl=zh_cn>)

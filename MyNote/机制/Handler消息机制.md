@@ -10,7 +10,9 @@
 
 Android 的消息机制主要指的是 Handler 的运行机制，从开发者的角度来说 Handler 是 Android 消息机制的上层接口，而底层的逻辑则是由 MessageQueue、 Looper 来完成的。
 
-Handler 的设计目的是为了解决不能在 Android 主线程中做耗时操作而又只有主线程才能访问 UI 的矛盾。通过 Handler 消息机制可以让开发者在子线程中完成耗时操作的同时在主线程中更新UI。
+~~Handler 的设计目的是为了解决不能在 Android 主线程中做耗时操作而又只有主线程才能访问 UI 的矛盾。通过 Handler 消息机制可以让开发者在子线程中完成耗时操作的同时在主线程中更新UI~~。
+
+Handler 机制是 Android 用于 UI 刷新的一套消息机制。开发者可以使用这套机制达到线程间通信、线程切换目的。
 
 
 
@@ -75,7 +77,7 @@ public class TreadLocalDemo {
 
 ## MessageQueue
 
-MessageQueue 主要有两个操作：插入和读取。读取操作也会伴随着删除，插入和读取的方法分别对应的是：`enquequeMessage` 和 `next`，MessageQueue 并不是像名字一样使用队列作为数据结构，而是使用单链表来维护消息。单链表在插入和删除上比较有优势。
+MessageQueue 主要有两个操作：插入和读取。读取操作也会伴随着删除。插入和读取的方法分别对应的是：`enquequeMessage` 和 `next`，MessageQueue 并不是像名字一样使用队列作为数据结构，而是使用单链表来维护消息。单链表在插入和删除上比较有优势。
 
 ### next()
 
@@ -122,7 +124,7 @@ MessageQueue 主要有两个操作：插入和读取。读取操作也会伴随�
 2. nativePollOnce()
 3. 获取到消息之后从列表中移除
 
-`nativePollOnce` 是一个 native 方法，如果单列表中没有消息或者等待的时间没有到，那么当前线程将会被设置为 **wait 等待状态   **，直到可以获取到下一个 `Message`  线程[更详细的内容可以参见 StackOverflow 上关于 nativePollOnce的回答](https://stackoverflow.com/questions/38818642/android-what-is-message-queue-native-poll-once-in-android?answertab=votes#tab-top)而这个死循环的目的就是不让 `next`方法退出，等待 nativePollOnce 的响应。等到获取到消息之后再将这个消息从消息列表中移除。
+`nativePollOnce` 是一个 native 方法，如果单列表中没有消息或者等待的时间没有到，那么当前线程将会被设置为 **wait 等待状态   **，直到可以获取到下一个 `Message` 。[更详细的内容可以参见 StackOverflow 上关于 nativePollOnce的回答](https://stackoverflow.com/questions/38818642/android-what-is-message-queue-native-poll-once-in-android?answertab=votes#tab-top)而这个死循环的目的就是不让 `next`方法退出，等待 nativePollOnce 的响应。等到获取到消息之后再将这个消息从消息列表中移除。
 
 
 
@@ -217,7 +219,7 @@ public static void main(String[] args) {
         // 建立 Binder 通道 (创建新线程)
         thread.attach(false);
 
- 			 // 消息循环运行
+ 		// 消息循环运行
         Looper.loop(); 
         throw new RuntimeException("Main thread loop unexpectedly exited");
     }
@@ -290,7 +292,7 @@ loop 方法是一个死循环，他的工作就是不断的检查 MessageQueue �
 
 Looper 内部提供了两种退出的方法，分别是 quit、quitSafely。从本质上来讲 quit 调用后会立即退出 Looper，而 quitSafely 只是设定一个退出标记，等待消息队列中的已有消息处理完毕后，再退出。
 
-Looper 退出后，通过 Handler 发送的消息会失败，这个时候 Handler send 方法会返回 false。在子线程中，如果手动为其创建了 Looper，那么在所有的逻辑完成后理应手动调用 quit 方法终止 Looper 内部的循环，否则这个子线程会一直处于等待状态，而退出 Looper 之后，子线程也就会随之终止，因此在子线程中使用 Looper，**必须在恰当的时机终止它**。
+Looper 退出后，通过 Handler 发送的消息会失败，这个时候 Handler send 方法会返回 false。在子线程中，如果手动为其创建了 Looper，那么在所有的逻辑完成后理应手动调用 quit 方法终止 Looper 内部的循环，否则这个子线程会一直处于等待状态，而退出 Looper 之后，子线程也就会随之终止，因此在子线程中使用 Looper，==**必须在恰当的时机终止它**==。
 
 ```java
 /**
@@ -362,11 +364,11 @@ public static void loop() {
 
 * **Looper 为什么要使用死循环**
 * **Android 的主线程为什么没有被 Looper 中的死循环卡死**
-* **唤醒 Looper 的消息从何而来**
+* **唤醒主线程 Looper 的消息从何而来**
 
 #### Looper 为什么要使用死循环
 
-首先要说说的是为什么在 Looper 中使用死循环。在 CPU 看来操作系统线程(这里的定义可以参见[《Java基础》多线程和线程同步 —— 进程与线程一节](./java/java基础) ) 只不过是一段可以执行的代码，CPU 会使用 CFS 调度算法，保证每一个 task 都尽可能公平的享用 CPU 时间片。既然操作系统线程是一段可以执行的代码，当可执行的代码结束之后，线程生命周期也就终止，线程将会退出。但是对于 Android 主线程这种场景，我们绝对不希望执行一段时间之后主线程就自己停止掉，那么如何保证线程一直执行下去呢？**简单的做法就是在线程中执行死循环，让线程一直工作下去不会停止退出。**
+首先要说说的是为什么在 Looper 中使用死循环。在 CPU 看来操作系统线程(这里的定义可以参见[《Java基础》多线程和线程同步 —— 进程与线程一节](./java/java基础) ) 只不过是一段可以执行的代码，CPU 会使用 CFS 调度算法，保证每一个 task 都尽可能公平的享用 CPU 时间片。既然操作系统线程是一段可以执行的代码，当可执行的代码结束之后，线程生命周期也就终止，线程将会退出。但是对于 Android 这类的 GUI 程序，我们绝对不希望代码执行一段时间之后主线程就自己停止掉，那么如何保证线程一直执行下去呢？**简单的做法就是在线程中执行死循环，让线程一直工作下去不会停止退出。**
 
 **总的来说，在线程中使用死循环想要解决的问题就是防止线程自己退出**。所以对于 Looper 而言，他的死循环就是希望不断的从 MessageQueue 中获取消息，而不希望线程线性执行之后就退出。
 
@@ -389,7 +391,7 @@ public static void loop() {
 
 
 
-#### 唤醒 Looper 的消息从何而来
+#### 唤醒主线程 Looper 的消息从何而来
 
 目光回到 AndroidThread 类中的这几行代码
 
@@ -437,7 +439,7 @@ public final void scheduleStopActivity(IBinder token, boolean showWindow,
 
 ```
 
-将消息发送给 AndroidThread 的 Handler 实现内部类 H。从而完成了ActivityThread 到 UI 线程即主线程的切换，唤醒 Looper 进行 dispatchMessage 的动作。
+将消息发送给 AndroidThread 的 Handler 实现内部类 H。从而完成了 Binder Thread 到 UI 线程即主线程的切换，唤醒 Looper 进行 dispatchMessage 的动作。
 
 唤醒的具体操作参见上文「MessageQueue -> enqueueMessage -> nativeWake」
 
@@ -460,7 +462,7 @@ public static void main(String[] args) {
     }
 ```
 
-Android 在没启动一个 App 的时候都会创建一个 Looper，而开始子线程的时候是没有这个操作的，所以需要开发者自己创建并调用 Looper.loop() 让 Looper 运行起来。
+Android 在启动一个 App 的时候都会创建一个 Looper，而用户启动子线程的时候是没有这个操作的，所以需要开发者自己创建并调用 Looper.loop() 让 Looper 运行起来。
 
 ```java
    new Thread("Thread#1") {
@@ -536,7 +538,7 @@ public class HandlerDemo {
 2964-3007/com.example.dsd.demo D/HandlerDemo: Thread#1
 ```
 
-这意味两个严重的问题：`looper()` 后面的代码一直都不会执行而且线程 Thread#1 将会一直运行下去！在 JVM 规范里面规定处于运行中的线程是会不被 GC 的。在没有消息的时候 Looper 会处于等待状态。等待在 Thread 的生命周期里仍然属于运行状态，它**永远不会被 GC**。
+这意味两个严重的问题：`looper()` 后面的代码一直都不会执行而且线程 Thread#1 将会一直运行下去！在 JVM 规范里面规定==处于运行中的线程会不被 GC==。在没有消息的时候 Looper 会处于等待状态。等待在 Thread 的生命周期里仍然属于运行状态，它**永远不会被 GC**。
 
 所以很多网上很多文章里都有一个致命的缺陷，根本就没有提及到要在使用完毕后即使退出 Looper。紧接上文的代码
 
@@ -677,6 +679,8 @@ public static void loop() {
     }
 ```
 
+*从上面的逻辑我们可以看出 callback 的优先级：msg#callback > new Handler(Callback) 中 指定的 Callback> 重写 Handler 的 callBack*
+
 `mCallback`指的是一个接口 , 可以使用 `Handler handler = new Handler(Callback)`的方式指定回调，这种方式可以由外部传递进来会回调方法，更加灵活。
 
 ```java
@@ -704,9 +708,13 @@ public interface Callback {
 
 ![img](assets/16c0641ad370a90a.jpeg)
 
-mThread 是主线程，这里会检查当前线程是否是主线程，那么为什么没有在 onCreate 里面没有进行这个检查呢？这个问题原因出现在 Activity 的生命周期中 , 在 onCreate 方法中， UI 处于创建过程，对用户来说界面还不可见，直到 onStart 方法后界面可见了，再到 onResume 方法后页面可以交互，从某种程度来讲, 在 onCreate 方法中不能算是更新 UI，只能说是配置 UI，或者是设置 UI 属性。 这个时候不会调用到 ViewRootImpl.checkThread () , 因为 ViewRootImpl 没有创建。 而在 onResume 方法后， ViewRootImpl 才被创建。 这个时候去交户界面才算是更新 UI。
+mThread 是主线程，这里会检查当前线程是否是主线程。
 
-setContentView 知识建立了 View 树，并没有进行渲染工作 (其实真正的渲染工作实在 onResume 之后)。也正是建立了 View 树，因此我们可以通过 findViewById() 来获取到 View 对象，但是由于并没有进行渲染视图的工作，也就是没有执行 ViewRootImpl.performTransversal。同样 View 中也不会执行 onMeasure (), 如果在 onResume() 方法里直接获取 View.getHeight() / View.getWidth () 得到的结果总是 0。
+### 为什么 onCreate 里面没有进行上面的检查呢？
+
+这个问题原因出现在 Activity 的生命周期中 , 在 onCreate 方法中， UI 处于创建过程，对用户来说界面还不可见，直到 onStart 方法后界面可见了，再到 onResume 方法后页面可以交互，从某种程度来讲, 在 onCreate 方法中不能算是更新 UI，只能说是配置 UI，或者是设置 UI 属性。 这个时候不会调用到 ViewRootImpl.checkThread () , 因为 ViewRootImpl 没有创建。 而在 onResume 方法后， ViewRootImpl 才被创建。 这个时候去交户界面才算是更新 UI。
+
+setContentView 知识建立了 View 树，并没有进行渲染工作 (其实真正的渲染工作实在 onResume 之后)。也正是建立了 View 树，因此我们可以通过 findViewById() 来获取到 View 对象，但是由于并没有进行渲染视图的工作，也就是没有执行 ViewRootImpl.performTransversal。同样 View 中也不会执行 onMeasure (), **如果在 onResume() 方法里直接获取 View.getHeight() / View.getWidth () 得到的结果总是 0** 解决方案是在 UI 真正可见的方法 `onWindowFocusChanged()` 里面获取。
 
 ### 为什么 Handler 构造方法里面的 Looper 不是直接 new ?
 
@@ -746,11 +754,11 @@ setContentView 知识建立了 View 树，并没有进行渲染工作 (其实真
 
 
 
-可以发现：
+==可以发现==：
 
-1. 虽然是死循环但是他空闲时间并不消耗资源，死循环的目是为了防止获消息的逻辑退出
-2. Loop#loop() 也是个死循环，但是没有 message 的时候同样会被 MessageQueue#next 挂起，不会控轮询消耗资源。
-3. 当有消息进入的时候 next 方法会被立即唤醒，但是是否将消息返回不一定，要看是不是延时消息。
+1. ==虽然是死循环但是他空闲时间并不消耗资源，死循环的目是为了防止获消息的逻辑退出==
+2. ==Loop#loop() 也是个死循环，但是没有 message 的时候同样会被 MessageQueue#next 挂起，不会控轮询消耗资源==。
+3. ==当有消息进入的时候 next 方法会被立即唤醒，但是是否将消息返回不一定，要看是不是延时消息==。
 
 
 
@@ -774,7 +782,7 @@ Message next() {
             return null;
         }
 
-        //为-1时，说明是第一次循环，在当前没有消息队列中没有MSG的情况下，需要处理注册的Handler
+        //为-1时，说明是第一次循环，在当前消息队列中没有MSG的情况下，需要处理注册的Handler
         int pendingIdleHandlerCount = -1; // -1 only during first iteration
         // 超时时间。即等待xxx毫秒后，该函数返回。如果值为0，则无须等待立即返回。如果为-1，则进入无限等待，直到有事件发生为止
         int nextPollTimeoutMillis = 0;
