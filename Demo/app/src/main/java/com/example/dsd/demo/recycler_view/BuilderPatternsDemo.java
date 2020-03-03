@@ -19,6 +19,9 @@ public class BuilderPatternsDemo {
         mAge = builder.mAge;
     }
 
+    /**
+     *
+     */
     public static final class Builder {
         private String mFirstName;
         private String mLastName;
