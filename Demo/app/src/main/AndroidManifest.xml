@@ -19,19 +19,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.transfer.wechat.WeChatDemoActivity">
-
-        </activity>
-
-        <activity android:name=".ui.fragment.FragmentDemoActivity" />
-
-        <activity android:name=".MainActivity">
+        <activity android:name=".service.MessengerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.transfer.wechat.WeChatDemoActivity"/>
+        <activity android:name=".ui.fragment.FragmentDemoActivity" />
+        <activity android:name=".MainActivity">
+        </activity>
+
+        <service
+            android:name=".service.MessengerService"
+            android:process=":remote" />
     </application>
 
 </manifest>
