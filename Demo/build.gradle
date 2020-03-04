@@ -46,6 +46,7 @@ project.subprojects.each { childProject ->
             include '**/*.java'
             exclude '**/gen/**'
             exclude '**/encrypt/**'
+            exclude '**/com.example.dsd.demo.ipc.binder.IBookManager.aidl'
 
             classpath = files()
 

@@ -17,7 +17,7 @@
 ## Serializable
 
 * Serializable 通过 IO 流的形式将数据从磁盘中读\写，从而实现序列化。所有可以实现数据的持久化保存。
-* 静态成员变量属于类不属于对象，所以不会参与序列化过程
+* ==静态成员变量属于类不属于对象，所以不会参与序列化过程==
 * transient 关键字标识的成员变量不参与序列化过程。
 * serialVersionUID ：序列化后的数据中的 serialVersionUID 只有和当前类的 serialVersionUID 相同才能够正常地被反序列化。具体参见 《Android 开发艺术探究》
 
@@ -55,7 +55,7 @@
 
 ## Parcelable
 
-* 基于内存完成的序列化，相比 Serializable 性能更好，但是不能持久化。
+* 基于内存完成的序列化，相比 Serializable 性能更好，但是如果想持久化到文件会比较复杂，此时可选用 Serializable。
 
 
 
@@ -79,7 +79,7 @@ Binder 是 Andoid 中的一个类，他实现了 IBinder 接口，从 IPC 角度
 
 
 
-inder 是 Android 提供的一种进程间通信机制，它是整个 Android 系统的核心，Android 能进行如此丰富自由的多进程开发也多基于 Binder 机制，一句话，“无 Binder 不 Android”。
+Binder 是 Android 提供的一种进程间通信机制，它是整个 Android 系统的核心，Android 能进行如此丰富自由的多进程开发也多基于 Binder 机制，一句话，“无 Binder 不 Android”。
 
 但是 Binder 却很难搞明白，复杂程度也远远不是几篇文章就能说清楚的。
 
@@ -147,3 +147,8 @@ Binder 机制我觉得非常有趣，为什么呢？
 # 资料
 
 [!!! 极力推荐 《Binder学习指南》](http://weishu.me/2016/01/12/binder-index-for-newer/)
+
+[Binder系列](http://gityuan.com/2015/10/31/binder-prepare/)
+
+[彻底理解Android Binder通信架构](http://gityuan.com/2016/09/04/binder-start-service/)
+

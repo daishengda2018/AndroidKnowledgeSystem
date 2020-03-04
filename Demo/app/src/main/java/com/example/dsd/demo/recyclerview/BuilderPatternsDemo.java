@@ -1,4 +1,4 @@
-package com.example.dsd.demo.recycler_view;
+package com.example.dsd.demo.recyclerview;
 
 /**
  * 构造器模式

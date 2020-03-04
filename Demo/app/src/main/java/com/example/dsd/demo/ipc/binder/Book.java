@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * todo
+ * 参见 《Android 开发艺术探索》第二章P48
  * Created by im_dsd on 2019-09-28
  */
 public class Book implements Parcelable {

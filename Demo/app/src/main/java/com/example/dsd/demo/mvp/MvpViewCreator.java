@@ -68,8 +68,7 @@ final class MvpViewCreator {
                 }
 
                 final Type[] types = ((ParameterizedType) genericSuperType).getActualTypeArguments();
-                for (int i = 0; i < types.length; i++) {
-                    final Type curType = types[i] ;
+                for (final Type curType : types) {
                     Class<?> genericType = extractMvpViewClass(curType);
                     if (genericType.isInterface() && isSubTypeOfMvpView(genericType)) {
                         mvpViewClass = (Class<T>) genericType;
