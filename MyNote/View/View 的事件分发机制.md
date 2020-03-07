@@ -4,17 +4,17 @@
 
 一定要熟读：《Android 开发艺术探索 3.4节》
 
-* 如果一个 View 设置了 OnTouchListener,  那么 OnTouchListener 中的 onTouch 方法会被回调。这时事件如何处理还要看 onTouch 的返回值。如果返回 false，则当前 View 的 onTouchEvent 方法会回调；如果返回 true，那么 onTouchEvent 将不会被调用。由此可见，给 View 设置的有 OnToouchClickListener，其优先级比 onTouchEvent 要高。
-* 我们常用的 OnClickListener 的优先级是最低的，即处于事件传递的尾端。
+* 如果一个 View 设置了 OnTouchListener,  那么 OnTouchListener 中的 onTouch 方法会被回调。这时事件如何处理还要看 onTouch 的返回值。如果返回 false，则当前 View 的 onTouchEvent 方法会回调；如果返回 true，那么 onTouchEvent 将不会被调用。由此可见，给 View 设置的有==OnToouchClickListener，其优先级比 onTouchEvent 要高==。
+* 我们常用的 OnClickListener 的优先级是最低的，即处于事件传递的尾端，担当接收到 up 事件的时候才会触发。
 * 事件的传递顺序： Activity -> Window -> View。事件总是先传递给 Activity，Activity 在传递给 Window，最后 Window 再传递给顶级 View。
-* 如果一个 View 的 onTouchEvent 返回了 false， 那么它的父容器的 onTouchEvent 将会调用，以此类推。所有所有的元素都不处理这个事件，那么这个事件最终会传递给 Activity 处理。
+* 如果一个 View 的 onTouchEvent 返回了 false， 那么它的父容器的 onTouchEvent 将会调用，以此类推。所有的元素都不处理这个事件，那么这个事件最终会传递给 Activity 处理。
 * 同一个事件序列：当手指触摸屏幕的那一刻起，到手指离开屏幕的那一刻接受，在这个过程中产生的一系列事件，这个事件序列以 down 事件开始，中间还有不确定数量的 move 事件，最终以 up 事件结束。
 * 正常情况下，一个事件序列只能被一个 View 拦截且消耗。
 
 
 
 1. onInterceptTouchEvent 不是每次事件都会被调用，如果我们想提前处理所有的点击事件，要选择 dispatchTouchEvent 方法。只有这个方法才能保证每次都会调用，当然前提是事件能够传递到当前的 ViewGroup；
-2. 正在觉得 View 不响应点击事件的是 clickAble 和 longClickAble 都不可以点击，只要有一个返回 ture ，都会相应点击事件
+2. 正在觉得 View 不响应点击事件的是 clickAble 和 longClickAble 都不可以点击，只要有一个返回 ture ，都会相应点击事件。==当我们为一个 View 设置一个 clickListener 他的 clickAble 参数自动变为 true==；
 
 # 滑动冲突解决方案
 
@@ -160,11 +160,11 @@
 
 答：
 
-一开始 ViewGroup 会接受到整个事件序列的第一个事件：ACTION_DOWN，ViewGroup#dispatchTouchEvent 收到 ACTION_DOWN 后开始询问 ViewGroup#onInterceptTouchEvent 是否需要拦截，默认情况下 ViewGroup#onInterceptTouchEvent 返回 false 不拦截，开始向下传递 ACTION_DOWN 事件，Buttton#dispatchTouchEvent 收到 ACTION_DOWN 询问 onTouchEvent 是否处理，Button 默认处理，~~此后的所有事件序列都直接跨过 ViewGroup#onInterceptTouchEvent 的判断直接传递给 Button，但 ViewGroup#dispatchTouchEvent 会收到所有事件。~~这句话是错的,：此时 ViewGroup#onInterceptTouchEvent 每次都会调用，而如果此事件被 ViewGroup 自己消耗了，则 ViewGroup#onInterceptTouchEvent才不会调用）
+一开始 ViewGroup 会接受到整个事件序列的第一个事件：ACTION_DOWN，ViewGroup#dispatchTouchEvent 收到 ACTION_DOWN 后开始询问 ViewGroup#onInterceptTouchEvent 是否需要拦截，默认情况下 ViewGroup#onInterceptTouchEvent 返回 false 不拦截，开始向下传递 ACTION_DOWN 事件，Buttton#dispatchTouchEvent 收到 ACTION_DOWN 询问 onTouchEvent 是否处理，Button 默认处理，~~此后的所有事件序列都直接跨过 ViewGroup#onInterceptTouchEvent 的判断直接传递给 Button，但 ViewGroup#dispatchTouchEvent 会收到所有事件。~~（此时 ViewGroup#onInterceptTouchEvent 每次都会调用，而如果此事件被 ViewGroup 自己消耗了，则 ViewGroup#onInterceptTouchEvent才不会调用）
 
 在 move 过程中 Button#onTouchEvent 发现当前坐标已经移出 Button 区域，会 remove 掉 onClick 的回调(源码位于 View#onTouchEvent 尾部 case MotionEvent.ACTION_MOVE 中)，虽然 Button 收到并处理了 ACTION_DOWN -> ACTION_MOVE -> ACTION_UP 整个事件过程，但是并不会触发 onClick 回调。
 
-这个事件过程并没有网上所说的 ACTION_CANCEL，ACTION_CANCEL 出现的条件是：ViewGroup 在传递过程中拦截了本应交由 Button 处理的事件，此时 Button 会收到 ACTION_CANCEL 表示事件中断
+这个事件过程并没有网上所说的 ACTION_CANCEL，ACTION_CANCEL 出现的条件是：==ViewGroup 在传递过程中拦截了本应交由 Button 处理的事件，此时 Button 会收到 ACTION_CANCEL 表示事件中断==
 
 
 

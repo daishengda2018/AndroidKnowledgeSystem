@@ -273,7 +273,9 @@ computeCurrentVelocity 方法的参数表示的是一个时间间隔，单位是
 
 具体可以参考之前的文章 [【Android View事件（三）】Scroll类源码分析与应用](https://blog.csdn.net/qq_23191031/article/details/78452364)
 
-**这里只强调一点**：scrollTo 和 scrollBy 只能改变 View 中内容的位置，并不能改变 View 在布局中的位置。
+**这里只强调一点**：
+
+==scrollTo 和 scrollBy 针对的是 View ，但最终效果改变的是 View 中内容的位置，并不能改变 View 在布局中的位置==。所以我们可以借助这一点调用 `当前View.getParent().scrollXXXX()` 来改变自身位置（当然如果 parent 里面有很多 View  那么这些 View 的位置也会随之改变）
 
 #参考：
 
