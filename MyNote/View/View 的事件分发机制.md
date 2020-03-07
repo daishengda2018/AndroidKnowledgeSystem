@@ -1,5 +1,17 @@
 [toc]
 
+
+
+
+
+# 点击事件的传递规则
+
+## MotionEvent
+
+这里要分析的对象实质上就是 MotionEvent。所谓点击事件的分发实质上就是 MotionEvent 事件分发的过程。
+
+点击事件的分发过程有三个重要的方法参与完成 `dispatchTouchEvent`\
+
 # 点击事件的传递规则
 
 一定要熟读：《Android 开发艺术探索 3.4节》
