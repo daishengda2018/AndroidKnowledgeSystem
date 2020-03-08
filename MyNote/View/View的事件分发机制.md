@@ -1,8 +1,12 @@
 [toc]
 
-# 点击事件的传递规则
 
-## MotionEvent
+
+熟读《Android 开发艺术探索》第三章，一个字都不能放过的精读。
+
+
+
+# 传递规则
 
 这里要分析的对象实质上就是 MotionEvent。所谓点击事件的分发实质上就是 MotionEvent 事件分发的过程。
 
@@ -57,13 +61,7 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 
 如果一个 View 的 onTouchEvent 返回 false 那么他父 View 的 onTouchEvent() 将会被调用，以此类推。如果所有元素都不处理这个事件，那么这个容器将会最==终传递给 Activity 处理==
 
-
-
-# 点击事件的传递规则
-
-一定要熟读：《Android 开发艺术探索 3.4节》
-
-## 非常重要的点：
+## 结论
 
 1. 一个事件序列是指从手指接触屏幕—— ACTON_DOWN 那一刻，到手指离开屏幕—— ACTON_UP 的时候结束，加上整个过程中产生的无数个 ACTON_MOVE 事件，即 ACTION_MOVE 开始 + 中间无数个 ACTION_MOVE + 最终结尾的 ACTION_UP。
 
@@ -73,7 +71,7 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 5. 如果 View 不消耗 ACTION_DOWN  以外的其他事件，那么此这些事件就会消失，而且父 View 的onTouchEvent 并不会被调用。并且当前 View 可以持续收到后续的事件，最终这些消失的事件将传递给 Activity 处理。
 6. ViewGroup 默认不拦截任何事件，Anroid 源码中 ViewGroup 的 onInterceptTouchEvent 默认返回 false。
 7. View 没有 onIntercepterTouchEvent 方法，一旦事件传递给他，那么他的 onTouchEvent 方法就会调用
-8. View 的 onTouchEvent 默认都是会消耗事件的 —— 返回 true。除非他是不可以点击的：==clickAble 和 longClickAble 同时为 false== 默认情况下 longClickable 默认情况都为 false，clickable要看情况了：Button 默认就是  true，TextView 默认就是 false。==当我们给 View 设置点击事件的 setOnClickLisenter 后 clcikAble 就会自动变为 true==
+8. View 的 onTouchEvent 默认都是会消耗事件的 —— 返回 true。除非他是不可以点击的：==clickAble 和 longClickAble 同时为 false== 默认情况下 longClickable 默认情况都为**false**，clickable要看情况了：Button 默认就是  true，TextView 默认就是 false。==当我们给 View 设置点击事件的 setOnClickLisenter 后 clcikAble 就会自动变为 true==
 9. View 的 enable 属性并不能影响 onTouchEvent 的返回值，哪怕一个 View 是 disable 的状态，只要它的 clickable 和 longClickAble 有一个为 true。 那么它的 onTouchEvent 返回的就是 true。 只不过 onClickListener 不会被调用了，原因是下面一条：
 10. 我们常用的 OnClickListener 的优先级是最低的，即处于事件传递的尾端，当收到 up 事件的时候才会触发。触发的前提是当前 View 是 enable 的并且是可点击的（ clickAble = true），并且它收到了 down 和 up 的事件。
 11. 事件传递是有外向内的，即事件总是先传递给父元素，然后再父元素分发给子 View，通过 requestDisallowInterceptTouchEvent 方法可以在子元素中干预父元素对于事件的分发过程，==但是 ACTION_DOWN  事件除外==。
@@ -82,15 +80,93 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 
 **足以可见 ACTION_DOWN 是整个事件序列分发过程的关键。**
 
-## 源码分析
+# 源码分析
+
+## 顶级 View 的分发过程
+
+首先回顾一下点击事件分发过程：点击事件到达顶级 View(一般是 ViewGroup)以后，会调用 ViewGroup 的 `dispatchTouchEvent`方法，然后逻辑分为两种可能：
+
+1. 如果此 ViewGroup 的`onInterceptTouchEvent`返回 true 决定拦截事件，则此事件将交由此 ViewGroup 处理，正常情况下 `onInterceptTouchEvent` 方法将不会再被调用:
+
+   情况 A：如果设置了 OnTouchListener，由于 OnTouchListener#onTouch 的优先级更高于 onTouchEvent 则 onTouch 将率先被调用。此时事件的如何情况要看 onTouch 的返回值。**如果返回 false，则当前 View 的 onTouchEvent 方法会回调；如果返回 true，那么 onTouchEvent 将不会被调用**
+
+   情况 B：如果没有设置 OnTouchListener onTouchEvent 直接被调用。如果在 onTouchEvent 中设置了 mOnClickListener ,则 onClick **可能**会被调用，原因见上文 8、9、10 条结论。
+
+   
+
+2. 如果此 ViewGroup 不拦截事件，则事件会传递给他所在点击事件链上的 View，这时子 View 的   `dispatchTouchEvent` 方法会被调用。到此为止，事件已经从顶级 View 传递给下一层 View，接下来的传递规则和顶级 View 是一致的，如此循环，知道完成整个事件的分发。
+
+### dispatchTouchEvent(MotionEvent ev)
+
+````java
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        …………
+        // 第一部分：Handle an initial down.
+        if (actionMasked == MotionEvent.ACTION_DOWN) {
+            // Throw away all previous state when starting a new touch gesture.
+            // The framework may have dropped the up or cancel event for the previous gesture
+            // due to an app switch, ANR, or some other state change.
+            cancelAndClearTouchTargets(ev);
+            resetTouchState();
+        }
+      
+        // 第二部分：Check for interception.
+        final boolean intercepted;
+        if (actionMasked == MotionEvent.ACTION_DOWN
+                || mFirstTouchTarget != null) {
+            // 不允许拦截 
+            final boolean disallowIntercept = (mGroupFlags & FLAG_DISALLOW_INTERCEPT) != 0;
+            if (!disallowIntercept) {
+              // 开始调用 onInterceptTouchEvent
+                intercepted = onInterceptTouchEvent(ev);
+                ev.setAction(action); // restore action in case it was changed
+            } else {
+                intercepted = false;
+            }
+        } else {
+            // There are no touch targets and this action is not an initial down
+            // so this view group continues to intercept touches.
+            intercepted = true;
+        }
+        …………
+    }
+````
+
+在 `dispatchTouchEvent` 方法中我们可以清晰的看到 `onInterceptTouchEvent` 的调用时机（第二部分）：
+
+**一个 ViewGroup onIntercepterTouchEvent 的调用时机：**
+
+> 1.  接收到 ACTION_DOWN 事件;
+> 2.  事件交给他的子 View 处理 -》 mFirstTouchEvent != null。
+
+**onIntercepterTouchEvent 不调用时机：**
+
+> 在接收到 ACTION_DOWN 事件成功拦截后。
+
+
+
+有一个特殊情况：通过` requestDisallowInterceptTouchEent` 设置的标志位：`FLAG_DISALLOW_INTERCEPT`。一般用于子 View  中用于请求父 ViewGroup 不要拦截事件(作用域在 onIntercepterTouchEvent 方法中)。当设置成功以后 ViewGroup 将无法拦截除了 ACTION_DOWN 以外的其他事件，原因是 dispatchTouchEvent 在接收到 ACTION_DOWN 事件以后会重置 Flag。(第一部分)
+
+==当然这东西有个前提就是父 ViewGroup 不能成功拦截 ACTION_DOWN 。如果拦截了父 ViewGroup 的onIntercepterTouchEvent 就不会在调用，何谈不要拦截。==
+
+
+
+我们可以得到结论： `onInterceptTouchEvent` 并不会每次都调用，如果想提前处理所有点击事件，需要选择 `dispatchTouchEvent`方法。只有这个方法才能保证每次都会调用，当然前提是事件能够传递到它。
+
+### onInterceptTouchEvent(MotionEvent ev)
+
+## View 对于点击事件的处理
+
+
 
 # 滑动冲突解决方案
 
-两个处理方案的原理：
+常见的场景有三种：
 
-![image-20191216233204046](assets/image-20191216233204046.png)
-
-具体请参见：《Android 开发艺术探索》3.4.2 147页位置。
+1. 内外滑动方向不一致。
+2. 内外滑动方向一致。
+3. 上面两种情况都有。
 
 ## 1.外部拦截法
 
@@ -133,11 +209,11 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
     }
 ```
 
-* **ACTION_DOWN :这个事件，父容器必须返回 false **，既不拦截事件，一旦父容器拦截了 ACTION_DOWN 事件，这个事件序列都将直接交由父容器处理，此时 `onIntercepttouchEvent` 将不会被调用，子 View 也就没有机会处理事件了。
+* **ACTION_DOWN :这个事件，父容器必须返回 false **，既不拦截事件，一旦父容器拦截了ACTION_DOWN 事件，这个事件序列都将直接交由父容器处理，此时 `onInterceptTouchEvent` 将不会被调用，子 View 也就没有机会处理事件了。
 
 * ACTION_MOVE: 这个事件就需要根据业务逻辑分类处理了，父容器要是想处理就返回 true，要交由子 View 处理就返回 false。
 
-* **ACTION_UP: 这个事件必须返回 false**，因为如果父容器在 ACTION_UP 时返回了 true，子 View 就无法接收到 ACTION_UP 事件，导致子 View onClick 事件无法触发。但是父容器不一样，一旦他开始拦截了一个事件，那么后续的所有事件都将会跳过  `onIntercepttouchEvent` 方法判断，直接交由自己处理，而作为最后的一个事件的 ACTION_UP 当然也是，即便父容器的 `onIntercepttouchEvent`方法在 ACTION_UP 的时候返回了 false，因为根本就不会走。
+* **ACTION_UP: 这个事件必须返回 false**，因为如果父容器在 ACTION_UP 时返回了 true，子 View 就无法接收到 ACTION_UP 事件，导致子 View onClick 事件无法触发。==但是父容器不一样，一旦他开始拦截了一个事件，那么后续的所有事件都将会跳过  `onIntercepttouchEvent` 方法判断，直接交由自己处理，而作为最后的一个事件的 ACTION_UP 当然也是，即便父容器的 `onIntercepttouchEvent`方法在 ACTION_UP 的时候返回了 false，因为根本就不会走==。
 
 ### 总结:
 
@@ -207,14 +283,12 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 
 **`requestDisallowInterceptTouchEvent(true)` 的作用是请求父容器不要拦截除了 ACTION_DOWN 以外的事件**
 
-设置为 true 后，所有的事件都将交由 child 处理并且 ViewGroup#onInterceptTouchEvent() 将被跳过不再调用。为了让你 child 获得 ACTION_DOWN 事件，ViewGroup#onInterceptTouchEvent() 就不能拦截 ACTION_DOWN 事件（返回 false），在 ACTION_MOVE 中根据业务逻辑判断将事件传递给谁，如果 ViewGroup 需要处理，则将  `requestDisallowInterceptTouchEvent(false)` 设置为 false，让  ViewGroup#onInterceptTouchEvent() 重新调用，为了能够正常处理事件，需要将接收到的所有事件拦截（返回 true）
+设置为 true 后，所有的事件都将交由 child 处理并且 ViewGroup#onInterceptTouchEvent() 将被跳过不再调用（原因在上面 dispatchTouchEvent 源码分析：//不允许拦截部分 ）。为了让你 child 获得 ACTION_DOWN 事件，ViewGroup#onInterceptTouchEvent() 就不能拦截 ACTION_DOWN 事件（返回 false），在 ACTION_MOVE 中根据业务逻辑判断将事件传递给谁，如果 ViewGroup 需要处理，则将  `requestDisallowInterceptTouchEvent(false)` 设置为 false，让  ViewGroup#onInterceptTouchEvent() 重新调用，为了能够正常处理事件，需要将接收到的所有事件拦截（返回 true）
 
 ## 总结
 
-- 当我们滑动方向不同的时候，采用外部解决法和内部解决法，复杂度差不多。
-- 当我们滑动的方向相同的话，建议采用内部解决法来解决，因为采用外部解决法复杂度比较高。而且有时候我们是采用别人的开源控件，这时候去修改别人的源码可能会发生一些意想不到的bug。
-
-
+- 当我们滑动==方向不同的时候，采用外部解决法和内部解决法，复杂度差不多==。
+- 当我们滑动的==方向相同的话，建议采用内部解决法来解决==，因为采用外部解决法复杂度比较高。而且有时候我们是采用别人的开源控件，这时候去修改别人的源码可能会发生一些意想不到的bug。
 
 # 滑动冲突实战
 
