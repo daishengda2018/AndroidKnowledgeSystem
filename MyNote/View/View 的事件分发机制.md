@@ -1,32 +1,88 @@
 [toc]
 
-
-
-
-
 # 点击事件的传递规则
 
 ## MotionEvent
 
 这里要分析的对象实质上就是 MotionEvent。所谓点击事件的分发实质上就是 MotionEvent 事件分发的过程。
 
-点击事件的分发过程有三个重要的方法参与完成 `dispatchTouchEvent`\
+点击事件的分发过程有三个重要的方法参与完成 `dispatchTouchEvent`、`onInterceptToucchEvent`、 `onTouchEvent`.
+
+
+
+```java
+public boolean dispatchTouchEvent(MotionEvent ev)
+```
+
+==用来执行事件的分发==。 如果事件能够传递给当前 View， 那么此方法一定会被调用。返回的结果受当前 View 的 onTouchEvent 和下级 View 的 dispatchTouchEvent 方法的影响，表示是否消耗当前事件。
+
+
+
+```java
+public boolean onInterceptTouchEvent(MotionEvent ev)
+```
+
+在 dispatchTouchEvent(MotionEvent ev) 调用，用于判断是否要拦截事件。==如果当前 ViewGroup ***拦截了***某个事件，那么同一个事件序列挡住，此方法不会被再次调起。==返回结果表示是否拦截事件。
+
+```java
+public boolean onTouchEvent(MotionEvent ev)
+```
+
+在 dispatchTouchEvent(MotionEvent ev) 调用，用户判断是否处理此事件，返回的结果表示是否消耗当前的事件。==如果不消耗，则同一个事件序列当中此 View 不会再会收到事件==。
+
+
+
+三者关系的伪代码
+
+```java
+public boolean dispatchTouchEvent(MotionEvent ev) {
+  boolean consume = false;
+  if (onInterceptTouchEvent(ev)) {
+    consume = onTouchEvent(ev);
+  } esle {
+    consume = child.dispatchToucnEvent(ev);
+  }
+  
+  return consume;
+}
+```
+
+对于一个 ViewGroup 来说，点击事件产生之后，首先它的 dispatchTouchEvent(MotionEvent ev) 会被调用，如果这个 ViewGroup 的 onInterceptTouchEvent 返回 ture 就表示他需要处理这个事件，接着这个事件就会交由这个 ViewGroup 处理。如果 onInterceptTouchEvent 方法返回 false 则表示不处理此事件，当前事件都将传递给子元素，接着子元素的 dispatchTouchEvent 方法就会被低调用，如此反复直接事件最终被处理。
+
+
+
+如果一个 View 设置了 OnTouchListener,  那么 OnTouchListener 中的 onTouch 方法会被回调。这时事件如何处理还要看 onTouch 的返回值。**如果返回 false，则当前 View 的 onTouchEvent 方法会回调；如果返回 true，那么 onTouchEvent 将不会被调用**。由此可见，给 View 设置的有==OnTouchClickListener，其优先级比 onTouchEvent 要高==。
+
+当一个点击事件产生后，他的传递顺序是 Activity -> Window -> View。即事件总是先传递给 Activity。Activity 再传递给 Window,最后 Window 在传递给 View。
+
+如果一个 View 的 onTouchEvent 返回 false 那么他父 View 的 onTouchEvent() 将会被调用，以此类推。如果所有元素都不处理这个事件，那么这个容器将会最==终传递给 Activity 处理==
+
+
 
 # 点击事件的传递规则
 
 一定要熟读：《Android 开发艺术探索 3.4节》
 
-* 如果一个 View 设置了 OnTouchListener,  那么 OnTouchListener 中的 onTouch 方法会被回调。这时事件如何处理还要看 onTouch 的返回值。如果返回 false，则当前 View 的 onTouchEvent 方法会回调；如果返回 true，那么 onTouchEvent 将不会被调用。由此可见，给 View 设置的有==OnToouchClickListener，其优先级比 onTouchEvent 要高==。
-* 我们常用的 OnClickListener 的优先级是最低的，即处于事件传递的尾端，担当接收到 up 事件的时候才会触发。
-* 事件的传递顺序： Activity -> Window -> View。事件总是先传递给 Activity，Activity 在传递给 Window，最后 Window 再传递给顶级 View。
-* 如果一个 View 的 onTouchEvent 返回了 false， 那么它的父容器的 onTouchEvent 将会调用，以此类推。所有的元素都不处理这个事件，那么这个事件最终会传递给 Activity 处理。
-* 同一个事件序列：当手指触摸屏幕的那一刻起，到手指离开屏幕的那一刻接受，在这个过程中产生的一系列事件，这个事件序列以 down 事件开始，中间还有不确定数量的 move 事件，最终以 up 事件结束。
-* 正常情况下，一个事件序列只能被一个 View 拦截且消耗。
+## 非常重要的点：
+
+1. 一个事件序列是指从手指接触屏幕—— ACTON_DOWN 那一刻，到手指离开屏幕—— ACTON_UP 的时候结束，加上整个过程中产生的无数个 ACTON_MOVE 事件，即 ACTION_MOVE 开始 + 中间无数个 ACTION_MOVE + 最终结尾的 ACTION_UP。
+
+2. 某个 ViewGroup 一旦拦截了 ACTION_DOWN 事件，那么这一个序列的所有事件都只能由他来处理(如果事件序列*没有被人为阻断*，*能够传递给它*的话)，并且它的 onInterceptTouchEvent 将不会被调用。也就是说==一个 ViewGroup 在成功拦截  ACTION_DOWN  事件后，那么系统会把同一个事件序列内的其他事件直接交由此 ViewGroup 的 onTouchEvent 处理。不会再调用这个 ViewGroup 的 onInterceptTouchEvent 方法询问是否需要拦截==。就算除了 ACTION_DOWN 以外的其他事件， onTouchEvent 都返回 false，那么也不会在询问是否拦截了。
+3. 正常情况下一个事件序列只能被一个 View 拦截且消耗，因为一旦一个 ViewGroup 拦截了开始的  ACTION_DOWN 事件，那么同一个事件序列内的所有事件都将会交给它处理。但是我们可以通过特殊手段让一个 View 将本身自己要处理的事情转交给其他 View 处理。
+4. 某个 View 开始处理事件，但如果他不能消耗 ACTION_DWON 即此时 onTouchEvent() 返回了 false，那么此事件序列将直接交于父 View 处理(调用父 View 的 onTouchEvent())，此 View 将接收不到此事件序列的其他任何事件。==意识就是说，一个事件序列的开始事件 ACTION_DOWN 交给你，如果你不消耗掉，这个这个序列剩下的事件都不会在交个你处理了，而是转由上级 View 处理==
+5. 如果 View 不消耗 ACTION_DOWN  以外的其他事件，那么此这些事件就会消失，而且父 View 的onTouchEvent 并不会被调用。并且当前 View 可以持续收到后续的事件，最终这些消失的事件将传递给 Activity 处理。
+6. ViewGroup 默认不拦截任何事件，Anroid 源码中 ViewGroup 的 onInterceptTouchEvent 默认返回 false。
+7. View 没有 onIntercepterTouchEvent 方法，一旦事件传递给他，那么他的 onTouchEvent 方法就会调用
+8. View 的 onTouchEvent 默认都是会消耗事件的 —— 返回 true。除非他是不可以点击的：==clickAble 和 longClickAble 同时为 false== 默认情况下 longClickable 默认情况都为 false，clickable要看情况了：Button 默认就是  true，TextView 默认就是 false。==当我们给 View 设置点击事件的 setOnClickLisenter 后 clcikAble 就会自动变为 true==
+9. View 的 enable 属性并不能影响 onTouchEvent 的返回值，哪怕一个 View 是 disable 的状态，只要它的 clickable 和 longClickAble 有一个为 true。 那么它的 onTouchEvent 返回的就是 true。 只不过 onClickListener 不会被调用了，原因是下面一条：
+10. 我们常用的 OnClickListener 的优先级是最低的，即处于事件传递的尾端，当收到 up 事件的时候才会触发。触发的前提是当前 View 是 enable 的并且是可点击的（ clickAble = true），并且它收到了 down 和 up 的事件。
+11. 事件传递是有外向内的，即事件总是先传递给父元素，然后再父元素分发给子 View，通过 requestDisallowInterceptTouchEvent 方法可以在子元素中干预父元素对于事件的分发过程，==但是 ACTION_DOWN  事件除外==。
 
 
 
-1. onInterceptTouchEvent 不是每次事件都会被调用，如果我们想提前处理所有的点击事件，要选择 dispatchTouchEvent 方法。只有这个方法才能保证每次都会调用，当然前提是事件能够传递到当前的 ViewGroup；
-2. 正在觉得 View 不响应点击事件的是 clickAble 和 longClickAble 都不可以点击，只要有一个返回 ture ，都会相应点击事件。==当我们为一个 View 设置一个 clickListener 他的 clickAble 参数自动变为 true==；
+**足以可见 ACTION_DOWN 是整个事件序列分发过程的关键。**
+
+## 源码分析
 
 # 滑动冲突解决方案
 
