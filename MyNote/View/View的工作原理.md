@@ -32,7 +32,7 @@ SpecMode：
 
 ## MeasureSpc 和 LayoutParams 的对应关系
 
-Android 的系统内部是通过 MeasureSpec 来进行 View 的测量的，**在 View 测量的时候系统会读取 View 的 LayoutParams 并在父容器的约束下转行成对应的 MeasureSpec** ，然后再根据这个 MeasureSpec 来确定 Views 测量后的宽/高
+Android 的系统内部是通过 MeasureSpec 来进行 View 的测量的，**在 View 测量的时候系统会读取 View 的 LayoutParams ==并在父容器的约束下==转行成对应的 MeasureSpec** ，然后再根据这个 MeasureSpec 来确定 Views 测量后的宽/高
 
 **注意：** 
 
@@ -44,7 +44,7 @@ Android 的系统内部是通过 MeasureSpec 来进行 View 的测量的，**在
 
 # View 的工作流程
 
-工作流程只：measure、layout、draw
+工作流程：measure、layout、draw
 
 * measure（测量）：确定 View 的宽、高
 * layout（布局）：确定 View 四个顶点的位置及最终大小

@@ -154,11 +154,32 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 
 我们可以得到结论： `onInterceptTouchEvent` 并不会每次都调用，如果想提前处理所有点击事件，需要选择 `dispatchTouchEvent`方法。只有这个方法才能保证每次都会调用，当然前提是事件能够传递到它。
 
+
+
 ### onInterceptTouchEvent(MotionEvent ev)
 
 ## View 对于点击事件的处理
 
+setOnLongClickListener中return的值决定是否在长按后再加一个短按动作。
 
+以下代码只会执行长按事件
+
+```java
+mBtn.setOnLongClickListener(new OnLongClickListener() {
+    @Override
+    public boolean onLongClick(View v) {
+        return true;
+    }
+});
+```
+
+当return返回值为true的时候，代表这个事件已经消耗完了，会自动讲一个震动效果
+
+返回值为false的时候他还会继续传递，结果再加上一个 OnClick事件。==但是实践证明如果弹出的是一个 Dialog 那么 onClick 不会调用，但是在 onLongClick 里面加上短点就会调用，原因未知==
+
+
+
+其次，Activity中的onKeyDown也是如此。
 
 # 滑动冲突解决方案
 
