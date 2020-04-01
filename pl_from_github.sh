@@ -1,6 +1,6 @@
 #! /bin/bash
 
-reps="mrcd"
+reps="origin"
 branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
 if [ $# == 1 ];then
