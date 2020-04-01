@@ -15,7 +15,9 @@ import android.util.Log;
 import com.example.dsd.demo.R;
 
 import org.jetbrains.annotations.NotNull;
-
+/**
+ * 
+ */
 public class MessengerActivity extends AppCompatActivity {
     // 申明一个用于回复的 messenger
     private Messenger mReplyMessenger = new Messenger(new MessengerHandler());
