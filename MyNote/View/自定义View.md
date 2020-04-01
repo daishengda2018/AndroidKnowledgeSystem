@@ -4,7 +4,7 @@
 
 ## 继承 View 重写 onDraw 方法
 
-需要自己重写 onDraw() 方法，还需要自己支持 wrap_content，并且 padding 也需要自己处理。
+需要自己重写 onDraw() 方法，==还需要自己支持 wrap_content，并且 padding 也需要自己处理。==
 
 ## 继承 ViewGroup 派生特殊的 Layout
 
@@ -68,11 +68,11 @@ View 本身就提供了 post 系列方法，完全可以替代 Handler 的作用
 
 1. 运行前，开发者会根据自己的需求在 xml 文件中写下对于 View 大小的**期望值**(最后的大小不一定是设置的值)
 
-2. 在运行的时候，父 View 会在 `onMeaure()`中，根据子 View 的 LayoutParams 和自身的可用空间，计算出 MeasureSpc 传递给子 View。
+2. 在运行的时候，父 View 会在 `onMeaure()`中，根据子==View 的 LayoutParams 和自身的可用空间==，计算出 MeasureSpc 传递给子 View。
 
 3. 子 View 的 `onMeasure`中，根据传递进来的 MeasureSpec 并结合自身属性(开发者可以控制的)计算尺寸；如果是 ViewGroup 还会在 `onMeasure` 中递归每个子 View 的 measure () 。
-   
-4. 父 View 在子 View 计算出**期望**尺寸后，通过 onLayout 得出⼦ View 的**实际**尺寸和位置。
+  
+4. 父 View 在子 View 计算出**期望**尺寸后，通过 onLayout 得出⼦ View 的==**实际**尺寸==和位置。
 
 5. ⼦ View 在自己的 layout() ⽅法中将父 View 传进来的自己的实际尺寸和位置保存
    * 如果是 ViewGroup，还会在 onLayout() ⾥调用每个字 View 的 layout() 把它们的尺寸置传给它们
