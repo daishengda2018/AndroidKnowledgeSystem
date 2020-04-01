@@ -80,10 +80,9 @@ final class MvpViewCreator {
                 currentClass = currentClass.getSuperclass();
             }
         } catch (Throwable t) {
-            throw new IllegalArgumentException("The generic type <V extends MvpView> must be the first generic type " +
-                    "argument of class " + presenter.getClass().getSimpleName() + " (per convention). Otherwise we can't" +
-                    " " +
-                    "determine which type of View this" + " Presenter coordinates.", t);
+            throw new IllegalArgumentException("The generic type <V extends MvpView> must be the first generic type "
+             + "argument of class " + presenter.getClass().getSimpleName() + " (per convention). Otherwise we can't" + " " 
+             + "determine which type of View this" + " Presenter coordinates.", t);
         }
 
         return mvpViewClass;
