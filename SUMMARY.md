@@ -7,5 +7,6 @@
   *  [「质量」代码整洁之道.md](code_quality/「Quality」clean_code.md) 
   * [「质量」如何发现代码中存在的问题.md](code_quality/「Quality」how_to_find_code_question.md) 
   * [「设计」设计原则与思想](code_quality/「Design」code_design_and_thinking.md) 
-  * 
+* 经验与心得
+  *  [如何从菜鸟程序员成长为(伪)高手](experience/How to become a master.md) 
 
