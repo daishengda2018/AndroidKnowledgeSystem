@@ -1,0 +1,967 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Effective Java 3 读书笔记 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="Bad Code 3.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="OOP.html">
+            
+                <a href="OOP.html">
+            
+                    
+                    代码质量与设计
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="「Quality」the_art_of_readable_code.html">
+            
+                <a href="「Quality」the_art_of_readable_code.html">
+            
+                    
+                    「质量」编写可读代码的艺术.md
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="「Quality」 quickly improves the quality of 20 codes.html">
+            
+                <a href="「Quality」 quickly improves the quality of 20 codes.html">
+            
+                    
+                    「质量」快速提高代码质量的20条建议
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="「Quality」clean_code.html">
+            
+                <a href="「Quality」clean_code.html">
+            
+                    
+                    「质量」代码整洁之道.md
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="「Quality」how_to_find_code_question.html">
+            
+                <a href="「Quality」how_to_find_code_question.html">
+            
+                    
+                    「质量」如何发现代码中存在的问题.md
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="「Design」code_design_and_thinking.html">
+            
+                <a href="「Design」code_design_and_thinking.html">
+            
+                    
+                    「设计」设计原则与思想
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="Bad Code 1.html">
+            
+                <a href="Bad Code 1.html">
+            
+                    
+                    关于烂代码的那些事（上）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="Bad Code 2.html">
+            
+                <a href="Bad Code 2.html">
+            
+                    
+                    关于烂代码的那些事（中）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="Bad Code 3.html">
+            
+                <a href="Bad Code 3.html">
+            
+                    
+                    关于烂代码的那些事（下）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.9" data-path="Effective Java 3.html">
+            
+                <a href="Effective Java 3.html">
+            
+                    
+                    Effective Java 3 读书笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    经验与心得
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../experience/How to become a master.html">
+            
+                <a href="../experience/How to become a master.html">
+            
+                    
+                    如何从菜鸟程序员成长为(伪)高手
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Effective Java 3 读书笔记</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <blockquote>
+<p>&#x4F5C;&#x8005;&#xFF1A;Monica2333
+&#x94FE;&#x63A5;&#xFF1A;<a href="https://www.jianshu.com/p/6030be68b245" target="_blank">https://www.jianshu.com/p/6030be68b245</a></p>
+</blockquote>
+<h2 id="chapter-01-&#x5F15;&#x8A00;">Chapter 01 :&#x5F15;&#x8A00;</h2>
+<p>&#x8FD9;&#x672C;&#x4E66;&#x7684;&#x76EE;&#x7684;&#x662F;&#x5E2E;&#x52A9;&#x7F16;&#x5199;&#x6E05;&#x6670;&#x6B63;&#x786E;&#xFF0C;&#x53EF;&#x7528;&#x7684;&#xFF0C;&#x5065;&#x58EE;&#x6027;&#x7075;&#x6D3B;&#x6027;&#x9AD8;&#x548C;&#x53EF;&#x7EF4;&#x62A4;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x800C;&#x975E;&#x9488;&#x5BF9;&#x9AD8;&#x6027;&#x80FD;&#x3002;&#x4E3B;&#x8981;&#x4ECE;&#x5BF9;&#x8C61;&#xFF0C;&#x7C7B;&#xFF0C;&#x63A5;&#x53E3;&#xFF0C;&#x6CDB;&#x578B;&#xFF0C;&#x679A;&#x4E3E;&#xFF0C;&#x6D41;&#xFF0C;&#x5E76;&#x53D1;&#x548C;&#x5E8F;&#x5217;&#x5316;&#x7B49;&#x65B9;&#x9762;&#x4ECB;&#x7ECD;&#x3002;</p>
+<h2 id="chapter-02-&#x5BF9;&#x8C61;&#x7684;&#x521B;&#x5EFA;&#x548C;&#x9500;&#x6BC1;">Chapter 02 :&#x5BF9;&#x8C61;&#x7684;&#x521B;&#x5EFA;&#x548C;&#x9500;&#x6BC1;</h2>
+<h3 id="&#x8003;&#x8651;&#x4F7F;&#x7528;&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x800C;&#x4E0D;&#x662F;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;">&#x8003;&#x8651;&#x4F7F;&#x7528;&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x800C;&#x4E0D;&#x662F;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;</h3>
+<p>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x7684;&#x597D;&#x5904;&#x6709;&#xFF1A;</p>
+<ol>
+<li>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x6709;&#x65B9;&#x6CD5;&#x540D;&#xFF0C;&#x53EF;&#x907F;&#x514D;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x7684;&#x91CD;&#x8F7D;&#x5E76;&#x4E14;&#x6613;&#x8BFB;&#x3002;</li>
+<li>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x4E0D;&#x8981;&#x6C42;&#x6BCF;&#x6B21;&#x8C03;&#x7528;&#x90FD;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x5BF9;&#x4E8E;&#x5355;&#x4F8B;&#x4EE5;&#x53CA;&#x4E0D;&#x53EF;&#x53D8;&#x5BF9;&#x8C61;&#x7684;&#x590D;&#x7528;&#x3002;</li>
+<li>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x53EF;&#x4EE5;&#x662F;&#x5B50;&#x7C7B;&#x5BF9;&#x8C61;</li>
+<li>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x7684;&#x63A5;&#x6536;&#x53C2;&#x6570;&#x4E0D;&#x540C;&#xFF0C;&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;&#x4E0D;&#x540C;&#x7684;&#x5BF9;&#x8C61;&#x3002;</li>
+<li>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x53EA;&#x5B9A;&#x4E49;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#x6216;&#x63A5;&#x53E3;&#xFF0C;&#x7531;&#x5177;&#x4F53;&#x7684;&#x5B9E;&#x73B0;&#x7C7B;&#x5B9E;&#x73B0;&#x3002;&#x5982;SPI&#x6280;&#x672F;&#x3002;
+&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x7684;&#x7F3A;&#x70B9;&#x4E3B;&#x8981;&#x6709;&#xFF1A;<ol>
+<li>&#x5982;&#x679C;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x7684;&#x7C7B;&#x53EA;&#x6709;package-protected&#x6216;private&#x7684;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x5219;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x4E0D;&#x80FD;&#x521B;&#x5EFA;&#x5B50;&#x7C7B;&#x5BF9;&#x8C61;</li>
+<li>&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x7684;API&#x96BE;&#x627E;&#x5230;,&#x53EF;&#x4F7F;&#x7528;<code>from,of,valueOf,instance,getIntance,create,newInstance</code>&#x7B49;&#x65B9;&#x6CD5;&#x540D;&#x6765;&#x547D;&#x540D;&#x3002;</li>
+</ol>
+</li>
+</ol>
+<h3 id="&#x5F53;&#x6709;&#x5F88;&#x591A;&#x6784;&#x9020;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;builder&#x6A21;&#x5F0F;">&#x5F53;&#x6709;&#x5F88;&#x591A;&#x6784;&#x9020;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;Builder&#x6A21;&#x5F0F;</h3>
+<p>&#x5F53;&#x6709;&#x5F88;&#x591A;&#x6784;&#x9020;&#x53C2;&#x6570;&#x5E76;&#x4E14;&#x662F;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F7F;&#x7528;Builder&#x6A21;&#x5F0F;&#x66F4;&#x52A0;&#x6613;&#x8BFB;&#xFF0C;&#x5E76;&#x4E14;&#x4E5F;&#x4F1A;&#x6BD4;&#x5355;&#x7EAF;&#x7684;javaBean.set&#x65B9;&#x6CD5;&#x5B89;&#x5168;&#x3002;</p>
+<h3 id="&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x5FC5;&#x987B;&#x79C1;&#x6709;&#x5316;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x6216;&#x8005;&#x4F7F;&#x7528;&#x679A;&#x4E3E;&#x7C7B;&#x578B;">&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x5FC5;&#x987B;&#x79C1;&#x6709;&#x5316;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x6216;&#x8005;&#x4F7F;&#x7528;&#x679A;&#x4E3E;&#x7C7B;&#x578B;</h3>
+<p>&#x5355;&#x4F8B;&#x5FC5;&#x987B;&#x4FDD;&#x8BC1;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x5B9E;&#x4F8B;&#xFF0C;&#x679A;&#x4E3E;&#x4F1A;&#x66F4;&#x52A0;&#x5B89;&#x5168;&#xFF08;&#x4E0D;&#x53EF;&#x5E8F;&#x5217;&#x5316;&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x5355;&#x4F8B;&#x7684;&#x7C7B;&#x5FC5;&#x987B;&#x7EE7;&#x627F;&#x62BD;&#x8C61;&#x7C7B;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x524D;&#x8005;&#xFF0C;&#x56E0;&#x4E3A;&#x679A;&#x4E3E;&#x7C7B;&#x90FD;&#x4F1A;&#x7EE7;&#x627F;Enum&#x7C7B;&#x3002;</p>
+<h3 id="&#x4E0D;&#x53EF;&#x5B9E;&#x4F8B;&#x5316;&#x7684;&#x7C7B;&#x5FC5;&#x987B;&#x79C1;&#x6709;&#x5316;&#x6784;&#x9020;&#x65B9;&#x6CD5;">&#x4E0D;&#x53EF;&#x5B9E;&#x4F8B;&#x5316;&#x7684;&#x7C7B;&#x5FC5;&#x987B;&#x79C1;&#x6709;&#x5316;&#x6784;&#x9020;&#x65B9;&#x6CD5;</h3>
+<p>&#x53EA;&#x6709;&#x8FD9;&#x6837;&#x624D;&#x4E0D;&#x5141;&#x8BB8;&#x5916;&#x754C;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x6216;&#x8005;&#x5B9E;&#x73B0;&#x5B50;&#x7C7B;&#x3002;</p>
+<h3 id="&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x800C;&#x4E0D;&#x662F;&#x7ED1;&#x5B9A;&#x56FA;&#x5B9A;&#x8D44;&#x6E90;">&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x800C;&#x4E0D;&#x662F;&#x7ED1;&#x5B9A;&#x56FA;&#x5B9A;&#x8D44;&#x6E90;</h3>
+<p>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x7C7B;&#x53EF;&#x80FD;&#x4F9D;&#x8D56;&#x591A;&#x4E2A;&#x8D44;&#x6E90;&#xFF0C;&#x4E0D;&#x8981;&#x5728;&#x5B9E;&#x73B0;&#x4E0A;&#x5199;&#x6B7B;&#x67D0;&#x4E2A;&#x8D44;&#x6E90;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x4F20;&#x53C2;&#xFF0C;&#x5DE5;&#x5382;&#x7C7B;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x6216;&#x8005;DI&#x6846;&#x67B6;&#xFF08;Spring&#xFF09;&#x7B49;&#x5B9E;&#x73B0;&#x3002;</p>
+<h3 id="&#x907F;&#x514D;&#x521B;&#x5EFA;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x5BF9;&#x8C61;">&#x907F;&#x514D;&#x521B;&#x5EFA;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x5BF9;&#x8C61;</h3>
+<p>&#x5982;&#x5BF9;String&#x5BF9;&#x8C61;&#x7684;&#x5305;&#x88C5;<code>new String(&quot;bikini&quot;)</code>(&#x5E94;&#x8BE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;<code>&quot;bikini&quot;</code>)&#xFF0C;&#x8BA1;&#x7B97;&#x65F6;&#x5305;&#x88C5;&#x7C7B;&#x578B;&#x548C;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x7684;&#x6765;&#x56DE;&#x8F6C;&#x6362;&#xFF0C;&#x5927;&#x5BF9;&#x8C61;&#x7684;&#x91CD;&#x590D;&#x521B;&#x5EFA;&#x7B49;&#x90FD;&#x662F;&#x8D44;&#x6E90;&#x7684;&#x6D6A;&#x8D39;&#x3002;&#x5E94;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;&#x53C2;&#x4E0E;&#x8FD0;&#x7B97;&#xFF0C;&#x590D;&#x7528;&#x4E0D;&#x53EF;&#x53D8;&#xFF08;&#x6216;&#x5728;&#x4F7F;&#x7528;&#x65F6;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#x7684;&#xFF09;&#x5927;&#x5BF9;&#x8C61;&#xFF0C;&#x5E38;&#x7528;&#x5BF9;&#x8C61;&#x4F7F;&#x7528;&#x6C60;&#x5316;&#x6280;&#x672F;&#x7B49;&#x6280;&#x5DE7;&#x6765;&#x907F;&#x514D;&#x5BF9;&#x8C61;&#x7684;&#x521B;&#x5EFA;&#x3002;</p>
+<h3 id="&#x6D88;&#x9664;&#x65E0;&#x7528;&#x7684;&#x5BF9;&#x8C61;&#x5F15;&#x7528;">&#x6D88;&#x9664;&#x65E0;&#x7528;&#x7684;&#x5BF9;&#x8C61;&#x5F15;&#x7528;</h3>
+<p>&#x5982;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x5728;<code>pop</code>&#x65F6;&#x5E94;&#x91CA;&#x653E;&#x5F39;&#x51FA;&#x7684;&#x6570;&#x7EC4;&#x5143;&#x7D20;&#x7684;&#x5F15;&#x7528;,&#x5426;&#x5219;&#x4F1A;&#x5BFC;&#x81F4;&#x5185;&#x5B58;&#x6CC4;&#x6F0F;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stack</span>  </span>{
+    <span class="hljs-keyword">private</span> Object[] elements;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="hljs-number">16</span>;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> size;
+
+    <span class="hljs-keyword">public</span> Stack{
+        elements = <span class="hljs-keyword">new</span> Object[DEFAULT_INITIAL_CAPACITY];
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">pop</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-keyword">if</span>(size == <span class="hljs-number">0</span>){
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> EmptyStackException();
+        }
+        Object result = elements[--size];
+        <span class="hljs-comment">//&#x91CA;&#x653E;&#x5F15;&#x7528;</span>
+        elements[size] = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">return</span> result;
+    }
+.......
+
+}
+</code></pre>
+<p>&#x56E0;&#x4E3A;Java&#x662F;&#x6709;&#x5783;&#x573E;&#x56DE;&#x6536;&#x673A;&#x5236;&#x7684;&#xFF0C;&#x901A;&#x5E38;&#x4E0D;&#x9700;&#x8981;&#x624B;&#x52A8;&#x5C06;&#x5BF9;&#x8C61;&#x7F6E;&#x4E3A;null&#x3002;&#x4F46;&#x662F;&#x5982;&#x679C;&#x5BF9;&#x8C61;&#x5185;&#x90E8;&#x7BA1;&#x7406;&#x81EA;&#x5DF1;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x624B;&#x52A8;&#x91CA;&#x653E;&#x5143;&#x7D20;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#xFF08;&#x5982;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x53EA;&#x6709;&#x6570;&#x7EC4;&#x5C06;&#x5143;&#x7D20;&#x7F6E;&#x7A7A;&#x4E86;&#xFF0C;&#x5143;&#x7D20;&#x5BF9;&#x5E94;&#x7684;&#x5BF9;&#x8C61;&#x624D;&#x80FD;&#x88AB;&#x56DE;&#x6536;&#xFF09;&#x5426;&#x5219;&#x4F1A;&#x5BFC;&#x81F4;&#x5185;&#x5B58;&#x6CC4;&#x6F0F;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x7F13;&#x5B58;&#xFF0C;&#x76D1;&#x542C;&#x5668;&#x548C;&#x5176;&#x4ED6;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x4E5F;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x5185;&#x5B58;&#x6CC4;&#x6F0F;&#xFF0C;&#x53EF;&#x501F;&#x52A9;&#x6027;&#x80FD;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x6765;&#x5206;&#x6790;&#x8FD9;&#x7C7B;&#x95EE;&#x9898;&#x3002;</p>
+<ul>
+<li><strong>&#x907F;&#x514D;&#x4F7F;&#x7528;finalizer&#x548C;cleaner</strong>
+ &#x4E0D;&#x8981;&#x4F7F;&#x7528;finalizer&#x548C;cleaner&#x6765;&#x505A;&#x5BF9;&#x8C61;&#x7684;&#x6E05;&#x7406;&#x5DE5;&#x4F5C;&#xFF0C;&#x56E0;&#x4E3A;&#x4ED6;&#x4EEC;&#x7684;&#x56DE;&#x6536;&#x65F6;&#x95F4;&#x65E0;&#x6CD5;&#x63A7;&#x5236;&#xFF08;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x662F;&#x653E;&#x5728;&#x961F;&#x5217;&#x4E2D;&#xFF0C;&#x540C;&#x65F6;&#x4E8E;&#x5177;&#x4F53;&#x7684;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x76F8;&#x5173;&#xFF09;&#x3002;&#x6CA1;&#x6709;&#x5B9E;&#x73B0;<code>AutoClosable</code>&#x63A5;&#x53E3;&#x7684;&#x5BF9;&#x8C61;&#x56DE;&#x6536;&#x901F;&#x5EA6;&#x5FEB;&#x3002;Finalizer&#x5B58;&#x5728;finalizer&#x653B;&#x51FB;&#xFF0C;&#x53EF;&#x901A;&#x8FC7;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x7A7A;&#x5B9E;&#x73B0;&#x7684;finalize&#x65B9;&#x6CD5;&#x89E3;&#x51B3;&#x3002;&#x5728;Java&#x4E2D;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;cleaner&#x6765;&#x5B9E;&#x73B0;native&#x65B9;&#x6CD5;&#x5206;&#x914D;&#x7684;&#x5806;&#x5916;&#x5185;&#x5B58;&#x7684;&#x56DE;&#x6536;&#xFF08;DirectByteBuffer&#xFF09;&#x3002;&#x603B;&#x7684;&#x6765;&#x8BF4;&#xFF0C;&#x8FD8;&#x662F;&#x8981;&#x614E;&#x7528;&#x3002;&#x5173;&#x4E8E;Java&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fmy.oschina.net%2Frobinyao%2Fblog%2F829983" target="_blank">Java Reference&#x8BE6;&#x89E3;</a></li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;try-with-resources&#x800C;&#x4E0D;&#x662F;try-finally</strong>
+ <code>try-with-resources</code>&#x7684;&#x4E66;&#x5199;&#x66F4;&#x52A0;&#x7B80;&#x6D01;&#x4F18;&#x96C5;&#xFF0C;&#x540C;&#x65F6;&#x53EF;&#x89E3;&#x51B3;<code>try-finally</code>&#x8D44;&#x6E90;&#x5173;&#x95ED;&#x5931;&#x8D25;&#x7684;&#x60C5;&#x51B5;&#x3002;&#x4F7F;&#x7528;<code>try-with-resources</code>&#x7684;&#x8D44;&#x6E90;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;<code>AutoClosable</code>&#x63A5;&#x53E3;&#x3002;</li>
+</ul>
+<h2 id="chapter03object&#x7C7B;&#x7684;&#x65B9;&#x6CD5;">Chapter03:Object&#x7C7B;&#x7684;&#x65B9;&#x6CD5;</h2>
+<p><code>Object</code> &#x7C7B;&#x662F;&#x6240;&#x6709;&#x7C7B;&#x7684;&#x7236;&#x7C7B;&#xFF0C;&#x5B83;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E9B;&#x975E; <code>final</code> &#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5982; <code>equals</code>, <code>hashCode</code>, <code>toString</code> &#x7B49;,&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x6709;&#x5B83;&#x4EEC;&#x81EA;&#x5DF1;&#x7684;&#x89C4;&#x5B9A;&#x3002;&#x6B64;&#x5916;&#xFF0C;<code>Comparable.compareTo</code> &#x65B9;&#x6CD5;&#x867D;&#x7136;&#x4E0D;&#x662F;Object&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x4E5F;&#x7ECF;&#x5E38;&#x51FA;&#x73B0;&#x5728;&#x4EFB;&#x4F55;&#x540C;&#x7C7B;&#x5BF9;&#x8C61;&#x4E2D;&#x7528;&#x6765;&#x6BD4;&#x8F83;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x4EE5;&#x4E0B;&#x4E5F;&#x4F1A;&#x8BA8;&#x8BBA;&#x3002;</p>
+<h3 id="&#x91CD;&#x5199;equals&#x65B9;&#x6CD5;&#x65F6;&#x7684;&#x89C4;&#x5B9A;">&#x91CD;&#x5199;equals&#x65B9;&#x6CD5;&#x65F6;&#x7684;&#x89C4;&#x5B9A;</h3>
+<p>1.&#x6BCF;&#x4E00;&#x4E2A;&#x7C7B;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x90FD;&#x662F;&#x552F;&#x4E00;&#x7684;&#x3002;
+2.&#x5982;&#x679C;&#x5BF9;&#x8C61;&#x6CA1;&#x6709;&#x6BD4;&#x8F83;&#x662F;&#x5426;&#x76F8;&#x7B49;&#x7684;&#x5FC5;&#x8981;&#xFF0C;&#x5C31;&#x4E0D;&#x7528;&#x91CD;&#x5199;equals&#x65B9;&#x6CD5;&#xFF0C;&#x5982;<code>java.util.regex.Pattern</code>&#x5C31;&#x6CA1;&#x5FC5;&#x8981;&#x3002;
+3.&#x7236;&#x7C7B;&#x91CD;&#x5199;&#x7684;equals&#x65B9;&#x6CD5;&#x5DF2;&#x7ECF;&#x5408;&#x9002;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x5B50;&#x7C7B;&#x518D;&#x91CD;&#x5199;&#x3002;&#x5982;<code>AbstractMap</code>&#x3002;
+4.&#x5982;&#x679C;&#x7C7B;&#x662F;private&#x6216;&#x8005;package-private&#x7684;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#xFF0C;&#x5219;&#x6CA1;&#x6709;&#x5FC5;&#x8981;&#x66B4;&#x9732;equals&#x65B9;&#x6CD5;&#xFF0C;&#x4E5F;&#x5C31;&#x4E0D;&#x7528;&#x91CD;&#x5199;&#x3002;
+&#x6240;&#x4EE5;value classes&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x9700;&#x8981;&#x6BD4;&#x8F83;&#x7C7B;&#x5BF9;&#x8C61;&#x5185;&#x5BB9;&#x7684;&#x7C7B;&#xFF09;&#x9002;&#x5408;&#x91CD;&#x5199;equals&#x65B9;&#x6CD5;&#xFF0C;&#x91CD;&#x5199;equals&#x65B9;&#x6CD5;&#x5E94;&#x8BE5;&#x6EE1;&#x8DB3;&#x4EE5;&#x4E0B;&#x7279;&#x6027;&#xFF1A;
+1.&#x81EA;&#x53CD;&#x6027;&#xFF0C;&#x5373;<code>x.equals(x)==true</code>&#x3002;
+2.&#x5BF9;&#x79F0;&#x6027;&#xFF0C;&#x5373;&#x5982;&#x679C;<code>x.equals(y)==y.equals(x)</code>&#x3002;
+3.&#x4F20;&#x9012;&#x6027;&#xFF0C;&#x5373;&#x5982;&#x679C;<code>x.equals(y)==y.equals(z)==true</code>,&#x5219;<code>x.equals(z)==true</code>&#x3002;
+4.&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x5373;&#x5982;&#x679C;<code>x.equals(y)==true</code>,x,y&#x503C;&#x4E0D;&#x6539;&#x53D8;&#x7684;&#x8BDD;&#xFF0C;<code>x.equals(y)==true</code>&#x4E00;&#x76F4;&#x6210;&#x7ACB;&#x3002;
+5.&#x5982;&#x679C;x&#x662F;&#x4E0D;&#x4E3A;null&#x7684;&#x5F15;&#x7528;&#x5BF9;&#x8C61;&#xFF0C;&#x5219;<code>x.equals(null)==false</code>&#x3002;
+&#x4E00;&#x822C;&#x91CD;&#x5199;equals&#x65B9;&#x6CD5;&#x65F6;&#x9700;&#x8981;&#x5148;&#x5BF9;&#x6BD4;&#x5F15;&#x7528;&#xFF0C;&#x518D;&#x5BF9;&#x6BD4;&#x7C7B;&#x578B;&#xFF0C;&#x7136;&#x540E;&#x6328;&#x4E2A;&#x5BF9;&#x6BD4;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x7684;&#x503C;&#x662F;&#x5426;&#x76F8;&#x7B49;&#x3002;&#x5982;<code>AbstractList.equals</code>&#xFF1A;</p>
+<pre><code class="lang-kotlin"><span class="hljs-comment">//AbstractList.equals</span>
+<span class="hljs-keyword">public</span> boolean equals(Object o) {
+        <span class="hljs-keyword">if</span> (o == this)
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">if</span> (!(o instanceof List))
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+        ListIterator<span class="hljs-type">&lt;E&gt;</span> e1 = listIterator();
+        ListIterator<span class="hljs-type">&lt;?&gt;</span> e2 = ((List<span class="hljs-type">&lt;?&gt;</span>) o).listIterator();
+        <span class="hljs-keyword">while</span> (e1.hasNext() &amp;&amp; e2.hasNext()) {
+            E o1 = e1.next();
+            Object o2 = e2.next();
+            <span class="hljs-keyword">if</span> (!(o1==<span class="hljs-literal">null</span> ? o2==<span class="hljs-literal">null</span> : o1.equals(o2)))
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+        <span class="hljs-keyword">return</span> !(e1.hasNext() || e2.hasNext());
+    }
+</code></pre>
+<h3 id="&#x91CD;&#x5199;equals&#x65B9;&#x5F0F;&#x65F6;&#x5FC5;&#x987B;&#x91CD;&#x5199;hashcode&#x65B9;&#x6CD5;">&#x91CD;&#x5199;equals&#x65B9;&#x5F0F;&#x65F6;&#x5FC5;&#x987B;&#x91CD;&#x5199;hashCode&#x65B9;&#x6CD5;</h3>
+<p>&#x56E0;&#x4E3A;&#x76F8;&#x540C;&#x7684;&#x5BF9;&#x8C61;&#x5FC5;&#x987B;&#x62E5;&#x6709;&#x76F8;&#x540C;&#x7684;hashCode&#x3002;&#x6BD4;&#x5982;HashSet&#x548C;HashMap&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x4F1A;&#x6839;&#x636E;key&#x7684;hash&#x503C;&#x5206;&#x914D;&#x6240;&#x5728;entry&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5982;&#x679C;&#x4E24;&#x4E2A;key&#x5BF9;&#x8C61;equals&#x5BF9;&#x6BD4;&#x4E3A;true&#xFF0C;&#x800C;hashCode&#x503C;&#x4E0D;&#x76F8;&#x540C;&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x5B58;&#x5728;put&#x8FDB;&#x53BB;&#x4F46;&#x65E0;&#x6CD5;get&#x51FA;&#x6765;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x8FD9;&#x662F;&#x4E0D;&#x7B26;&#x5408;&#x903B;&#x8F91;&#x7684;&#x3002;&#x6240;&#x4EE5;&#x91CD;&#x5199;equals&#x65B9;&#x5F0F;&#x65F6;&#x5FC5;&#x987B;&#x91CD;&#x5199;hashCode&#x65B9;&#x6CD5;&#x3002;
+&#x4E00;&#x822C;&#x91CD;&#x5199;hashCode&#x65B9;&#x6CD5;&#x65F6;hash&#x7B97;&#x6CD5;&#x8981;&#x5C3D;&#x91CF;&#x4FDD;&#x8BC1;&#x4E0D;&#x540C;&#x5143;&#x7D20;&#x7684;hash&#x503C;&#x552F;&#x4E00;&#xFF0C;&#x5982;<code>AbstractList.hashCode</code>:</p>
+<pre><code class="lang-csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">int</span> hashCode = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> (E e : <span class="hljs-keyword">this</span>)
+<span class="hljs-comment">//&#x4F7F;&#x7528;31&#x8FD9;&#x4E2A;&#x8D28;&#x6570;&#x5C3D;&#x53EF;&#x80FD;&#x4FDD;&#x8BC1;&#x4E86;&#x8FD0;&#x7B97;&#x503C;&#x7684;&#x552F;&#x4E00;&#x6027;</span>
+            hashCode = <span class="hljs-number">31</span>*hashCode + (e==<span class="hljs-keyword">null</span> ? <span class="hljs-number">0</span> : e.hashCode());
+        <span class="hljs-keyword">return</span> hashCode;
+    }
+</code></pre>
+<ul>
+<li><strong>&#x603B;&#x662F;&#x91CD;&#x5199;toString&#x65B9;&#x6CD5;</strong>
+ <code>println,printf,log&#x8F93;&#x51FA;</code>&#x4EE5;&#x53CA;debug&#x7684;&#x65F6;&#x5019;&#x90FD;&#x4F1A;&#x9ED8;&#x8BA4;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#x7684;toString&#x65B9;&#x6CD5;&#xFF0C;&#x6240;&#x4EE5;&#x91CD;&#x5199;toString&#x53EF;&#x4F7F;&#x4EE3;&#x7801;&#x66F4;&#x6613;&#x61C2;&#xFF0C;&#x540C;&#x65F6;toString&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x4FE1;&#x606F;&#x5E94;&#x8BE5;&#x5305;&#x542B;&#x5BF9;&#x8C61;&#x4E2D;&#x6240;&#x6709;&#x6709;&#x610F;&#x4E49;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x5E76;&#x4E14;&#x5C3D;&#x91CF;&#x683C;&#x5F0F;&#x5316;&#xFF0C;&#x65B9;&#x4FBF;&#x9605;&#x8BFB;&#x3002;</li>
+<li><strong>&#x614E;&#x91CD;&#x91CD;&#x5199;clone&#x65B9;&#x6CD5;</strong>
+ &#x7C7B;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;<code>Cloneable</code>&#x63A5;&#x53E3;&#x624D;&#x80FD;&#x91CD;&#x5199;clone&#x65B9;&#x6CD5;&#xFF0C;clone&#x65B9;&#x6CD5;&#x7684;&#x89C4;&#x5B9A;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#x4EE5;&#x4E0B;&#x6210;&#x7ACB;&#xFF1A;</li>
+</ul>
+<pre><code class="lang-php">x.<span class="hljs-keyword">clone</span>() != x;
+x.<span class="hljs-keyword">clone</span>().getClass() == x.getClass();
+<span class="hljs-comment">//&#x975E;&#x5FC5;&#x987B;</span>
+x.<span class="hljs-keyword">clone</span>().equals(x);
+</code></pre>
+<p>&#x4F7F;&#x7528;clone&#x65B9;&#x6CD5;&#x9700;&#x8981;&#x6CE8;&#x610F;&#xFF1A;
+ 1.&#x4E0D;&#x53EF;&#x53D8;&#x7684;&#x7C7B;&#x4E0D;&#x5E94;&#x8BE5;&#x63D0;&#x4F9B;clone&#x65B9;&#x6CD5;&#x3002;
+ 2.clone&#x65B9;&#x6CD5;&#x7684;&#x529F;&#x80FD;&#x5C31;&#x50CF;&#x662F;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#xFF0C;&#x5E94;&#x8BE5;&#x786E;&#x4FDD;&#x4E0D;&#x4F1A;&#x5BF9;&#x539F;&#x6765;&#x7684;&#x5BF9;&#x8C61;&#x9020;&#x6210;&#x5F71;&#x54CD;&#x3002;
+ 3.&#x5BF9;&#x4E8E;final&#x6210;&#x5458;&#x53D8;&#x91CF;&#xFF0C;&#x5C06;&#x5176;&#x4F5C;&#x4E3A;&#x53EF;&#x53D8;&#x5BF9;&#x8C61;&#x8FDB;&#x884C;clone&#x662F;&#x4E0D;&#x592A;&#x5408;&#x9002;&#x7684;&#xFF0C;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x53BB;&#x6389;final&#x4FEE;&#x9970;&#x3002;
+ 4.&#x5BF9;&#x4E8E;&#x590D;&#x6742;&#x5BF9;&#x8C61;&#x7684;clone&#xFF0C;&#x5E94;&#x8BE5;&#x5148;&#x8C03;&#x7528;super.clone&#xFF0C;&#x7136;&#x540E;&#x5728;&#x7EC4;&#x88C5;&#x53D8;&#x91CF;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x8054;&#x5173;&#x7CFB;&#xFF0C;&#x5982;HashTable&#x4E2D;&#x7684;Entry&#x94FE;&#x8868;&#x5F15;&#x7528;.
+ 5.&#x5BF9;&#x8C61;&#x514B;&#x9686;&#x7684;&#x66F4;&#x597D;&#x65B9;&#x6CD5;&#x5176;&#x5B9E;&#x662F;&#x63D0;&#x4F9B;copy &#x6784;&#x9020;&#x65B9;&#x6CD5;&#x6216;&#x8005; copy&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;:</p>
+<pre><code class="lang-cpp"><span class="hljs-comment">//copy constructor</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">Yum</span><span class="hljs-params">(Yum yum)</span></span>{
+        .....
+    }
+<span class="hljs-comment">//copy factory</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Yum <span class="hljs-title">newInstance</span><span class="hljs-params">(Yum yum)</span></span>{
+        .....
+    }
+</code></pre>
+<p>&#x56E0;&#x4E3A;&#x4ED6;&#x4EEC;&#x4E0D;&#x4F9D;&#x8D56;&#x5371;&#x9669;&#x7684;&#x514B;&#x9686;&#x673A;&#x5236;&#xFF0C;&#x4E5F;&#x6CA1;&#x6709;&#x6587;&#x6863;&#x514B;&#x9686;&#x8981;&#x6C42;&#xFF0C;&#x548C;final fields&#x7684;&#x4F7F;&#x7528;&#x4E0D;&#x51B2;&#x7A81;&#xFF0C;&#x540C;&#x65F6;&#x4E0D;&#x9700;&#x8981;&#x629B;&#x51FA;&#x68C0;&#x67E5;&#x5F02;&#x5E38;&#x548C;&#x5F3A;&#x8F6C;&#x3002;
+ &#x5BF9;&#x4E8E;&#x6570;&#x7EC4;&#xFF0C;&#x662F;&#x9002;&#x5408;&#x4F7F;&#x7528;clone&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x7C7B;&#x578B;&#x4E3A;Object[],&#x4E0D;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x5F3A;&#x8F6C;&#x3002;&#x5982;<code>ArrayList.copy</code></p>
+<pre><code class="lang-php"><span class="hljs-keyword">public</span> Object <span class="hljs-keyword">clone</span>() {
+        <span class="hljs-keyword">try</span> {
+            ArrayList<span class="hljs-meta">&lt;?</span>&gt; v = (ArrayList<span class="hljs-meta">&lt;?</span>&gt;) super.<span class="hljs-keyword">clone</span>();
+            v.elementData = Arrays.copyOf(elementData, size);
+            v.modCount = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">return</span> v;
+        } <span class="hljs-keyword">catch</span> (CloneNotSupportedException e) {
+            <span class="hljs-comment">// this shouldn&apos;t happen, since we are Cloneable</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InternalError(e);
+        }
+    }
+</code></pre>
+<ul>
+<li><strong>&#x8003;&#x8651;&#x5B9E;&#x73B0;Comparable&#x63A5;&#x53E3;</strong>
+ Comparable&#x7528;&#x6765;&#x7ED9;&#x5BF9;&#x8C61;&#x6392;&#x5E8F;&#x4F7F;&#x7528;&#xFF0C;&#x5B9E;&#x73B0;&#x8BE5;&#x63A5;&#x53E3;&#x610F;&#x5473;&#x7740;&#x7C7B;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x5929;&#x7136;&#x7684;&#x6392;&#x5E8F;&#x65B9;&#x5F0F;&#x3002;&#x5F53;&#x5BF9;&#x8C61;&#x62E5;&#x6709;&#x6392;&#x5E8F;&#x7684;&#x610F;&#x4E49;&#x65F6;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x5B9E;&#x73B0;Comparable&#x63A5;&#x53E3;&#x3002;&#x8FD9;&#x6837;&#x5BF9;&#x8C61;&#x53EF;&#x7528;&#x5728;&#x57FA;&#x4E8E;&#x6392;&#x5E8F;&#x7684;&#x96C6;&#x5408;&#x4E2D;&#xFF0C;&#x5982;<code>TreeSet,TreeMap</code>&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x5728;<code>compareTo</code>&#x5B9E;&#x73B0;&#x4E2D;&#xFF0C;&#x4E0D;&#x8981;&#x4F7F;&#x7528;<code>&lt;,&gt;</code>&#x6765;&#x505A;&#x6BD4;&#x8F83;&#xFF0C;&#x800C;&#x5E94;&#x8BE5;&#x7EE7;&#x7EED;&#x8C03;&#x7528;&#x6BD4;&#x8F83;&#x5BF9;&#x8C61;&#xFF08;&#x57FA;&#x7840;&#x5BF9;&#x8C61;&#x5C31;&#x7528;&#x5305;&#x88C5;&#x7C7B;&#x7684;compare&#x65B9;&#x6CD5;&#xFF09;&#x7684;compare&#x6216;compareTo&#x65B9;&#x6CD5;&#x3002;</li>
+</ul>
+<h2 id="chapter04&#x7C7B;&#x548C;&#x63A5;&#x53E3;">Chapter04:&#x7C7B;&#x548C;&#x63A5;&#x53E3;</h2>
+<h3 id="&#x6700;&#x5C0F;&#x5316;&#x7C7B;&#x548C;&#x6210;&#x5458;&#x7684;&#x8BBF;&#x95EE;&#x884C;">&#x6700;&#x5C0F;&#x5316;&#x7C7B;&#x548C;&#x6210;&#x5458;&#x7684;&#x8BBF;&#x95EE;&#x884C;</h3>
+<p>&#x5BF9;&#x4E8E;&#x53D8;&#x91CF;&#xFF0C;&#x65B9;&#x6CD5;&#xFF0C;&#x7C7B;&#x548C;&#x63A5;&#x53E3;&#xFF0C;&#x5BF9;&#x5916;&#x754C;&#x7684;&#x8BBF;&#x95EE;&#x7EA7;&#x522B;&#x6709;<code>private</code>,<code>package-private</code>,<code>protected</code>,<code>public</code>&#x56DB;&#x79CD;&#x3002;&#x4F7F;&#x7528;&#x539F;&#x5219;&#x662F;&#x5C3D;&#x91CF;&#x51CF;&#x5C11;&#x6210;&#x5458;&#x7684;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x3002;&#x5982;public&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x53D8;&#x91CF;&#x57FA;&#x672C;&#x4E0D;&#x80FD;&#x4E3A;public&#x7684;&#xFF0C;&#x4E5F;&#x4E0D;&#x5E94;&#x8BE5;&#x5B9A;&#x4E49;public static final&#x4FEE;&#x9970;&#x7684;&#x6570;&#x7EC4;&#x548C;&#x96C6;&#x5408;&#x53D8;&#x91CF;&#xFF0C;&#x6216;&#x5BF9;&#x5916;&#x8FD4;&#x56DE;&#x8FD9;&#x6837;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x90FD;&#x662F;&#x7EBF;&#x7A0B;&#x4E0D;&#x5B89;&#x5168;&#x7684;&#x3002;</p>
+<p><img src="images/Effective Java 3/image-20200502233707014.png" alt="image-20200502233707014"></p>
+<p><img src="images/Effective Java 3/image-20200502233721996.png" alt="image-20200502233721996"></p>
+<p><img src="images/Effective Java 3/image-20200502234844639.png" alt="image-20200502234844639"></p>
+<p><img src="images/Effective Java 3/image-20200502234905845.png" alt="image-20200502234905845"></p>
+<h3 id="&#x5728;public&#x7C7B;&#x4E2D;&#xFF0C;&#x4F7F;&#x7528;&#x53EF;&#x8BBF;&#x95EE;&#x7684;&#x65B9;&#x6CD5;&#x8BBF;&#x95EE;&#x53D8;&#x91CF;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5B9A;&#x4E49;&#x4E3A;public&#x7684;&#x53D8;&#x91CF;">&#x5728;public&#x7C7B;&#x4E2D;&#xFF0C;&#x4F7F;&#x7528;&#x53EF;&#x8BBF;&#x95EE;&#x7684;&#x65B9;&#x6CD5;&#x8BBF;&#x95EE;&#x53D8;&#x91CF;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5B9A;&#x4E49;&#x4E3A;public&#x7684;&#x53D8;&#x91CF;</h3>
+<p>&#x56E0;&#x4E3A;&#x66B4;&#x9732;&#x65B9;&#x6CD5;&#x6BD4;&#x66B4;&#x9732;&#x53D8;&#x91CF;&#x66F4;&#x5177;&#x6709;&#x5B9E;&#x73B0;&#x7684;&#x7075;&#x6D3B;&#x6027;&#xFF0C;&#x540C;&#x65F6;&#x524D;&#x8005;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x7834;&#x574F;&#x6027;&#x76F8;&#x5BF9;&#x8F83;&#x5C0F;&#x3002;</p>
+<h3 id="&#x6700;&#x5C0F;&#x5316;&#x53EF;&#x53D8;&#x6027;">&#x6700;&#x5C0F;&#x5316;&#x53EF;&#x53D8;&#x6027;</h3>
+<p>&#x4E0D;&#x53EF;&#x53D8;&#x7C7B;&#x62E5;&#x6709;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#xFF0C;&#x7B80;&#x6D01;&#x548C;&#x4E0D;&#x6613;&#x51FA;&#x9519;&#x7B49;&#x4F18;&#x70B9;&#xFF0C;&#x4E0D;&#x53EF;&#x53D8;&#x7C7B;&#x9700;&#x8981;&#x9075;&#x5FAA;&#xFF1A;
+1.&#x4E0D;&#x63D0;&#x4F9B;&#x5916;&#x754C;&#x65B9;&#x6CD5;&#x4FEE;&#x6539;&#x5BF9;&#x8C61;&#x7684;&#x72B6;&#x6001;&#x3002;
+2.&#x786E;&#x4FDD;&#x7C7B;&#x4E0D;&#x53EF;&#x4EE5;&#x88AB;&#x7EE7;&#x627F;&#xFF0C;&#x7528;final&#x4FEE;&#x9970;&#x3002;
+3.&#x6240;&#x6709;&#x7684;&#x53D8;&#x91CF;&#x7528;final&#x4FEE;&#x9970;&#x3002;
+4.&#x6240;&#x6709;&#x7684;&#x53D8;&#x91CF;&#x7528;private&#x4FEE;&#x9970;&#x3002;
+5.&#x786E;&#x4FDD;&#x4E0D;&#x63D0;&#x4F9B;&#x53EF;&#x53D8;&#x5BF9;&#x8C61;&#x7684;&#x8BBF;&#x95EE;&#x65B9;&#x5F0F;&#x3002;
+&#x4E0D;&#x53EF;&#x53D8;&#x5BF9;&#x8C61;&#x7684;&#x552F;&#x4E00;&#x7F3A;&#x70B9;&#x662F;&#x6BCF;&#x6B21;&#x90FD;&#x662F;&#x91CD;&#x65B0;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5BF9;&#x4E8E;&#x521B;&#x5EFA;&#x5DE8;&#x578B;&#x5BF9;&#x8C61;&#x65F6;&#xFF0C;&#x8D44;&#x6E90;&#x6D88;&#x8017;&#x5927;&#x3002;
+&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x7C7B;&#x4E0D;&#x80FD;&#x8BBE;&#x8BA1;&#x4E3A;&#x4E0D;&#x53EF;&#x53D8;&#x7684;&#xFF0C;&#x5E94;&#x8BE5;&#x5C3D;&#x91CF;&#x7F29;&#x5C0F;&#x5B83;&#x7684;&#x53EF;&#x53D8;&#x6027;&#x3002;&#x5982;&#x53D8;&#x91CF;&#x79C1;&#x6709;&#x5316;&#xFF0C;&#x6784;&#x9020;&#x65B9;&#x6CD5;</p>
+<ul>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x7EC4;&#x5408;&#x800C;&#x4E0D;&#x662F;&#x7EE7;&#x627F;</strong>
+ &#x7EE7;&#x627F;&#x4F1A;&#x7834;&#x574F;&#x5C01;&#x88C5;&#x6027;&#x3002;&#x800C;&#x6301;&#x6709;&#x5BF9;&#x8C61;&#x7684;&#x5B9E;&#x4F8B;&#x6216;&#x63A5;&#x53E3;&#x5B9E;&#x4F8B;&#xFF08;&#x7EC4;&#x5408;&#x6A21;&#x5F0F;/&#x88C5;&#x9970;&#x8005;&#x6A21;&#x5F0F;&#xFF09;&#x6BD4;&#x7EE7;&#x627F;&#x66F4;&#x52A0;&#x5065;&#x58EE;&#xFF0C;&#x529F;&#x80FD;&#x5F3A;&#x5927;&#x3002;&#x5982;&#x679C;&#x5B50;&#x7C7B;&#x548C;&#x7236;&#x7C7B;&#x6709;&#x5171;&#x6027;&#xFF0C;&#x8FD8;&#x662F;&#x7528;&#x7EE7;&#x627F;&#x3002;</li>
+<li><strong>&#x7EE7;&#x627F;&#x7684;&#x8BBE;&#x8BA1;&#x548C;&#x6587;&#x6863;&#x8BF4;&#x660E;</strong>
+ 1.&#x5982;&#x679C;&#x5B50;&#x7C7B;&#x91CD;&#x5199;&#x7236;&#x7C7B;&#x65B9;&#x6CD5;&#xFF0C;&#x5E94;&#x5199;&#x660E;&#x65B9;&#x6CD5;&#x7B7E;&#x540D;&#x7684;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x548C;&#x8C03;&#x7528;&#x8005;&#x4FE1;&#x606F;&#x7B49;&#x3002;
+ 2.&#x614E;&#x91CD;&#x7684;&#x5728;protected&#x7684;&#x65B9;&#x6CD5;&#x4E2D;&#x7559;&#x6709;hook&#xFF0C;&#x53EF;&#x80FD;&#x5B50;&#x7C7B;&#x5E76;&#x4E0D;&#x80FD;&#x5904;&#x7406;&#x597D;&#x3002;
+ 3.&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x4E0D;&#x5E94;&#x8BE5;&#x8C03;&#x7528;&#x91CD;&#x5199;&#x65B9;&#x6CD5;&#x3002;
+ 4.clone&#x548C;readObject&#x65B9;&#x6CD5;&#x4E0D;&#x80FD;&#x8C03;&#x7528;&#x91CD;&#x5199;&#x65B9;&#x6CD5;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x5C31;&#x50CF;&#x662F;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x4E00;&#x6837;&#x3002;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x800C;&#x4E0D;&#x662F;&#x62BD;&#x8C61;&#x7C7B;</strong>
+ &#x63A5;&#x53E3;&#x8868;&#x793A;&#x62E5;&#x6709;&#x67D0;&#x79CD;&#x7279;&#x6027;&#xFF0C;&#x4E00;&#x4E2A;&#x7C7B;&#x53EF;&#x5B9E;&#x73B0;&#x591A;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x4F46;&#x662F;&#x53EA;&#x80FD;&#x7EE7;&#x627F;&#x4E00;&#x4E2A;&#x7C7B;&#x3002;&#x63A5;&#x53E3;&#x53EF;&#x4F7F;&#x7528;&#x5305;&#x88C5;&#x7C7B;&#x83B7;&#x5F97;&#x5B89;&#x5168;&#x6027;&#x529F;&#x80FD;&#x6027;&#x66F4;&#x5F3A;&#x7684;&#x7C7B;&#x3002;</li>
+<li><strong>&#x614E;&#x91CD;&#x8BBE;&#x8BA1;&#x63A5;&#x53E3;</strong>
+ &#x63A5;&#x53E3;&#x53EF;&#x63D0;&#x4F9B;default&#x65B9;&#x6CD5;&#x7ED9;&#x5B83;&#x7684;&#x5B9E;&#x73B0;&#x7C7B;&#xFF0C;&#x4F46;&#x662F;&#x53EF;&#x80FD;&#x53EA;&#x6709;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x624D;&#x80FD;&#x53D1;&#x73B0;&#x8FD9;&#x4E9B;default&#x65B9;&#x6CD5;&#x7684;&#x5F02;&#x5E38;&#x3002;</li>
+<li><strong>&#x53EA;&#x6709;&#x5F53;&#x5B9A;&#x4E49;&#x7C7B;&#x578B;&#x65F6;&#xFF0C;&#x624D;&#x4F7F;&#x7528;&#x63A5;&#x53E3;</strong>
+ &#x63A5;&#x53E3;&#x662F;&#x7528;&#x6765;&#x8868;&#x793A;&#x67D0;&#x79CD;&#x7C7B;&#x578B;&#xFF0C;&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x4F5C;&#x4E3A;&#x5E38;&#x91CF;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x5E38;&#x91CF;&#x7C7B;&#x6216;&#x5DE5;&#x5177;&#x7C7B;&#x6765;&#x5B9E;&#x73B0;&#x5E38;&#x91CF;&#x7B49;&#x529F;&#x80FD;&#x3002;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x7EE7;&#x627F;&#x7C7B;&#x800C;&#x4E0D;&#x662F;&#x6807;&#x8BB0;&#x7C7B;</strong>
+ &#x6807;&#x8BB0;&#x7C7B;&#x662F;&#x6307;&#x7528;&#x6807;&#x8BB0;&#x5C5E;&#x6027;&#x6765;&#x533A;&#x5206;&#x6807;&#x8BB0;&#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x7528;&#x957F;&#x5BBD;&#x9AD8;&#x5C5E;&#x6027;&#x6765;&#x533A;&#x5206;&#x957F;&#x65B9;&#x5F62;&#x548C;&#x5706;&#x3002;&#x800C;&#x5E94;&#x8BE5;&#x5206;&#x522B;&#x8BBE;&#x8BA1;&#x957F;&#x65B9;&#x5F62;&#x7C7B;&#x548C;&#x5706;&#x7C7B;&#xFF08;&#x5206;&#x522B;&#x7EE7;&#x627F;&#x4E00;&#x4E2A;&#x8868;&#x793A;&#x5F62;&#x72B6;&#x7684;&#x7C7B;&#xFF09;&#x6765;&#x533A;&#x5206;&#x957F;&#x65B9;&#x5F62;&#x548C;&#x5706;&#x3002;</li>
+<li><strong>&#x5185;&#x90E8;&#x7C7B;&#x7684;&#x4F7F;&#x7528;</strong>
+ &#x5185;&#x90E8;&#x7C7B;&#x5305;&#x62EC;<code>&#x9759;&#x6001;&#x5185;&#x90E8;&#x7C7B;</code>&#xFF0C;<code>&#x6210;&#x5458;&#x5185;&#x90E8;&#x7C7B;</code>&#xFF0C;<code>&#x533F;&#x540D;&#x5185;&#x90E8;&#x7C7B;</code>&#x548C;<code>&#x5C40;&#x90E8;&#x5185;&#x90E8;&#x7C7B;</code>&#x3002;
+ 1.&#x9759;&#x6001;&#x5185;&#x90E8;&#x7C7B;&#x76F8;&#x5F53;&#x4E8E;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x4E00;&#x4E2A;&#x9759;&#x6001;&#x6210;&#x5458;&#xFF0C;&#x5B83;&#x7684;&#x521B;&#x5EFA;&#x4E0D;&#x4F9D;&#x8D56;&#x4E8E;&#x5916;&#x90E8;&#x7C7B;&#xFF0C;&#x53EF;&#x8BBF;&#x95EE;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x6240;&#x6709;&#x9759;&#x6001;&#x6210;&#x5458;&#x3002;&#x53EF;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;<code>&#x516C;&#x6709;&#x7684;&#x5E2E;&#x52A9;&#x7C7B;</code>&#xFF0C;&#x5982;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x679A;&#x4E3E;&#x7C7B;(Calculator.Operation.PLUS)&#x3002;&#x79C1;&#x6709;&#x9759;&#x6001;&#x5185;&#x90E8;&#x7C7B;&#x53EF;&#x8868;&#x793A;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x7EC4;&#x6210;&#x3002;&#x5982;HashMap&#x4E2D;&#x7684;<code>Node</code>&#x7C7B;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x5E76;&#x4E0D;&#x6301;&#x6709;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x7528;&#x9759;&#x6001;&#x5B9E;&#x73B0;&#x66F4;&#x8282;&#x7701;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x3002;
+ 2.&#x6210;&#x5458;&#x5185;&#x90E8;&#x7C7B;&#x4F9D;&#x8D56;&#x4E8E;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x521B;&#x5EFA;&#xFF0C;&#x53EF;&#x4EE5;&#x8C03;&#x7528;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x4EFB;&#x4F55;&#x6210;&#x5458;&#x3002;&#x901A;&#x5E38;&#x4F5C;&#x4E3A;&#x5916;&#x90E8;&#x7C7B;&#x7684;&#x4E00;&#x4E2A;&#x6269;&#x5C55;&#x7C7B;&#x4F7F;&#x7528;&#xFF0C;&#x5982;&#x96C6;&#x5408;&#x7C7B;&#x4E2D;&#x7684;<code>Iterator</code>&#x5B9E;&#x73B0;&#x7C7B;&#x3002;
+ 3.&#x533F;&#x540D;&#x5185;&#x90E8;&#x7C7B;&#x6CA1;&#x6709;&#x540D;&#x5B57;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x5F15;&#x7528;&#x3002;&#x4E4B;&#x524D;&#x533F;&#x540D;&#x5185;&#x90E8;&#x7C7B;&#x53EF;&#x7528;&#x6765;&#x4F5C;&#x4E3A;&#x63A5;&#x53E3;&#x6216;&#x62BD;&#x8C61;&#x7C7B;&#x7684;&#x5B9E;&#x73B0;&#x4F20;&#x5165;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x81EA;&#x4ECE;Java8&#x5F15;&#x5165;Lambda&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;Lambda&#x8868;&#x8FBE;&#x5F0F;&#x66F4;&#x9002;&#x5408;&#x8FD9;&#x79CD;&#x573A;&#x666F;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x533F;&#x540D;&#x5185;&#x90E8;&#x7C7B;&#x53EF;&#x4F5C;&#x4E3A;&#x9759;&#x6001;&#x5DE5;&#x5382;&#x65B9;&#x6CD5;&#x7684;&#x5B9E;&#x4F8B;&#x8FD4;&#x56DE;&#x3002;
+ 4.&#x5C40;&#x90E8;&#x5185;&#x90E8;&#x7C7B;&#x4F7F;&#x7528;&#x9891;&#x7387;&#x6700;&#x4F4E;&#xFF0C;&#x53EF;&#x5B9A;&#x4E49;&#x5728;&#x65B9;&#x6CD5;&#x548C;&#x4EE3;&#x7801;&#x5757;&#x4E2D;&#x3002;&#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.cnblogs.com%2Fchenssy%2Fp%2F3388487.html" target="_blank">&#x8BE6;&#x89E3;&#x5185;&#x90E8;&#x7C7B;</a></li>
+<li><strong>&#x516C;&#x6709;&#x7C7B;&#x5E94;&#x8BE5;&#x5355;&#x72EC;&#x8BBE;&#x8BA1;&#x5728;&#x4E00;&#x4E2A;&#x8DEF;&#x5F84;&#x4E0B;</strong>
+ &#x8FD9;&#x6837;&#x53EF;&#x4FDD;&#x8BC1;&#x7F16;&#x8BD1;&#x5668;&#x8BFB;&#x53D6;&#x7684;&#x516C;&#x6709;&#x7C7B;&#x6587;&#x4EF6;&#x662F;&#x4E92;&#x4E0D;&#x5F71;&#x54CD;&#x7684;&#x3002;</li>
+</ul>
+<h2 id="chapter05&#x6CDB;&#x578B;">Chapter05:&#x6CDB;&#x578B;</h2>
+<p>Java5&#x4E4B;&#x540E;&#xFF0C;&#x6CDB;&#x578B;&#x6210;&#x4E3A;Java&#x8BED;&#x8A00;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x6CA1;&#x6709;&#x6CDB;&#x578B;&#x524D;&#xFF0C;&#x64CD;&#x4F5C;&#x96C6;&#x5408;&#x4E2D;&#x7684;&#x5143;&#x7D20;&#x5FC5;&#x987B;&#x8FDB;&#x884C;&#x5F3A;&#x8F6C;&#xFF0C;&#x800C;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x5F02;&#x5E38;&#x53EA;&#x80FD;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x624D;&#x80FD;&#x53D1;&#x73B0;&#x3002;&#x6CDB;&#x578B;&#x53EF;&#x4EE5;&#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#x96C6;&#x5408;&#x4E2D;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x662F;&#x4EC0;&#x4E48;&#x7C7B;&#x578B;&#x7684;&#xFF0C;&#x4ECE;&#x800C;&#x53EF;&#x4EE5;&#x5728;&#x7F16;&#x8BD1;&#x671F;&#x5C31;&#x53D1;&#x73B0;&#x4E86;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x7684;&#x9519;&#x8BEF;&#x3002;&#x6CDB;&#x578B;&#x4F7F;&#x5F97;&#x7A0B;&#x5E8F;&#x66F4;&#x52A0;&#x5B89;&#x5168;&#xFF0C;&#x7B80;&#x6D01;&#x660E;&#x4E86;&#x3002;</p>
+<ul>
+<li><strong>&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#x6CA1;&#x6709;&#x6CDB;&#x578B;&#x7684;&#x96C6;&#x5408;</strong>
+ &#x4E5F;&#x5C31;&#x662F;&#x4E0D;&#x8981;&#x4F7F;&#x7528;<code>Set</code>&#x5B9A;&#x4E49;&#x96C6;&#x5408;&#xFF0C;&#x8FD9;&#x53C8;&#x56DE;&#x5230;&#x4E86;&#x6CA1;&#x6709;&#x6CDB;&#x578B;&#x7684;&#x65F6;&#x4EE3;&#x4E86;&#x3002;&#x800C;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;<code>Set</code>,<code>Set</code>,<code>Set</code>&#x7B49;&#x6765;&#x5B9A;&#x4E49;&#x96C6;&#x5408;&#x3002;&#x5173;&#x4E8E;&#x6CDB;&#x578B;&#x7C7B;&#x578B;&#x7684;&#x83B7;&#x53D6;&#xFF0C;&#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://www.jianshu.com/p/cae76008b36b" target="_blank">java Type &#x8BE6;&#x89E3;</a>
+ <a href="https://www.jianshu.com/p/e4e4401c3d46" target="_blank">Java&#x6CDB;&#x578B;&#x7684;&#x5B66;&#x4E60;&#x548C;&#x4F7F;&#x7528;</a></li>
+<li><strong>&#x6D88;&#x9664;&#x6BCF;&#x4E00;&#x4E2A;&#x672A;&#x68C0;&#x67E5;&#x7684;&#x8B66;&#x544A;</strong>
+ &#x6BCF;&#x4E00;&#x4E2A;&#x672A;&#x68C0;&#x67E5;&#x7684;waring&#x90FD;&#x662F;&#x4E00;&#x4E2A;&#x6F5C;&#x5728;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x5F02;&#x5E38;&#xFF0C;&#x5C3D;&#x91CF;&#x4FDD;&#x8BC1;&#x4EE3;&#x7801;&#x4E0D;&#x63D0;&#x793A;&#x8FD9;&#x79CD;&#x5F02;&#x5E38;&#x3002;&#x6216;&#x8005;&#x4F7F;&#x7528;<code>@SuppressWarnings</code>&#x6CE8;&#x89E3;&#x6291;&#x5236;&#x8B66;&#x544A;&#xFF0C;&#x540C;&#x65F6;&#x8BF4;&#x660E;&#x539F;&#x56E0;&#xFF0C;&#x5E76;&#x5C3D;&#x91CF;&#x7F29;&#x5C0F;&#x8BE5;&#x6CE8;&#x89E3;&#x7684;&#x4F5C;&#x7528;&#x8303;&#x56F4;&#x3002;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x96C6;&#x5408;&#x800C;&#x4E0D;&#x662F;&#x6570;&#x7EC4;</strong>
+ &#x56E0;&#x4E3A;&#x6570;&#x7EC4;&#x4E0D;&#x652F;&#x6301;&#x521B;&#x5EFA;&#x6CDB;&#x578B;&#x6570;&#x7EC4;(&#x5982;new List<e>[],new E[])&#xFF0C;&#x5B83;&#x53EA;&#x80FD;&#x4FDD;&#x8BC1;&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x7C7B;&#x578B;&#x5B89;&#x5168;&#x800C;&#x4E0D;&#x662F;&#x7F16;&#x8BD1;&#x65F6;&#x7684;&#x7C7B;&#x578B;&#x5B89;&#x5168;&#x3002;</e></li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x6CDB;&#x578B;&#x53C2;&#x6570;&#xFF08;&#x5982;E&#xFF09;&#x5B9A;&#x4E49;&#x6CDB;&#x578B;</strong>
+ &#x89E3;&#x51B3;&#x57FA;&#x4E8E;&#x6570;&#x7EC4;&#x5B9E;&#x73B0;&#x7684;&#x6CDB;&#x578B;&#x7C7B;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;
+ 1.&#x4F7F;&#x7528;Object[]&#x6765;&#x505A;&#x6210;&#x5458;&#x53D8;&#x91CF;,&#x6BCF;&#x6B21;&#x83B7;&#x53D6;&#x5143;&#x7D20;&#x90FD;&#x8FDB;&#x884C;&#x5F3A;&#x8F6C;&#xFF0C;&#x5982;Java&#x7684;<code>Stack</code>&#x7C7B;&#x3002;
+ 2.&#x4F7F;&#x7528;E[]&#x6765;&#x505A;&#x6210;&#x5458;&#x53D8;&#x91CF;,&#x53EA;&#x6709;&#x521B;&#x5EFA;&#x6CDB;&#x578B;&#x6570;&#x7EC4;&#x7684;&#x65F6;&#x5019;&#x5F3A;&#x8F6C;&#x4E3A;E[]&#xFF0C;&#x5176;&#x4ED6;&#x6DFB;&#x52A0;&#x548C;&#x83B7;&#x53D6;&#x64CD;&#x4F5C;&#x4E0D;&#x7528;&#x8FDB;&#x884C;&#x5F3A;&#x8F6C;&#x3002;&#x5373;</li>
+</ul>
+<pre><code class="lang-dart">        E[] elements = (E[])<span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>[<span class="hljs-number">16</span>];
+</code></pre>
+<p>&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x7B2C;&#x4E8C;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x66F4;&#x52A0;&#x6613;&#x8BFB;&#xFF0C;&#x7B80;&#x6D01;&#xFF0C;&#x53EA;&#x5728;&#x521B;&#x5EFA;&#x6570;&#x7EC4;&#x65F6;&#x8FDB;&#x884C;&#x4E86;&#x4E00;&#x6B21;&#x5F3A;&#x8F6C;&#x3002;
+ &#x6B64;&#x5916;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<e extends="" t="">&#x53EF;&#x4F7F;&#x6CDB;&#x578B;&#x5143;&#x7D20;&#x83B7;&#x5F97;&#x539F;&#x6765;T&#x7684;&#x529F;&#x80FD;&#x3002;
+ &#x603B;&#x4E4B;&#xFF0C;&#x4F7F;&#x7528;&#x6CDB;&#x578B;&#x7C7B;&#x578B;&#x7684;&#x53C2;&#x6570;&#x53EF;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x7C7B;&#x578B;&#x5F3A;&#x8F6C;&#x3002;</e></p>
+<ul>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x6CDB;&#x578B;&#x4FEE;&#x9970;&#x7684;&#x65B9;&#x6CD5;</strong>
+ &#x662F;&#x6307;&#x7528;&#x6CDB;&#x578B;&#x7C7B;&#x578B;&#x4FEE;&#x9970;&#x65B9;&#x6CD5;&#x7684;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x548C;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x540C;&#x6837;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x7C7B;&#x578B;&#x5F3A;&#x8F6C;&#x3002;</li>
+<li><strong>&#x4F7F;&#x7528;WildcardType &#x901A;&#x914D;&#x7B26;&#x7C7B;&#x578B;&#x589E;&#x52A0;&#x7075;&#x6D3B;&#x6027;</strong>
+ &#x901A;&#x914D;&#x7B26;&#x7C7B;&#x578B;&#x4E3B;&#x8981;&#x5305;&#x542B;&#x4E09;&#x79CD;&#xFF1A;
+ 1.&#x65E0;&#x9650;&#x5B9A;&#x901A;&#x914D;&#x7B26;&#xFF0C;&#x5F62;&#x5F0F;&#xFF1A;&lt;?&gt;&#xFF0C;&#x8868;&#x793A;&#x4EFB;&#x610F;&#x7C7B;&#x578B;&#xFF0C;List&lt;?&gt;&#x4F1A;&#x6BD4;List<string>&#x5177;&#x6709;&#x66F4;&#x5927;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x3002;
+ 2.&#x4E0A;&#x8FB9;&#x754C;&#x901A;&#x914D;&#x7B26;&#xFF0C;&#x5F62;&#x5F0F;&#xFF1A;&lt;? extends E&gt;&#xFF0C;&#x8868;&#x793A;&#x662F;E&#x6216;&#x8005;E&#x7684;&#x5B50;&#x7C7B;&#x578B;&#x3002;
+ 3.&#x4E0B;&#x8FB9;&#x754C;&#x901A;&#x914D;&#x7B26;&#xFF0C;&#x5F62;&#x5F0F;&#xFF1A;&lt;? super E&gt;&#xFF0C;&#x8868;&#x793A;&#x662F;E&#x6216;&#x8005;E&#x7684;&#x7236;&#x7C7B;&#x578B;&#x3002;
+ &#x5F53;&#x65B9;&#x6CD5;&#x4E2D;&#x7684;&#x5F62;&#x5F0F;&#x53C2;&#x6570;&#x4F7F;&#x7528;&#x901A;&#x914D;&#x7B26;&#x6CDB;&#x578B;&#x7C7B;&#x578B;&#x65F6;&#xFF0C;&#x9075;&#x5FAA;<code>PECS&#x539F;&#x5219;</code>&#x53EF;&#x83B7;&#x5F97;&#x6700;&#x5927;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x3002;PECS&#x662F;&#x6307;&#x5F53;&#x53C2;&#x6570;&#x662F;&#x4F5C;&#x4E3A;&#x751F;&#x4EA7;&#x8005;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;<code>,&#x5F53;&#x53C2;&#x6570;&#x4F5C;&#x4E3A;&#x6D88;&#x8D39;&#x8005;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;</code>&#x3002;&#x5982;&#x5411;Stack&#x4E2D;&#x6DFB;&#x52A0;&#x5143;&#x7D20;<code>push</code>&#xFF08;&#x5411;stack&#x4E2D;&#x751F;&#x4EA7;&#x5143;&#x7D20;&#xFF09;,&#x4F7F;&#x7528;&lt;? extends E&gt;&#xFF1B;&#x4ECE;Stack&#x4E2D;&#x83B7;&#x53D6;&#x5143;&#x7D20;<code>pop</code>&#xFF08;&#x4ECE;stack&#x4E2D;&#x6D88;&#x8D39;&#x5143;&#x7D20;&#xFF09;,&#x4F7F;&#x7528;&lt;? super E&gt;&#x3002;&#x5373;&#x751F;&#x4EA7;&#x4E0A;&#x8FB9;&#x754C;&#x7C7B;&#x578B;&#x6D88;&#x8D39;&#x4E0B;&#x8FB9;&#x754C;&#x7C7B;&#x578B;&#x7684;&#x539F;&#x5219;&#x3002;</string></li>
+</ul>
+<pre><code class="lang-csharp"><span class="hljs-comment">//&#x4FDD;&#x8BC1;&#x653E;&#x8FDB;&#x53BB;&#x7684;&#x5143;&#x7D20;&#x90FD;&#x6709;E&#x7684;&#x7279;&#x6027;</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">pushAll</span>(<span class="hljs-params">Iterable&lt;? extends E&gt; src</span>)</span>{
+        <span class="hljs-keyword">for</span> (E e : src) {
+            push(e);
+
+        }
+    }
+<span class="hljs-comment">//&#x4FDD;&#x8BC1;&#x53D6;&#x51FA;&#x6765;&#x7684;&#x5143;&#x7D20;&#x81F3;&#x591A;&#x6709;E&#x7684;&#x7279;&#x6027;</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">popAll</span>(<span class="hljs-params">Iterable&lt;? super E&gt; dst</span>)</span>{
+        <span class="hljs-keyword">while</span> (! isEmpty()){
+            dst.add(pop());
+        }
+    }
+</code></pre>
+<ul>
+<li><strong>&#x614E;&#x91CD;&#x53EF;&#x53D8;&#x53C2;&#x6570;&#x7684;&#x6CDB;&#x578B;&#x7C7B;&#x578B;&#x53C2;&#x6570;</strong>
+ &#x56E0;&#x4E3A;&#x53EF;&#x53D8;&#x53C2;&#x6570;&#x662F;&#x7531;&#x6570;&#x7EC4;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x5F53;&#x6570;&#x7EC4;&#x548C;&#x6CDB;&#x578B;&#x5171;&#x540C;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x7684;&#x5931;&#x8D25;&#x3002;&#x907F;&#x514D;&#x5F02;&#x5E38;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#xFF1A;
+ 1.&#x4E0D;&#x8981;&#x5411;&#x53EF;&#x53D8;&#x53C2;&#x6570;&#x7684;&#x6570;&#x7EC4;&#x4E2D;&#x6DFB;&#x52A0;&#x5143;&#x7D20;&#x3002;
+ 2.&#x4E0D;&#x8981;&#x4F7F;&#x6570;&#x7EC4;&#x66B4;&#x9732;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x4EE3;&#x7801;,&#x4E5F;&#x4E0D;&#x8981;&#x4F7F;&#x7528;clone&#x3002;
+ &#x53EF;&#x53C2;&#x8003;JDK&#x4E2D;<code>Arrays.asList(T... a)</code>,<code>EnumSet.of(E first, E... rest)</code>&#x4E2D;&#x7684;&#x5B9E;&#x73B0;&#x3002;&#x5982;&#x679C;&#x7C7B;&#x578B;&#x5B89;&#x5168;&#xFF0C;&#x4F7F;&#x7528;<code>@SafeVarags</code>&#x6CE8;&#x89E3;&#x8FD9;&#x7C7B;&#x65B9;&#x6CD5;&#x3002;</li>
+<li><strong>&#x8003;&#x8651;&#x4F7F;&#x7528;&#x7C7B;&#x578B;&#x5B89;&#x5168;&#x7684;&#x5F02;&#x6784;&#x5BB9;&#x5668;</strong>
+ &#x901A;&#x5E38;&#x6211;&#x4EEC;&#x662F;&#x5728;&#x96C6;&#x5408;&#x5BB9;&#x5668;&#x4E2D;&#x4F7F;&#x7528;&#x6CDB;&#x578B;&#xFF0C;&#x5982;List<string>&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x7C7B;&#x5BB9;&#x5668;&#x53EA;&#x80FD;&#x63A5;&#x6536;&#x4E00;&#x79CD;&#x7C7B;&#x578B;&#xFF08;String&#xFF09;&#x7684;&#x53C2;&#x6570;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>Class object</code>&#x4F5C;&#x4E3A;key&#xFF0C;&#x6765;&#x5B58;&#x50A8;&#x66F4;&#x591A;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#x7684;&#x5BB9;&#x5668;&#x3002;&#x5982;<code>Map,Object&gt; map</code>&#x3002;</string></li>
+</ul>
+<h2 id="chapter06&#x679A;&#x4E3E;&#x548C;&#x6CE8;&#x89E3;">Chapter06:&#x679A;&#x4E3E;&#x548C;&#x6CE8;&#x89E3;</h2>
+<ul>
+<li><strong>&#x4F7F;&#x7528;&#x679A;&#x4E3E;&#x4EE3;&#x66FF;&#x6570;&#x5B57;&#x5E38;&#x91CF;</strong>
+ &#x679A;&#x4E3E;&#x7C7B;&#x662F;&#x7EE7;&#x627F;Enum&#x7C7B;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x662F;<code>public static final</code>&#x5B9A;&#x4E49;&#x7684;&#xFF08;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x662F;&#x679A;&#x4E3E;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;&#x5B9E;&#x73B0;&#xFF09;&#x3002;&#x540C;&#x65F6;&#x679A;&#x4E3E;&#x7C7B;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x662F;&#x79C1;&#x6709;&#x7684;&#xFF0C;&#x5916;&#x754C;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x521B;&#x5EFA;&#x679A;&#x4E3E;&#x5B9E;&#x4F8B;&#xFF0C;Enum&#x7C7B;&#x5E8F;&#x5217;&#x5316;&#x76F8;&#x5173;&#x65B9;&#x6CD5;&#x4F1A;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x4E5F;&#x5C31;&#x65E0;&#x6CD5;&#x901A;&#x8FC7;&#x5E8F;&#x5217;&#x5316;&#x521B;&#x5EFA;&#x51FA;&#x65B0;&#x7684;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x3002;&#x6240;&#x4EE5;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x662F;&#x5929;&#x7136;&#x7684;&#x4E0D;&#x53EF;&#x53D8;&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x3002;
+ &#x679A;&#x4E3E;&#x7C7B;&#x7684;&#x597D;&#x5904;&#x662F;&#x6613;&#x8BFB;&#xFF0C;&#x5B89;&#x5168;&#x548C;&#x53EF;&#x63D0;&#x4F9B;&#x66F4;&#x591A;&#x7684;&#x529F;&#x80FD;&#x3002;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x679A;&#x4E3E;&#x7C7B;&#xFF1A;
+ 1.&#x679A;&#x4E3E;&#x7C7B;&#x5E94;&#x8BE5;&#x662F;<code>public</code>&#x7684;&#x7C7B;&#xFF0C;&#x5982;&#x679C;&#x5B83;&#x548C;&#x4F7F;&#x7528;&#x8005;&#x7D27;&#x5BC6;&#x76F8;&#x5173;&#xFF0C;&#x90A3;&#x4E48;&#x5E94;&#x8BE5;&#x662F;&#x4F7F;&#x7528;&#x8005;&#x7684;&#x6210;&#x5458;&#x7C7B;&#x3002;
+ 2.&#x5982;&#x679C;&#x6BCF;&#x4E2A;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x90FD;&#x6709;&#x5404;&#x81EA;&#x7279;&#x6709;&#x7684;&#x884C;&#x4E3A;&#xFF0C;&#x6700;&#x597D;&#x662F;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#xFF0C;&#x8BA9;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x5404;&#x81EA;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#x3002;&#x5982;&#xFF1A;</li>
+</ul>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Operation {
+    PLUS{
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">apply</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y)</span> </span>{
+            <span class="hljs-keyword">return</span> x + y;
+        }
+    },
+    MINUS{
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">apply</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y)</span> </span>{
+            <span class="hljs-keyword">return</span> x-y;
+        }
+    };
+<span class="hljs-comment">//&#x7531;&#x5B50;&#x7C7B;&#x5B9E;&#x73B0;</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">double</span> <span class="hljs-title">apply</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x,<span class="hljs-keyword">double</span> y)</span></span>;
+}
+</code></pre>
+<p>3.&#x5F53;&#x7531;&#x67D0;&#x4E2A;&#x7279;&#x5F81;&#x83B7;&#x53D6;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x65F6;&#xFF0C;&#x53EF;&#x8FD4;&#x56DE;Optional<t>&#x5BF9;&#x8C61;&#xFF0C;&#x7531;&#x5BA2;&#x6237;&#x7AEF;&#x5224;&#x65AD;&#x662F;&#x5426;&#x80FD;&#x83B7;&#x53D6;&#x5230;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x3002;
+ 4.&#x5F53;&#x7F16;&#x8BD1;&#x671F;&#x53EF;&#x786E;&#x5B9A;&#x5E38;&#x91CF;&#x7684;&#x96C6;&#x5408;&#x5185;&#x5BB9;&#x65F6;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x679A;&#x4E3E;&#x7C7B;&#x6765;&#x5B9E;&#x73B0;&#x3002;</t></p>
+<ul>
+<li><strong>&#x4F7F;&#x7528;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x7684;&#x5B57;&#x6BB5;&#x5C5E;&#x6027;&#x5B9A;&#x4E49;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x679A;&#x4E3E;&#x7C7B;&#x4E2D;&#x7684;ordinal&#x5B57;&#x6BB5;</strong>
+ &#x5982;&#x4EE5;&#x4E0B;&#x5B9A;&#x4E49;&#xFF1A;</li>
+</ul>
+<pre><code class="lang-cpp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Ensemble {
+    SOLO(<span class="hljs-number">1</span>),
+    DUET(<span class="hljs-number">2</span>);
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> numberOfMusicians;
+
+    Ensemble(<span class="hljs-keyword">int</span> size){
+        <span class="hljs-keyword">this</span>.numberOfMusicians = size;
+    }
+    <span class="hljs-comment">//&#x6B63;&#x786E;&#x4F7F;&#x7528;</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">numberOfMusicians1</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-keyword">return</span> numberOfMusicians;
+    }
+    <span class="hljs-comment">//&#x9519;&#x8BEF;&#x4F7F;&#x7528;</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">numberOfMusicians</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-keyword">return</span> ordinal() + <span class="hljs-number">1</span>;
+    }
+
+}
+</code></pre>
+<p>Enum&#x7C7B;&#x4E2D;<code>ordinal</code>&#x7684;&#x8BBE;&#x8BA1;&#x662F;&#x7528;&#x6765;&#x6BD4;&#x8F83;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x7684;&#x5927;&#x5C0F;&#x548C;EnumSet,EnumMap&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x3002;</p>
+<ul>
+<li><strong>&#x4F7F;&#x7528;EnumSet&#x4EE3;&#x66FF;bit&#x5B57;&#x6BB5;&#x7684;&#x5B9A;&#x4E49;</strong>
+ EnumSet&#x662F;&#x5BF9;&#x679A;&#x4E3E;&#x7C7B;&#x5BF9;&#x8C61;&#x7684;&#x6570;&#x7EC4;&#x96C6;&#x5408;&#x5305;&#x88C5;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x7CFB;&#x5217;&#x5904;&#x7406;&#x679A;&#x4E3E;&#x7C7B;&#x6570;&#x7EC4;&#x96C6;&#x5408;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x4F7F;&#x7528;&#x4F4D;&#x5411;&#x91CF;&#x6570;&#x7EC4;&#x5B9E;&#x73B0;&#xFF0C;&#x6027;&#x80FD;&#x548C;bit&#x5904;&#x7406;&#x76F8;&#x5F53;&#xFF0C;&#x540C;&#x65F6;&#x53C8;&#x62E5;&#x6709;&#x679A;&#x4E3E;&#x7C7B;&#x7684;&#x4F18;&#x70B9;&#x3002;</li>
+<li><strong>&#x4F7F;&#x7528;EnumMap&#x4EE3;&#x66FF;&#x4F7F;&#x7528;ordinal&#x7D22;&#x5F15;</strong>
+ EnumMap&#x662F;&#x5BF9;&#x679A;&#x4E3E;&#x7C7B;&#x5BF9;&#x8C61;&#x7684;Map&#x6570;&#x7EC4;&#x96C6;&#x5408;&#x5305;&#x88C5;,key&#x4E3A;&#x5BF9;&#x5E94;&#x7684;&#x679A;&#x4E3E;&#x7C7B;&#x5BF9;&#x8C61;&#x3002;&#x5E95;&#x5C42;&#x5B9E;&#x73B0;&#x4E5F;&#x662F;&#x4F7F;&#x7528;ordinal&#x4F5C;&#x4E3A;&#x6570;&#x7EC4;&#x4E0B;&#x6807;&#x3002;&#x4F46;&#x662F;&#x76F8;&#x6BD4;&#x76F4;&#x63A5;&#x4F7F;&#x7528;ordinal&#x4F5C;&#x4E3A;&#x6570;&#x7EC4;&#x4E0B;&#x6807;&#x7684;&#x6570;&#x7EC4;&#xFF0C;EnumMap&#x66F4;&#x52A0;&#x76F4;&#x89C2;&#x65B9;&#x4FBF;&#xFF0C;&#x540C;&#x65F6;&#x53EF;&#x8868;&#x793A;&#x591A;&#x4E2A;&#x7EF4;&#x5EA6;&#xFF0C;&#x5982;<code>EnumMap&lt;...,EnumMap&lt;...&gt;&gt;</code>&#x3002;</li>
+<li><strong>&#x4F7F;&#x7528;&#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#x6765;&#x6269;&#x5C55;&#x679A;&#x4E3E;&#x7C7B;</strong>
+ &#x56E0;&#x4E3A;&#x679A;&#x4E3E;&#x7C7B;&#x9ED8;&#x8BA4;&#x7EE7;&#x627F;Enum&#x7C7B;&#xFF0C;&#x53EF;&#x5B9E;&#x73B0;&#x591A;&#x4E2A;&#x63A5;&#x53E3;&#x6765;&#x6269;&#x5C55;&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#x3002;
+ &#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.cnblogs.com%2Fswiftma%2Fp%2F6044718.html" target="_blank">&#x5256;&#x6790;EnumSet</a>
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.cnblogs.com%2Fswiftma%2Fp%2F6044672.html" target="_blank">&#x5256;&#x6790;EnumMap</a></li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x6CE8;&#x89E3;&#x800C;&#x4E0D;&#x662F;&#x56FA;&#x5B9A;&#x547D;&#x540D;&#x6A21;&#x5F0F;</strong>
+ &#x6CE8;&#x89E3;&#x66F4;&#x52A0;&#x7075;&#x6D3B;&#xFF0C;&#x65B9;&#x4FBF;&#x7EDF;&#x4E00;&#x5904;&#x7406;&#x3002;&#x5982;Lombok,Junit&#x4E2D;&#x7684;&#x4F7F;&#x7528;&#x3002;</li>
+<li><strong>&#x5BF9;&#x4E8E;&#x91CD;&#x5199;&#x65B9;&#x6CD5;&#xFF0C;&#x4F7F;&#x7528;Override&#x6CE8;&#x89E3;&#x6807;&#x660E;</strong>
+ &#x5426;&#x5219;&#x91CD;&#x5199;&#x4E86;&#x65B9;&#x6CD5;&#x800C;&#x4E0D;&#x81EA;&#x77E5;&#xFF0C;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x9519;&#x8BEF;&#x53D1;&#x751F;&#x3002;</li>
+<li><strong>&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x58F0;&#x660E;&#x67D0;&#x79CD;&#x901A;&#x7528;&#x7279;&#x6027;</strong>
+ &#x76F8;&#x6BD4;&#x4F7F;&#x7528;&#x6CE8;&#x89E3;&#x58F0;&#x660E;&#x67D0;&#x79CD;<code>&#x901A;&#x7528;&#x7279;&#x6027;</code>&#xFF0C;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x58F0;&#x660E;&#x4F1A;&#x66F4;&#x52A0;&#x660E;&#x786E;&#xFF0C;&#x7EDF;&#x4E00;&#x3002;&#x5982;<code>Serializable</code>&#x63A5;&#x53E3;&#x7EDF;&#x4E00;&#x8868;&#x793A;Java&#x7684;&#x539F;&#x751F;&#x5E8F;&#x5217;&#x5316;&#x6807;&#x5FD7;&#x3002;</li>
+</ul>
+<h2 id="chapter07lambda&#x8868;&#x8FBE;&#x5F0F;&#x548C;&#x6D41;&#x5904;&#x7406;">Chapter07:Lambda&#x8868;&#x8FBE;&#x5F0F;&#x548C;&#x6D41;&#x5904;&#x7406;</h2>
+<ul>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;lambdas&#x800C;&#x4E0D;&#x662F;&#x533F;&#x540D;&#x7C7B;</strong>
+ lambda&#x53EF;&#x4EE5;&#x4F7F;&#x4EE3;&#x7801;&#x770B;&#x8D77;&#x6765;&#x66F4;&#x52A0;&#x7B80;&#x6D01;&#xFF0C;&#x4E66;&#x5199;&#x65B9;&#x4FBF;&#x3002;&#x5BF9;&#x4E8E;&#x51FD;&#x6570;&#x63A5;&#x53E3;&#xFF08;&#x53EA;&#x6709;&#x4E00;&#x4E2A;abstract&#x65B9;&#x6CD5;&#x7684;&#x63A5;&#x53E3;&#xFF09;&#xFF0C;&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#x533F;&#x540D;&#x7C7B;&#x521B;&#x5EFA;&#x5B9E;&#x4F8B;&#xFF0C;&#x4E5F;&#x4E0D;&#x8981;&#x5E8F;&#x5217;&#x5316;lambdas&#x6216;&#x8005;&#x533F;&#x540D;&#x7C7B;&#x3002;lambdas&#x6700;&#x597D;&#x662F;&#x4E0D;&#x8D85;&#x8FC7;&#x51E0;&#x884C;&#xFF0C;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#x7684;&#x4EE3;&#x7801;&#x3002;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x800C;&#x4E0D;&#x662F;lambdas</strong>
+ Lambda &#x8868;&#x8FBE;&#x5F0F;&#x5E38;&#x7528;&#x8BED;&#x6CD5;&#x662F; <code>(argument) -&gt; (body)</code>&#xFF0C;&#x800C;&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x6307;&#x7684;&#x662F;<code>&#x76EE;&#x6807;&#x5F15;&#x7528;::&#x65B9;&#x6CD5;</code>&#x7684;&#x5F62;&#x5F0F;&#x3002;&#x5982;&#x4E0B;&#xFF1A;</li>
+</ul>
+<pre><code class="lang-rust"><span class="hljs-comment">//Lambda &#x8868;&#x8FBE;&#x5F0F;&#x5F62;&#x5F0F;</span>
+Comparator c = (p1, p2) -&gt; p1.getAge().compareTo(p2.getAge());
+<span class="hljs-comment">//&#x65B9;&#x6CD5;&#x5F15;&#x7528;</span>
+Comparator c = Comparator.comparing(Person::getAge);
+</code></pre>
+<p>&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x5927;&#x591A;&#x65F6;&#x5019;&#x4F1A;&#x663E;&#x5F97;&#x66F4;&#x52A0;&#x7B80;&#x6D01;&#x6613;&#x61C2;&#x3002;&#x4F46;&#x662F;&#x5F53;Lambda &#x8868;&#x8FBE;&#x5F0F;&#x5F62;&#x5F0F;&#x6BD4;&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x66F4;&#x7B80;&#x6D01;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F7F;&#x7528;&#x524D;&#x8005;&#x3002;</p>
+<ul>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x6807;&#x51C6;&#x7684;&#x51FD;&#x6570;&#x63A5;&#x53E3;</strong>
+ <code>java.util.function</code>&#x5305;&#x4E2D;&#x63D0;&#x4F9B;&#x4E86;&#x8868;&#x793A;&#x751F;&#x4EA7;&#x8005;&#xFF08;Supplier<t>&#xFF09;,&#x6D88;&#x8D39;&#x8005;&#xFF08;Consumer<t>&#xFF09;,&#x9884;&#x6D4B;&#xFF08;Predicate&lt;T&gt;)&#x7B49;&#x4F17;&#x591A;&#x51FD;&#x6570;&#x63A5;&#x53E3;&#xFF0C;&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x51FD;&#x6570;&#x63A5;&#x53E3;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x542B;&#x6709;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x7684;&#x51FD;&#x6570;&#x63A5;&#x53E3;&#x4E0D;&#x8981;&#x4F20;&#x5165;&#x5305;&#x88C5;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x3002;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x51FD;&#x6570;&#x63A5;&#x53E3;&#x4F7F;&#x7528;<code>@FunctionalInterface</code>&#x6CE8;&#x89E3;&#x3002;</t></t></li>
+<li><strong>&#x614E;&#x91CD;&#x4F7F;&#x7528;streams</strong>
+ &#x8FC7;&#x5EA6;&#x4F7F;&#x7528;streams(&#x6D41;&#x5904;&#x7406;)&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x96BE;&#x8BFB;&#x96BE;&#x7EF4;&#x62A4;&#x3002;streams&#x7528;&#x51FD;&#x6570;&#x5BF9;&#x8C61;&#x6765;&#x5904;&#x7406;&#x6D41;&#x6570;&#x636E;&#xFF08;&#x60F3;&#x8C61;&#x6C34;&#x6D41;&#x6D41;&#x8FC7;&#x7BA1;&#x9053;&#xFF09;&#xFF0C;&#x5FAA;&#x73AF;&#x4EE3;&#x7801;&#x5757;(&#x5FAA;&#x73AF;&#x904D;&#x5386;&#x4EE3;&#x7801;&#xFF0C;&#x5982;for&#x5FAA;&#x73AF;&#xFF0C;while&#x5FAA;&#x73AF;)&#x7528;&#x4EE3;&#x7801;&#x5757;&#x4E0D;&#x65AD;&#x7684;&#x91CD;&#x590D;&#x64CD;&#x4F5C;&#x3002;&#x4ED6;&#x4EEC;&#x7684;&#x64CD;&#x4F5C;&#x5BF9;&#x6BD4;&#xFF1A;</li>
+</ul>
+<p>1.&#x4EE3;&#x7801;&#x5757;&#x53EF;&#x8BFB;&#x5199;&#x4F5C;&#x7528;&#x57DF;&#x5185;&#x8BBF;&#x95EE;&#x7684;&#x4EFB;&#x4F55;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x3002;Lambda&#x53EA;&#x80FD;&#x8BFB;&#x7528;<code>final&#x4FEE;&#x9970;</code>&#x6216;&#x8005;<code>effectively final</code>(A variable or parameter whose value is never changed after it is initialized is effectively final.)&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x80FD;&#x4FEE;&#x6539;&#x4EFB;&#x4F55;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x3002;
+ 2.&#x4EE3;&#x7801;&#x5757;&#x53EF;&#x4F7F;&#x7528;<code>return</code>&#xFF0C;<code>break</code>&#xFF0C;<code>continue</code>&#x6216;&#x8005;<code>&#x629B;&#x5F02;&#x5E38;</code>&#xFF1B;Lambda&#x4E0D;&#x80FD;&#x505A;&#x8FD9;&#x4E9B;&#x4E8B;&#x60C5;&#x3002;
+ &#x5982;&#x679C;&#x9700;&#x8981;&#x4E0A;&#x8FF0;&#x8FD9;&#x4E9B;&#x4EE3;&#x7801;&#x5757;&#x64CD;&#x4F5C;&#x7684;&#xFF0C;&#x5219;&#x4E0D;&#x9002;&#x5408;&#x4F7F;&#x7528;streams&#x3002;streams&#x9002;&#x5408;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x4E3A;&#xFF1A;
+ 1.&#x7EDF;&#x4E00;&#x7684;&#x6D41;&#x4E2D;&#x5143;&#x7D20;&#x8F6C;&#x6362;
+ 2.&#x6309;&#x7167;&#x6761;&#x4EF6;&#x8FC7;&#x6EE4;&#x4E00;&#x4E9B;&#x5143;&#x7D20;
+ 3.&#x7528;&#x7B80;&#x5355;&#x7684;&#x64CD;&#x4F5C;&#xFF08;&#x5982;&#x6C42;&#x6700;&#x5C0F;&#x503C;&#xFF09;&#x5904;&#x7406;&#x5143;&#x7D20;
+ 4.&#x628A;&#x5143;&#x7D20;&#x653E;&#x5165;&#x96C6;&#x5408;&#x5BB9;&#x5668;&#x4E2D;&#xFF0C;&#x5982;&#x5206;&#x7EC4;
+ 5.&#x67E5;&#x8BE2;&#x6EE1;&#x8DB3;&#x67D0;&#x4E9B;&#x6761;&#x4EF6;&#x7684;&#x5143;&#x7D20;&#x96C6;&#x5408;
+ &#x5176;&#x5B9E;&#x4E5F;&#x5C31;&#x662F;<code>map-reduce</code>&#x64CD;&#x4F5C;&#x9002;&#x5408;&#x6D41;&#x5F0F;&#x5904;&#x7406;&#x3002;</p>
+<ul>
+<li><strong>&#x5728;streams&#x7BA1;&#x9053;&#x4E2D;&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x65E0;&#x526F;&#x4F5C;&#x7528;&#x7684;&#x51FD;&#x6570;</strong>
+ &#x65E0;&#x526F;&#x4F5C;&#x7528;&#x7684;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x662F;&#x6307;&#x4E0D;&#x4F9D;&#x8D56;&#x53EF;&#x53D8;&#x72B6;&#x6001;&#x53C2;&#x6570;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x4E0D;&#x4F1A;&#x4FEE;&#x6539;&#x4EFB;&#x4F55;&#x72B6;&#x6001;&#x7684;&#x51FD;&#x6570;&#x3002;&#x8FD9;&#x6837;&#x5728;&#x6D41;&#x5904;&#x7406;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6BCF;&#x9636;&#x6BB5;&#x7684;&#x5904;&#x7406;&#x7ED3;&#x679C;&#x53EA;&#x4F9D;&#x8D56;&#x4E8E;&#x5B83;&#x7684;&#x524D;&#x4E00;&#x9636;&#x6BB5;&#x7684;&#x8F93;&#x5165;&#x7ED3;&#x679C;&#x3002;&#x540C;&#x65F6;&#x4E0D;&#x8981;&#x4F7F;&#x7528;<code>forEach</code>&#x505A;&#x6D41;&#x5C55;&#x793A;&#x7684;&#x8FD0;&#x7B97;&#x3002;&#x5728;&#x505A;&#x6D41;&#x7684;<code>collect</code>&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;&#x53EF;&#x901A;&#x8FC7;<code>Collectors</code>&#x5B9E;&#x73B0;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x96C6;&#x5408;&#x64CD;&#x4F5C;&#xFF0C;&#x5982;<code>toList</code>,<code>toMap</code>,<code>groupingBy</code>&#x7B49;&#x3002;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x96C6;&#x5408;&#x800C;&#x4E0D;&#x662F;Stream&#x4F5C;&#x4E3A;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;</strong>
+ &#x96C6;&#x5408;&#x65E2;&#x53EF;&#x4EE5;&#x505A;&#x96C6;&#x5408;&#x4E2D;&#x5143;&#x7D20;&#x5E8F;&#x5217;&#x7684;&#x6D41;&#x5904;&#x7406;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8FED;&#x4EE3;&#x4F7F;&#x7528;&#x3002;&#x4F46;&#x662F;Stream&#x6CA1;&#x6709;&#x5B9E;&#x73B0;Iterable&#x63A5;&#x53E3;&#xFF0C;&#x65E0;&#x6CD5;&#x505A;&#x8FED;&#x4EE3;&#x64CD;&#x4F5C;&#x3002;</li>
+<li><strong>&#x5C0F;&#x5FC3;&#x4F7F;&#x7528;streams &#x5E76;&#x884C;&#x8BA1;&#x7B97;</strong>
+ &#x53EF;&#x8C03;&#x7528;<code>parallel</code>&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#x5E76;&#x884C;&#x8BA1;&#x7B97;&#xFF0C;&#x4F46;&#x662F;&#x5BF9;&#x4E8E;<code>limit</code>,<code>collect</code>&#x65B9;&#x6CD5;&#x5E76;&#x4E0D;&#x9002;&#x5408;&#x4F7F;&#x7528;&#x5E76;&#x884C;&#x8BA1;&#x7B97;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E9B;&#x64CD;&#x4F5C;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x9519;&#x8BEF;&#x7684;&#x7ED3;&#x679C;&#x6216;&#x707E;&#x96BE;&#x3002;&#x800C;&#x5BF9;&#x4E8E;<code>reduce</code>&#x6216;&#x8005;&#x6709;&#x9884;&#x64CD;&#x4F5C;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x6BD4;&#x5982;<code>min</code>,<code>max</code>,<code>count</code>,<code>anyMatch</code>&#x8FD9;&#x4E9B;&#x662F;&#x9002;&#x5408;&#x4F7F;&#x7528;&#x5E76;&#x884C;&#x8BA1;&#x7B97;&#x7684;&#x3002;&#x540C;&#x65F6;&#x96C6;&#x5408;&#x7C7B;<code>ArrayList</code>,<code>HashMap</code>,<code>ConcurrentHashMap</code>,<code>arrays</code>&#x662F;&#x9002;&#x5408;&#x505A;&#x5E76;&#x884C;&#x8BA1;&#x7B97;&#xFF0C;&#x56E0;&#x4E3A;&#x4ED6;&#x4EEC;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4E3B;&#x8981;&#x7531;&#x6570;&#x7EC4;&#x6784;&#x6210;&#xFF0C;&#x53EF;&#x7B80;&#x5355;&#x5207;&#x5206;&#x6210;&#x5C0F;&#x5757;&#x6570;&#x636E;&#x5E76;&#x884C;&#x8FD0;&#x7B97;&#xFF0C;&#x540C;&#x65F6;&#x5C40;&#x90E8;&#x7684;&#x6570;&#x7EC4;&#x6570;&#x636E;&#x5F15;&#x7528;&#x901A;&#x5E38;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x662F;&#x8FDE;&#x7EED;&#x7684;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x53EA;&#x6709;&#x5F53;&#x6570;&#x636E;&#x91CF;&#x5F88;&#x5927;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;cpu&#x6838;&#x6570;&#x76F8;&#x540C;&#x7684;&#x7EBF;&#x7A0B;&#x624D;&#x53EF;&#x80FD;&#x8FBE;&#x5230;&#x63A5;&#x8FD1;&#x7EBF;&#x6027;&#x7684;&#x901F;&#x5EA6;&#xFF0C;&#x5982;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x548C;&#x5927;&#x6570;&#x636E;&#x5904;&#x7406;&#x9002;&#x5408;&#x4F7F;&#x7528;&#x6D41;&#x7684;&#x5E76;&#x884C;&#x8BA1;&#x7B97;&#x3002;
+ &#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.zhihu.com%2Fquestion%2F28292740%2Fanswer%2F40336090" target="_blank">&#x4EC0;&#x4E48;&#x662F;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x601D;&#x7EF4;&#xFF1F;</a>
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FCarpenterLee%2FJavaLambdaInternals" target="_blank">JavaLambdaInternals</a>
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fboykablog.readthedocs.io%2Fen%2Fmaster%2Fit%2Fjava%2Fjava8%2Flambda%2Flambda%E5%8E%9F%E7%90%86%E7%AF%87(%E8%AF%91" target="_blank">lambda&#x8868;&#x8FBE;&#x5F0F;&#x539F;&#x7406;&#x7BC7;(&#x8BD1;)</a>.html)
+ <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fhack.xingren.com%2Findex.php%2F2018%2F10%2F17%2Fjava-stream%2F" target="_blank">&#x6D45;&#x6790; Java Stream &#x5B9E;&#x73B0;&#x539F;&#x7406;</a>
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fcloud.tencent.com%2Fdeveloper%2Farticle%2F1333533" target="_blank">java8 &#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;Stream &#x6982;&#x5FF5;&#x6DF1;&#x5165;&#x7406;&#x89E3; Stream &#x8FD0;&#x884C;&#x539F;&#x7406; Stream&#x8BBE;&#x8BA1;&#x601D;&#x8DEF;</a></li>
+</ul>
+<h2 id="chapter08&#x65B9;&#x6CD5;">Chapter08:&#x65B9;&#x6CD5;</h2>
+<ul>
+<li><strong>&#x6821;&#x9A8C;&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x7684;&#x6709;&#x6548;&#x6027;</strong></li>
+<li><strong>&#x8003;&#x8651;&#x662F;&#x5426;&#x9700;&#x8981;&#x6DF1;copy&#x5BF9;&#x8C61;</strong>
+ &#x5982;&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x662F;&#x53EF;&#x53D8;&#x5BF9;&#x8C61;&#x7684;&#x8BDD;&#xFF0C;&#x5C31;&#x6709;&#x53EF;&#x80FD;&#x88AB;&#x8C03;&#x7528;&#x65B9;&#x7BE1;&#x6539;&#xFF0C;&#x5BFC;&#x81F4;&#x6570;&#x636E;&#x6709;&#x8BEF;&#x3002;&#x6700;&#x597D;&#x662F;&#x4F7F;&#x7528;copy&#x5BF9;&#x8C61;&#x8FDB;&#x884C;&#x53C2;&#x6570;&#x6821;&#x9A8C;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x539F;&#x6765;&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x5C3D;&#x91CF;&#x624B;&#x52A8;copy&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4F7F;&#x7528;<code>clone&#x65B9;&#x6CD5;</code>&#xFF0C;&#x540E;&#x8005;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x5B89;&#x5168;&#x95EE;&#x9898;&#x3002;</li>
+<li><strong>&#x8BA4;&#x771F;&#x8BBE;&#x8BA1;&#x65B9;&#x6CD5;&#x7B7E;&#x540D;</strong>
+ 1.&#x9009;&#x53D6;&#x5408;&#x9002;&#x7684;&#x65B9;&#x6CD5;&#x540D;&#xFF0C;&#x6613;&#x61C2;&#x4E14;&#x5177;&#x6709;&#x5305;&#xFF0C;&#x7C7B;&#x7684;&#x5171;&#x8BC6;&#x4E00;&#x81F4;&#x6027;&#x3002;
+ 2.&#x5C3D;&#x91CF;&#x4F7F;&#x65B9;&#x6CD5;&#x5177;&#x6709;&#x7075;&#x6D3B;&#x901A;&#x7528;&#x6027;&#x3002;
+ 3.&#x907F;&#x514D;&#x6570;&#x91CF;&#x8FC7;&#x591A;&#x7684;&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#xFF0C;&#x5C3D;&#x91CF;&#x4E0D;&#x8D85;&#x8FC7;4&#x4E2A;&#x3002;&#x53EF;&#x8003;&#x8651;&#x62C6;&#x6210;&#x591A;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x521B;&#x5EFA;&#x5E2E;&#x52A9;&#x7C7B;&#xFF0C;&#x4F7F;&#x7528;Builder&#x6A21;&#x5F0F;&#x7B49;&#x89E3;&#x51B3;&#x3002;
+ 4.&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x6700;&#x597D;&#x91C7;&#x7528;&#x63A5;&#x53E3;&#x7C7B;&#x578B;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#x7C7B;&#x7C7B;&#x578B;&#x3002;
+ 5.&#x4F7F;&#x7528;&#x4E24;&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x4F5C;&#x4E3A;&#x5BF9;&#x8C61;&#xFF0C;&#x800C;&#x4E0D;&#x662F;boolean&#x53C2;&#x6570;&#x3002;&#x524D;&#x8005;&#x65B9;&#x4FBF;&#x6269;&#x5C55;&#x3002;</li>
+<li><strong>&#x614E;&#x91CD;&#x4F7F;&#x7528;&#x91CD;&#x8F7D;</strong>
+ &#x91CD;&#x8F7D;&#x65B9;&#x6CD5;&#x7684;&#x786E;&#x5B9A;&#x662F;&#x5728;&#x7F16;&#x8BD1;&#x671F;&#xFF0C;&#x91CD;&#x5199;&#x65B9;&#x6CD5;&#x7684;&#x786E;&#x5B9A;&#x662F;&#x5728;&#x8FD0;&#x884C;&#x671F;&#xFF0C;&#x6240;&#x4EE5;&#x4F1A;&#x9009;&#x62E9;&#x5B50;&#x7C7B;&#x7684;&#x91CD;&#x5199;&#x65B9;&#x6CD5;&#x3002;&#x91CD;&#x8F7D;&#x5BB9;&#x6613;&#x5BFC;&#x81F4;&#x7F16;&#x8BD1;&#x9519;&#x8BEF;&#xFF0C;&#x4E14;&#x4E0D;&#x6613;&#x8BFB;&#x3002;&#x5E94;&#x8BE5;&#x5C3D;&#x91CF;&#x7ED9;&#x65B9;&#x6CD5;&#x8D77;&#x4E0D;&#x540C;&#x540D;&#x5B57;&#xFF0C;&#x907F;&#x514D;&#x91CD;&#x8F7D;&#x3002;&#x5982;writeBoolean(boolean),writeInt(int),writeLong(long)&#x3002;</li>
+<li><strong>&#x614E;&#x91CD;&#x4F7F;&#x7528;&#x53EF;&#x53D8;&#x6570;&#x91CF;&#x65B9;&#x6CD5;&#x53C2;&#x6570;</strong>
+ 1.&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#x53EF;&#x53D8;&#x53C2;&#x6570;&#x505A;&#x53C2;&#x6570;&#x4E2A;&#x6570;&#x6821;&#x9A8C;&#xFF0C;&#x8FD9;&#x6837;&#x53EA;&#x4F1A;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x62A5;&#x9519;&#xFF0C;&#x4E14;&#x4E0D;&#x4F18;&#x96C5;&#x3002;
+ 2.&#x53EF;&#x53D8;&#x53C2;&#x6570;&#x662F;&#x7528;&#x6765;&#x4E3A;<code>printf</code>&#x8BBE;&#x8BA1;&#x7684;&#xFF0C;&#x5BF9;&#x6253;&#x5370;&#x548C;&#x53CD;&#x5C04;&#x90FD;&#x5F88;&#x6709;&#x5E2E;&#x52A9;&#x3002;
+ 3.&#x6BCF;&#x6B21;&#x8C03;&#x7528;&#x53EF;&#x53D8;&#x53C2;&#x6570;&#x90FD;&#x4F1A;&#x9020;&#x6210;&#x6570;&#x7EC4;&#x7684;&#x5206;&#x914D;&#x548C;&#x521D;&#x59CB;&#x5316;&#x3002;&#x5982;&#x679C;&#x662F;&#x4E3A;&#x4E86;&#x6027;&#x80FD;&#x8003;&#x8651;&#xFF0C;&#x53EF;&#x91CD;&#x8F7D;&#x591A;&#x53C2;&#x6570;&#x65B9;&#x6CD5;&#xFF0C;&#x76F4;&#x5230;&#x8D85;&#x8FC7;3&#x4E2A;&#x53C2;&#x6570;&#x518D;&#x4F7F;&#x7528;&#x53EF;&#x53D8;&#x53C2;&#x6570;&#xFF0C;<code>EnumSet</code>&#x7684;&#x9759;&#x6001;&#x521B;&#x5EFA;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x8FD9;&#x79CD;&#x7B56;&#x7565;&#x3002;</li>
+</ul>
+<pre><code class="lang-csharp">  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;E extends Enum&lt;E&gt;&gt; <span class="hljs-function">EnumSet&lt;E&gt; <span class="hljs-title">of</span>(<span class="hljs-params">E e</span>) </span>{
+      ....
+    }
+ <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;E extends Enum&lt;E&gt;&gt; <span class="hljs-function">EnumSet&lt;E&gt; <span class="hljs-title">of</span>(<span class="hljs-params">E e1, E e2</span>) </span>{
+ ....
+    }
+ <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;E extends Enum&lt;E&gt;&gt; <span class="hljs-function">EnumSet&lt;E&gt; <span class="hljs-title">of</span>(<span class="hljs-params">E e1, E e2, E e3</span>) </span>{
+    ....
+    }
+ <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;E extends Enum&lt;E&gt;&gt; <span class="hljs-function">EnumSet&lt;E&gt; <span class="hljs-title">of</span>(<span class="hljs-params">E e1, E e2, E e3, E e4</span>) </span>{
+        ....
+    }
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;E extends Enum&lt;E&gt;&gt; <span class="hljs-function">EnumSet&lt;E&gt; <span class="hljs-title">of</span>(<span class="hljs-params">E e1, E e2, E e3, E e4,E e5</span>)
+    </span>{
+ ....
+    }
+ <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;E extends Enum&lt;E&gt;&gt; <span class="hljs-function">EnumSet&lt;E&gt; <span class="hljs-title">of</span>(<span class="hljs-params">E first, E... rest</span>) </span>{
+       ....
+    }
+</code></pre>
+<ul>
+<li><strong>&#x8FD4;&#x56DE;&#x7A7A;&#x96C6;&#x5408;&#x6216;&#x6570;&#x7EC4;&#xFF0C;&#x800C;&#x4E0D;&#x662F;null</strong>
+ &#x8FD4;&#x56DE;null&#x5BB9;&#x6613;&#x9020;&#x6210;&#x7A7A;&#x6307;&#x9488;&#x5F02;&#x5E38;&#xFF0C;&#x8FD4;&#x56DE;&#x7684;&#x7A7A;&#x6570;&#x7EC4;&#x6216;&#x7A7A;&#x96C6;&#x5408;&#x53EF;&#x4F18;&#x5316;&#x4E3A;&#xFF1A;</li>
+</ul>
+<pre><code class="lang-tsx">  private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0]; 
+//&#x8FD4;&#x56DE;&#x7A7A;&#x6570;&#x7EC4;
+  public Object[] getObject(){
+        ...
+        return Collections.emptyList();
+    }
+//&#x8FD4;&#x56DE;&#x7A7A;&#x96C6;&#x5408;
+    public List&lt;Object&gt; getObject(){
+       ...
+        return list.toArray(EMPTY_OBJECT_ARRAY);
+    }
+</code></pre>
+<ul>
+<li><strong>&#x614E;&#x91CD;&#x8FD4;&#x56DE;optionals</strong>
+ Optional<t>&#x662F;&#x4E00;&#x4E2A;&#x4E0D;&#x53EF;&#x53D8;&#x5BB9;&#x5668;&#xFF0C;&#x53EF;&#x4EE5;&#x6301;&#x6709;&#x4E2A;&#x975E;null T&#x5BF9;&#x8C61;&#x5F15;&#x7528;&#x6216;&#x8005;&#x6CA1;&#x6709;&#x3002;&#x76F8;&#x6BD4;&#x4E0D;&#x786E;&#x5B9A;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#x662F;&#x4EC0;&#x4E48;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD4;&#x56DE;null &#x6216;&#x8005; &#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x8FD4;&#x56DE;Optional<t>&#x662F;&#x66F4;&#x597D;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x5B83;&#x6709;&#x5F88;&#x591A;&#x65B9;&#x6CD5;&#x4F9B;&#x6211;&#x4EEC;&#x5728;&#x4E0D;&#x540C;&#x6761;&#x4EF6;&#x4E0B;&#x9009;&#x62E9;&#x4E0D;&#x540C;&#x7684;&#x503C;&#x8FDB;&#x884C;&#x8FD4;&#x56DE;,&#x5982;<code>empty</code>,<code>get</code>,<code>orElse</code>,<code>orElseThrow</code>&#x7B49;&#x3002;&#x4F46;&#x662F;&#xFF1A;
+ 1.&#x4E0D;&#x8981;&#x518D;&#x8FD4;&#x56DE;Optional&#x7684;&#x65B9;&#x6CD5;&#x4E2D;&#x8FD4;&#x56DE;null&#x3002;
+ 2.Optional<t>&#x4E2D;T &#x4E0D;&#x5E94;&#x8BE5;&#x4E3A;&#x5BB9;&#x5668;&#x7C7B;&#x578B;&#xFF1A;&#x6BD4;&#x5982;collections&#xFF0C;maps&#xFF0C;streams&#xFF0C;arrays&#x548C;optionals&#xFF0C;&#x4E0D;&#x5E94;&#x8BE5;&#x5728;&#x5305;&#x7740;&#x4E00;&#x5C42;Optional&#x3002;
+ 3.Optional<t>&#x4E2D;T &#x4E0D;&#x5E94;&#x8BE5;&#x4E3A;&#x5305;&#x88C5;&#x7C7B;&#x578B;&#xFF0C;&#x5982;Long&#x7B49;&#x3002;
+ 4.&#x51E0;&#x4E4E;&#x4E5F;&#x4E0D;&#x628A;Optional<t> &#x7528;&#x5728;&#x96C6;&#x5408;&#x548C;&#x6570;&#x7EC4;&#x7684;key&#xFF0C;value&#x6216;&#x8005;element&#x4E0A;&#x3002;
+ 5.Optional<t>&#x4E5F;&#x4E0D;&#x9002;&#x5408;&#x5F53;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x3002;
+ 6.&#x4E25;&#x683C;&#x8003;&#x8651;&#x6027;&#x80FD;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD8;&#x662F;&#x8FD4;&#x56DE;null&#x6216;&#x8005;&#x629B;&#x5F02;&#x5E38;&#x5427;&#x3002;</t></t></t></t></t></t></li>
+<li><strong>&#x6240;&#x6709;&#x66B4;&#x9732;&#x7684;API&#x90FD;&#x5E94;&#x8BE5;&#x6587;&#x6863;&#x8BF4;&#x660E;</strong>
+ &#x53C2;&#x8003;JDK&#x7684;&#x6587;&#x6863;&#x8BF4;&#x660E;&#x3002;</li>
+</ul>
+<h2 id="chapter09&#x901A;&#x7528;&#x7F16;&#x7A0B;">Chapter09:&#x901A;&#x7528;&#x7F16;&#x7A0B;</h2>
+<ul>
+<li><strong>&#x6700;&#x5C0F;&#x5316;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x4F5C;&#x7528;&#x8303;&#x56F4;</strong>
+ 1.&#x7B2C;&#x4E00;&#x6B21;&#x4F7F;&#x7528;&#x524D;&#x5B9A;&#x4E49;&#x3002;
+ 2.&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x589E;&#x5F3A;for&#x5FAA;&#x73AF;&#xFF0C;&#x800C;&#x4E0D;&#x662F;while&#x6216;&#x8005;Iterator.&#x53EF;&#x51CF;&#x5C11;&#x72AF;&#x9519;&#x3002;
+ 3.&#x65B9;&#x6CD5;&#x5185;&#x5BB9;&#x6307;&#x8D23;&#x5355;&#x4E00;&#xFF0C;&#x77ED;&#x5C0F;&#x3002;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x589E;&#x5F3A;for&#x5FAA;&#x73AF;&#x800C;&#x4E0D;&#x662F;&#x666E;&#x901A;for&#x5FAA;&#x73AF;</strong>
+ &#x589E;&#x5F3A;for&#x5FAA;&#x73AF;&#x6613;&#x8BFB;&#x5E76;&#x4E14;&#x4E0D;&#x6613;&#x51FA;&#x9519;&#x3002;&#x4F46;&#x662F;&#x6709;&#x65F6;&#x4E0D;&#x5F97;&#x4E0D;&#x7528;&#x666E;&#x901A;for&#x5FAA;&#x73AF;&#xFF1A;
+ 1.&#x96C6;&#x5408;&#x904D;&#x5386;&#x65F6;&#x7684;&#x5220;&#x9664;&#x64CD;&#x4F5C;&#x3002;
+ 2.&#x9700;&#x8981;&#x7528;&#x5230;&#x5143;&#x7D20;&#x4E0B;&#x8868;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x5982;&#x5143;&#x7D20;&#x7684;&#x66FF;&#x6362;&#x3002;
+ &#x5982;&#x679C;&#x662F;&#x5206;&#x7EC4;&#x904D;&#x5386;&#x505A;&#x4E00;&#x4E9B;&#x4E8B;&#x60C5;&#xFF0C;&#x53EF;&#x8003;&#x8651;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;Iterator&#x8FED;&#x4EE3;&#x5668;&#x3002;</li>
+<li><strong>&#x4F7F;&#x7528;&#x6807;&#x51C6;&#x5E93;</strong>
+ JDK&#x6E90;&#x7801;&#xFF0C;Guava&#x5FC5;&#x5907;&#xFF0C;&#x4E0D;&#x591A;&#x8BF4;&#x4E86;&#x3002;</li>
+<li><strong>&#x5BF9;&#x4E8E;&#x7CBE;&#x786E;&#x8BA1;&#x7B97;&#xFF0C;&#x907F;&#x514D;&#x4F7F;&#x7528;float&#x548C;double</strong>
+ &#x5982;&#x5BF9;&#x4E8E;&#x91D1;&#x989D;&#x8BA1;&#x7B97;&#xFF0C;&#x4F7F;&#x7528;BigDecimal&#x8FDB;&#x884C;&#x5C0F;&#x6570;&#x8FD0;&#x7B97;&#xFF0C;int/long&#x53EF;&#x6839;&#x636E;&#x91D1;&#x989D;&#x5927;&#x5C0F;&#x9009;&#x62E9;&#xFF0C;&#x4F7F;&#x7528;&#x5206;&#x505A;&#x5355;&#x4F4D;&#x8FDB;&#x884C;&#x56DB;&#x820D;&#x4E94;&#x5165;&#x8FD0;&#x7B97;&#x3002;&#x5173;&#x4E8E;&#x6D6E;&#x70B9;&#x6570;&#x7684;&#x539F;&#x7406;&#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fblog.csdn.net%2Ftercel_zhang%2Farticle%2Fdetails%2F52537726" target="_blank">&#x7A0B;&#x5E8F;&#x5458;&#x5FC5;&#x77E5;&#x4E4B;&#x6D6E;&#x70B9;&#x6570;&#x8FD0;&#x7B97;&#x539F;&#x7406;&#x8BE6;&#x89E3;</a></li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x800C;&#x4E0D;&#x662F;&#x5305;&#x88C5;&#x7C7B;&#x578B;</strong>
+ 1.&#x5305;&#x88C5;&#x7C7B;&#x578B;&#x9664;&#x4E86;&#x62E5;&#x6709;&#x503C;&#xFF0C;&#x8FD8;&#x6709;&#x5F15;&#x7528;&#x3002;&#x539F;&#x59CB;&#x7C7B;&#x578B;&#x66F4;&#x52A0;&#x7B80;&#x5355;&#x6027;&#x80FD;&#x9AD8;&#x3002;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x7531;&#x4E8E;&#x4E0D;&#x505C;&#x7684;&#x62C6;&#x7BB1;&#x5C01;&#x7BB1;&#x53EF;&#x5BFC;&#x81F4;&#x6027;&#x80FD;&#x95EE;&#x9898;&#xFF1A;</li>
+</ul>
+<pre><code class="lang-csharp"> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(<span class="hljs-params">String[] args</span>) </span>{
+        Long sum = <span class="hljs-number">0</span>L;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> i = <span class="hljs-number">0</span>;i&lt;Integer.MAX_VALUE;i++){
+<span class="hljs-comment">//&#x4E0D;&#x505C;&#x7684;&#x62C6;&#x7BB1;&#x5C01;&#x7BB1;</span>
+            sum += i;
+        }
+        System.<span class="hljs-keyword">out</span>.println(sum);
+    }
+</code></pre>
+<p>2.&#x539F;&#x59CB;&#x7C7B;&#x578B;&#x6709;&#x9ED8;&#x8BA4;&#x503C;&#xFF0C;&#x800C;&#x5305;&#x88C5;&#x7C7B;&#x578B;&#x521D;&#x59CB;&#x503C;&#x4E3A;null&#xFF0C;&#x8FDB;&#x884C;&#x8FD0;&#x7B97;&#x65F6;&#x53EF;&#x80FD;&#x4F1A;&#x62A5;NullPointerException&#x3002;
+ 3.&#x539F;&#x59CB;&#x7C7B;&#x578B;&#x53EF;&#x4F7F;&#x7528;==&#x6BD4;&#x8F83;&#xFF0C;&#x5305;&#x88C5;&#x7C7B;&#x578B;&#x7684;==&#x603B;&#x662F;false&#x3002;</p>
+<ul>
+<li><strong>&#x5F53;&#x6709;&#x66F4;&#x548C;&#x4E8B;&#x7684;&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#x65F6;&#xFF0C;&#x907F;&#x514D;&#x4F7F;&#x7528;String</strong>
+ 1.&#x679A;&#x4E3E;&#x5BF9;&#x8C61;&#x65F6;&#x6700;&#x597D;&#x7528;enum&#x3002;
+ 2.&#x805A;&#x5408;&#x5BF9;&#x8C61;&#x7528;&#x805A;&#x5408;&#x7684;&#x65B9;&#x5F0F;&#x5C55;&#x793A;&#xFF0C;&#x5982;&#x7528;&#x79C1;&#x6709;&#x9759;&#x6001;&#x7C7B;&#x8868;&#x793A;&#x5143;&#x7D20;&#x3002;&#x800C;&#x975E;&#x5B57;&#x7B26;&#x4E32;&#x8FDE;&#x63A5;&#x3002;
+ 3.&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x5982;int&#xFF0C;&#x4E0D;&#x8981;&#x7528;String&#x8868;&#x793A;&#x3002;</li>
+<li><strong>&#x614E;&#x91CD;&#x4F7F;&#x7528;&#x201C;+&#x201D;&#x8FDE;&#x63A5;&#x5B57;&#x7B26;&#x4E32;</strong>
+ &quot;+&quot;&#x8FDE;&#x63A5;&#x5B57;&#x7B26;&#x4E32;&#x590D;&#x6742;&#x5EA6;&#x662F;n^2,&#x56E0;&#x4E3A;&#x5B57;&#x7B26;&#x4E32;&#x662F;&#x4E0D;&#x53EF;&#x53D8;&#x7684;&#xFF0C;&#x6BCF;&#x6B21;&#x90FD;&#x9700;&#x8981;copy&#x3002;&#x4F7F;&#x7528;<code>StringBuilder</code>&#x4EE3;&#x66FF;&#xFF0C;&#x5B83;&#x7684;&#x590D;&#x6742;&#x5EA6;&#x4E3A;&#x7EBF;&#x6027;&#x7684;&#x3002;&#x6216;&#x8005;&#x4F7F;&#x7528;&#x5B57;&#x7B26;&#x6570;&#x7EC4;&#xFF0C;&#x6216;&#x8005;&#x53EA;&#x8C03;&#x7528;&#x4E00;&#x6B21;&#x8FDE;&#x63A5;&#x5B57;&#x7B26;&#x4E32;&#x3002;</li>
+<li><strong>&#x5BF9;&#x8C61;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x7C7B;&#x5F15;&#x7528;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5B9E;&#x73B0;&#x7C7B;&#x5F15;&#x7528;</strong>
+ &#x5BF9;&#x8C61;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x7C7B;&#x5F15;&#x7528;&#x4F1A;&#x66F4;&#x52A0;&#x7075;&#x6D3B;&#x3002;&#x5982;&#x679C;&#x627E;&#x4E0D;&#x5230;&#x5408;&#x9002;&#x7684;&#x63A5;&#x53E3;&#x7C7B;&#x5F15;&#x7528;&#xFF0C;&#x5C3D;&#x91CF;&#x9009;&#x62E9;&#x53EF;&#x63D0;&#x4F9B;&#x529F;&#x80FD;&#x7684;&#x7236;&#x7C7B;&#x5B9E;&#x73B0;&#x3002;</li>
+<li><strong>&#x5BF9;&#x4E8E;&#x53CD;&#x5C04;&#x5BF9;&#x8C61;&#xFF0C;&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x6216;&#x7236;&#x7C7B;&#x5F15;&#x7528;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x53CD;&#x5C04;&#x7C7B;&#x7684;&#x5F15;&#x7528;</strong></li>
+<li><strong>&#x614E;&#x91CD;&#x4F7F;&#x7528;native&#x65B9;&#x6CD5;</strong>
+ native&#x65B9;&#x6CD5;&#x76F8;&#x6BD4;Java&#x666E;&#x901A;&#x65B9;&#x6CD5;&#x662F;&#x4E0D;&#x5B89;&#x5168;&#x7684;&#xFF0C;&#x4E5F;&#x66F4;&#x52A0;&#x4F9D;&#x8D56;&#x4E8E;&#x5E73;&#x53F0;&#xFF0C;&#x4E0D;&#x5BB9;&#x6613;&#x4F7F;&#x7528;&#xFF0C;bug&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x6574;&#x4E2A;&#x5E94;&#x7528;&#x5931;&#x8D25;&#x3002;</li>
+<li><strong>&#x614E;&#x91CD;&#x4F18;&#x5316;&#x4EE3;&#x7801;</strong>
+ &#x63D0;&#x5230;&#x8BBE;&#x8BA1;&#x7684;&#x65F6;&#x5019;&#x8003;&#x8651;&#x597D;&#x67B6;&#x6784;&#x6027;&#x80FD;&#xFF0C;&#x4E0D;&#x8981;&#x56FE;&#x5FEB;&#x3002;&#x914D;&#x5408;&#x6027;&#x80FD;&#x68C0;&#x6D4B;&#x5DE5;&#x5177;&#xFF0C;&#x4F18;&#x5316;&#x7B97;&#x6CD5;&#x7B49;&#x3002;</li>
+<li><strong>&#x547D;&#x540D;&#x89C4;&#x8303;&#xFF0C;&#x89C1;&#x540D;&#x77E5;&#x610F;</strong>
+ Package/module:&#x5168;&#x5C0F;&#x5199;&#xFF08;com.junit.jupiter&#xFF09;
+ Class/Interface:&#x9A7C;&#x5CF0;&#x547D;&#x540D;&#xFF08;Stream,HashMap&#xFF09;
+ Method/Filed:&#x9996;&#x5B57;&#x6BCD;&#x5C0F;&#x5199;&#xFF0C;&#x9A7C;&#x5CF0;&#x547D;&#x540D;&#xFF08;remove.getCrc&#xFF09;
+ Constant Filed:&#x5168;&#x5927;&#x5199;&#xFF0C;&#x5355;&#x8BCD;&#x7528;&#x4E0B;&#x5212;&#x7EBF;&#x9694;&#x5F00;&#xFF08;MIN_VALUE&#xFF09;
+ Local Variable:&#x9996;&#x5B57;&#x6BCD;&#x5C0F;&#x5199;&#xFF0C;&#x9A7C;&#x5CF0;&#x547D;&#x540D;&#xFF08;i,houseName&#xFF09;
+ Type Parameter:&#x5927;&#x5199;&#x5355;&#x5B57;&#x6BCD;&#xFF08;T,E&#xFF09;</li>
+</ul>
+<h2 id="chapter10&#x5F02;&#x5E38;">Chapter10:&#x5F02;&#x5E38;</h2>
+<ul>
+<li><strong>&#x53EA;&#x5728;&#x5F02;&#x5E38;&#x53D1;&#x751F;&#x65F6;&#x4F7F;&#x7528;&#x5F02;&#x5E38;</strong>
+ &#x5F02;&#x5E38;&#x4F1A;&#x963B;&#x6B62;JVM&#x7684;&#x4E00;&#x4E9B;&#x4F18;&#x5316;&#xFF0C;&#x5F71;&#x54CD;&#x6027;&#x80FD;&#x3002;&#x5F02;&#x5E38;&#x5C31;&#x662F;&#x7528;&#x6765;&#x5904;&#x7406;&#x5F02;&#x5E38;&#x7684;&#x3002;</li>
+<li><strong>&#x53EF;&#x6062;&#x590D;&#x6761;&#x4EF6;&#x4E0B;&#x53D1;&#x751F;&#x5F02;&#x5E38;&#xFF0C;&#x4F7F;&#x7528;&#x68C0;&#x67E5;&#x5F02;&#x5E38;&#xFF0C;&#x7A0B;&#x5E8F;&#x9519;&#x8BEF;&#x4F7F;&#x7528;&#x8FD0;&#x884C;&#x65F6;&#x5F02;&#x5E38;</strong>
+ &#x4E0D;&#x8981;&#x4F7F;&#x7528;errors&#xFF0C;errors&#x662F;JVM&#x8868;&#x660E;&#x8D44;&#x6E90;&#x7F3A;&#x4E4F;&#x7B49;&#x5BFC;&#x81F4;&#x65E0;&#x6CD5;&#x8FD0;&#x884C;&#x7528;&#x7684;&#x3002;&#x5B9A;&#x4E49;&#x6240;&#x6709;&#x672A;&#x68C0;&#x67E5;&#x7684;&#x5F02;&#x5E38;&#x5E94;&#x8BE5;&#x7EE7;&#x627F;RuntimeException&#x3002;</li>
+<li><strong>&#x907F;&#x514D;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x68C0;&#x67E5;&#x5F02;&#x5E38;</strong>
+ &#x6709;&#x4E9B;&#x5F02;&#x5E38;&#x9700;&#x8981;&#x629B;&#x7ED9;&#x8C03;&#x7528;&#x8005;&#x89E3;&#x51B3;&#x3002;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;Java&#x5B9A;&#x4E49;&#x7684;&#x5F02;&#x5E38;</strong>
+ &#x5927;&#x5BB6;&#x90FD;&#x61C2;&#x7684;&#x5F02;&#x5E38;&#xFF0C;&#x7B80;&#x5355;&#x660E;&#x4E86;&#x3002;&#x5982;NullPointerException&#x3002;</li>
+<li><strong>&#x5408;&#x7406;&#x629B;&#x51FA;&#x8C03;&#x7528;&#x65B9;&#x6CD5;&#x7684;&#x5F02;&#x5E38;</strong></li>
+</ul>
+<pre><code class="lang-cpp">            <span class="hljs-keyword">try</span> {
+                ... <span class="hljs-comment">//&#x8C03;&#x7528;&#x5176;&#x4ED6;&#x4F4E;&#x7EA7;&#x65B9;&#x6CD5;</span>
+
+            }<span class="hljs-keyword">catch</span> (LowerLevelException e){
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> HigherLevelException(...);
+            }
+</code></pre>
+<ul>
+<li><strong>&#x6587;&#x6863;&#x8BF4;&#x660E;&#x65B9;&#x6CD5;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</strong>
+ &#x5982;&#x5F02;&#x5E38;&#x4EA7;&#x751F;&#x7684;&#x6761;&#x4EF6;&#x3002;</li>
+<li><strong>&#x5F02;&#x5E38;&#x5305;&#x542B;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</strong>
+ &#x5982;&#x6240;&#x6709;&#x5BFC;&#x81F4;&#x8FD9;&#x4E2A;&#x5F02;&#x5E38;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x4F46;&#x4E5F;&#x4E0D;&#x80FD;&#x5305;&#x542B;&#x654F;&#x611F;&#x4FE1;&#x606F;&#xFF0C;&#x5982;&#x5BC6;&#x7801;&#x7B49;&#x3002;</li>
+<li><strong>&#x4FDD;&#x8BC1;&#x5931;&#x8D25;&#x64CD;&#x4F5C;&#x7684;&#x539F;&#x5B50;&#x6027;</strong>
+ &#x7C7B;&#x4F3C;&#x56DE;&#x6EDA;&#x673A;&#x5236;&#xFF0C;&#x5F53;&#x5F02;&#x5E38;&#x53D1;&#x751F;&#x65F6;&#xFF0C;&#x5E94;&#x8BE5;&#x4FDD;&#x8BC1;&#x5BF9;&#x8C61;&#x88AB;&#x8C03;&#x7528;&#x524D;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x6216;&#x8005;&#x6587;&#x6863;&#x8BE6;&#x7EC6;&#x8BF4;&#x660E;&#x3002;</li>
+<li><strong>&#x4E0D;&#x8981;&#x5FFD;&#x7565;&#x5F02;&#x5E38;</strong>
+ catch&#x5B8C;&#x5565;&#x4E5F;&#x4E0D;&#x5E72;&#x662F;&#x4E0D;&#x5141;&#x8BB8;&#x7684;&#xFF0C;&#x5426;&#x5219;&#x5C31;&#x8981;&#x8BF4;&#x660E;&#x4E3A;&#x5565;&#x8981;&#x8FD9;&#x4E48;&#x5E72;&#x3002;</li>
+</ul>
+<h2 id="chapter11&#x5E76;&#x53D1;">Chapter11:&#x5E76;&#x53D1;</h2>
+<ul>
+<li><strong>&#x5171;&#x4EAB;&#x53EF;&#x53D8;&#x6570;&#x636E;&#x7684;&#x540C;&#x6B65;&#x8BBF;&#x95EE;</strong>
+ Java&#x5185;&#x5B58;&#x6A21;&#x578B;&#xFF08;JMM&#xFF09;&#x901A;&#x8FC7;happens-before&#x539F;&#x5219;&#xFF0C;synchronized&#x7B49;&#x5173;&#x952E;&#x5B57;&#x5B9A;&#x4E49;&#x4E86;Java&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x7684;&#x53EF;&#x89C1;&#x6027;&#xFF0C;&#x539F;&#x5B50;&#x6027;&#xFF0C;&#x987A;&#x5E8F;&#x6027;&#x7B49;&#x95EE;&#x9898;&#x3002;&#x540C;&#x6B65;&#x8BBF;&#x95EE;&#x7684;&#x4FDD;&#x8BC1;&#x6709;&#x4EE5;&#x4E0B;&#x65B9;&#x5F0F;&#xFF1A;
+ 1.synchronized&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x4FDD;&#x8BC1;&#x8FDB;&#x5165;&#x540C;&#x6B65;&#x7684;&#x6761;&#x4EF6;&#x4E5F;&#x662F;&#x540C;&#x6B65;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4E0E;&#x540C;&#x6B65;&#x6709;&#x5173;&#x7684;&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#x90FD;&#x662F;&#x540C;&#x6B65;&#x7684;&#x3002;
+ 2.&#x7B2C;1&#x70B9;&#x53EF;&#x4EE5;&#x4F18;&#x5316;&#x4E3A;&#x8FDB;&#x5165;&#x540C;&#x6B65;&#x7684;&#x6761;&#x4EF6;&#x5FC5;&#x987B;&#x4FDD;&#x8BC1;&#x53EF;&#x89C1;&#x6027;&#xFF0C;&#x5982;&#x53CC;&#x91CD;&#x68C0;&#x67E5;&#x5B9E;&#x73B0;&#x5355;&#x4F8B;&#x61D2;&#x52A0;&#x8F7D;&#x65B9;&#x5F0F;&#x65F6;&#xFF0C;&#x9759;&#x6001;&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x7528;volatile&#x4FEE;&#x9970;&#x3002;
+ 3.&#x7C7B;&#x4F3C;j.u.c&#x5305;&#x4E2D;&#x7684;&#x540C;&#x6B65;&#x5B9E;&#x73B0;&#xFF0C;&#x4F7F;&#x7528;volatile+cas(&#x4E50;&#x89C2;&#x9501;&#x539F;&#x7406;-&#x7248;&#x672C;&#x63A7;&#x5236;)&#x64CD;&#x4F5C;&#x53EF;&#x5B9E;&#x73B0;lock-free&#x4E14;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x540C;&#x6B65;&#x3002;</li>
+<li><strong>&#x907F;&#x514D;&#x8FC7;&#x5EA6;&#x540C;&#x6B65;</strong>
+ 1.&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x4E2D;&#x4E0D;&#x8981;&#x8C03;&#x7528;&#x5916;&#x6765;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x53EF;&#x91CD;&#x5199;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x89C2;&#x5BDF;&#x8005;&#x65B9;&#x6CD5;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x53EF;&#x80FD;&#x4EA7;&#x751F;&#x5F02;&#x5E38;&#xFF0C;&#x6B7B;&#x9501;&#x7B49;&#x95EE;&#x9898;&#x5BFC;&#x81F4;&#x540C;&#x6B65;&#x5931;&#x8D25;&#x3002;
+ 2.&#x5982;&#x679C;&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;&#x9AD8;&#x6027;&#x80FD;&#x7684;&#x5E76;&#x53D1;&#x540C;&#x6B65;&#xFF0C;&#x5C06;&#x540C;&#x6B65;&#x4EA4;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x53BB;&#x505A;&#xFF0C;&#x5E76;&#x5199;&#x597D;&#x6587;&#x6863;&#x8BF4;&#x660E;&#x3002;&#x5BF9;&#x4E8E;&#x9759;&#x6001;&#x53D8;&#x91CF;&#xFF0C;&#x5FC5;&#x987B;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x540C;&#x6B65;&#x3002;&#x81EA;&#x5B9E;&#x73B0;&#x540C;&#x6B65;&#x65F6;&#x53EF;&#x8003;&#x8651;<code>lock splitting,lock stripping,nonblocking&#xFF08;&#x65E0;&#x9501;&#xFF09;&#x6280;&#x672F;</code>&#xFF08;&#x6211;&#x7684;&#x7406;&#x89E3;lock splitting/lock stripping,&#x5C31;&#x662F;&#x7C7B;&#x4F3C;ConcurrentHashMap1.7&#x4E2D;&#x7684;&#x5206;&#x6BB5;&#x9501;&#xFF0C;ConcurrentHashMap1.8&#x4E2D;&#x7684;&#x591A;&#x7EBF;&#x7A0B;&#x9884;&#x5206;&#x914D;&#x5E2E;&#x52A9;&#x6269;&#x5BB9;&#x4EE5;&#x53CA;disruptor&#x4E2D;&#x7684;&#x961F;&#x5217;&#x9884;&#x5206;&#x914D;&#x4E00;&#x6837;&#x7684;&#x6280;&#x672F;&#xFF0C;&#x300A;Java Concurrency in Practice &#x300B;&#x597D;&#x50CF;&#x6709;&#x8BA8;&#x8BBA;&#xFF0C;&#x6B22;&#x8FCE;&#x5C0F;&#x4F19;&#x4F34;&#x6307;&#x51FA;&#x6211;&#x8FD9;&#x91CC;&#x662F;&#x4E0D;&#x662F;&#x6709;&#x95EE;&#x9898;&#x3002;&#x3002;&#xFF09;</li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x7EBF;&#x7A0B;&#x6C60;(ThreadPoolExecutor/ForkJoinPool)&#xFF0C;&#x4EFB;&#x52A1;&#xFF08;Runnable/Callable,ForkJoinTask)&#x800C;&#x4E0D;&#x662F;&#x591A;&#x4E2A;&#x5355;&#x7EBF;&#x7A0B;</strong>
+ &#x6C60;&#x5316;&#x6280;&#x672F;&#x52A0;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x80FD;&#x591F;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#xFF0C;&#x8282;&#x7701;&#x8D44;&#x6E90;&#xFF0C;&#x66F4;&#x597D;&#x7684;&#x62BD;&#x8C61;&#x7B49;&#x3002;&#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.infoq.cn%2Farticle%2Ffork-join-introduction" target="_blank">&#x804A;&#x804A;&#x5E76;&#x53D1;&#xFF08;&#x516B;&#xFF09;&#x2014;&#x2014;Fork/Join &#x6846;&#x67B6;&#x4ECB;&#x7ECD;</a>
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.jdon.com%2Fperformance%2Fthreadpool-forkjoin.html" target="_blank">&#x7EBF;&#x7A0B;&#x6C60;&#x4E0E;ForkJoin&#x6BD4;&#x8F83;</a>
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.jdon.com%2Fidea%2Fjava%2Fcompletablefuture.html" target="_blank">Java8&#x7684;CompletableFuture</a></li>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x5E76;&#x53D1;&#x5DE5;&#x5177;&#x7C7B;&#xFF08;java.util.concurrent&#x5305;&#x4E2D;&#x7684;&#x7C7B;&#xFF09;&#x800C;&#x4E0D;&#x662F;wait/notify</strong>
+ &#x56E0;&#x4E3A;Doug Lea&#x5927;&#x795E;&#x6BD4;&#x6211;&#x4EEC;&#x5199;&#x7684;&#x597D;&#x3002;&#x3002;&#x5982;&#x679C;&#x4E00;&#x5B9A;&#x8981;&#x4F7F;&#x7528;wait/notify&#xFF1A;&#x8C03;&#x7528;notifyAll&#x800C;&#x4E0D;&#x662F;notify&#x3002;&#x4FDD;&#x8BC1;&#x5728;&#x6761;&#x4EF6;&#x5FAA;&#x73AF;&#x4E2D;&#x8C03;&#x7528;wait,</li>
+</ul>
+<pre><code class="lang-java">            <span class="hljs-keyword">synchronized</span> (obj){
+                <span class="hljs-keyword">while</span> (&lt;condition does not hold&gt;){
+                    obj.wait();<span class="hljs-comment">//&#x4E0D;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x65F6;&#x91CA;&#x653E;&#x9501;&#xFF0C;&#x5524;&#x9192;&#x65F6;&#x91CD;&#x65B0;&#x518D;&#x83B7;&#x5F97;&#x9501;</span>
+                }
+                    ... <span class="hljs-comment">//&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x65F6;&#x7684;&#x64CD;&#x4F5C;</span>
+
+            }
+</code></pre>
+<p>&#x8FD9;&#x6837;&#x5B50;&#x4FDD;&#x8BC1;&#x4E86;&#x53EA;&#x6709;&#x6761;&#x4EF6;&#x6EE1;&#x8DB3;&#x65F6;&#xFF0C;&#x624D;&#x80FD;&#x6267;&#x884C;&#x64CD;&#x4F5C;&#x3002;&#x5426;&#x5219;&#x53EF;&#x80FD;&#x7531;&#x4E8E;notifyAll/notify&#x5524;&#x9192;&#x4E86;&#x4E0D;&#x8BE5;&#x5524;&#x9192;&#x7684;&#x7EBF;&#x7A0B;&#x7B49;&#x5BFC;&#x81F4;&#x6761;&#x4EF6;&#x4E0D;&#x6EE1;&#x8DB3;&#x5C31;&#x88AB;&#x5524;&#x9192;&#x4E86;&#xFF0C;&#x800C;&#x6267;&#x884C;&#x9519;&#x8BEF;&#x64CD;&#x4F5C;&#x3002;</p>
+<ul>
+<li><strong>&#x6587;&#x6863;&#x5199;&#x660E;&#x7EBF;&#x7A0B;&#x662F;&#x5426;&#x5B89;&#x5168;</strong>
+ &#x6587;&#x6863;&#x8981;&#x8BF4;&#x660E;&#x65B9;&#x6CD5;&#x7684;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7EA7;&#x522B;&#xFF0C;&#x5982;<code>&#x4E0D;&#x53EF;&#x53D8;</code>&#xFF08;String/Long/BigInteger&#xFF09;,<code>&#x65E0;&#x6761;&#x4EF6;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;</code>(AtomicLong/ConcurrentHashMap),<code>&#x6709;&#x6761;&#x4EF6;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;</code>&#xFF08;Collections.synchronized&#x5305;&#x88C5;&#x7C7B;&#x9700;&#x8981;&#x989D;&#x5916;&#x4FDD;&#x8BC1;&#x81EA;&#x8EAB;&#x8FED;&#x4EE3;&#x5668;&#x7684;&#x540C;&#x6B65;&#xFF0C;&#x5426;&#x5219;&#x53EF;&#x80FD;fail-fast&#xFF09;,<code>&#x7EBF;&#x7A0B;&#x4E0D;&#x5B89;&#x5168;</code>&#xFF08;ArrayList/HashMap),<code>&#x8FDD;&#x53CD;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;</code>&#xFF08;&#x4FEE;&#x6539;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x65F6;&#x6CA1;&#x6709;&#x540C;&#x6B65;&#xFF09;&#x3002;
+ &#x6709;&#x6761;&#x4EF6;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x9700;&#x8981;&#x5199;&#x660E;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x9700;&#x8981;&#x989D;&#x5916;&#x540C;&#x6B65;&#xFF0C;&#x4E14;&#x5E94;&#x8BE5;&#x83B7;&#x53D6;&#x4EC0;&#x4E48;&#x9501;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#x3002;
+ &#x65E0;&#x6761;&#x4EF6;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#x7C7B;&#x53EF;&#x4EE5;&#x5728;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x4E0A;&#x4F7F;&#x7528;&#x4E0D;&#x53EF;&#x53D8;&#x79C1;&#x6709;&#x5BF9;&#x8C61;&#x9501;&#x4EE3;&#x66FF;&#x7C7B;&#x9501;&#xFF0C;&#x53EF;&#x4FDD;&#x62A4;&#x5B50;&#x7C7B;&#x6216;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x3002;&#x540C;&#x65F6;&#x589E;&#x52A0;&#x81EA;&#x8EAB;&#x540E;&#x7EED;&#x5B9E;&#x73B0;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x3002;</li>
+<li><strong>&#x614E;&#x91CD;&#x4F7F;&#x7528;&#x61D2;&#x52A0;&#x8F7D;</strong>
+ &#x61D2;&#x52A0;&#x8F7D;&#x9002;&#x7528;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x5BF9;&#x8C61;&#x5F00;&#x9500;&#x5927;&#xFF0C;&#x4E14;&#x4E0D;&#x4E00;&#x5B9A;&#x4F1A;&#x521D;&#x59CB;&#x5316;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x573A;&#x666F;&#x3002;&#x5426;&#x5219;&#x4F7F;&#x7528;&#x6B63;&#x5E38;&#x521D;&#x59CB;&#x5316;&#x66F4;&#x597D;&#x3002;&#x5BF9;&#x4E8E;&#x9759;&#x6001;&#x53D8;&#x91CF;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;&#x9759;&#x6001;&#x79C1;&#x6709;holder&#x7C7B;&#x6765;&#x52A0;&#x8F7D;&#x3002;&#x5BF9;&#x4E8E;&#x6210;&#x5458;&#x53D8;&#x91CF;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;&#x53CC;&#x91CD;&#x68C0;&#x67E5;+volatile&#x5B9E;&#x73B0;&#x3002;</li>
+<li><strong>&#x4E0D;&#x8981;&#x4F9D;&#x8D56;&#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;&#x4FDD;&#x8BC1;&#x7A0B;&#x5E8F;&#x7684;&#x6B63;&#x786E;&#x6027;</strong>
+ &#x4E0D;&#x8981;&#x4F7F;&#x7528;Thread.yield&#x548C;&#x7EBF;&#x7A0B;&#x4F18;&#x5148;&#x7EA7;&#x522B;&#xFF0C;&#x7EBF;&#x7A0B;&#x4E0D;&#x5E94;&#x8BE5;&#x8FD0;&#x884C;&#x65E0;&#x7528;&#x7684;&#x4EFB;&#x52A1;&#x3002;</li>
+</ul>
+<h2 id="chapter12&#x5E8F;&#x5217;&#x5316;">Chapter12:&#x5E8F;&#x5217;&#x5316;</h2>
+<p>&#x9996;&#x5148;&#x4ECB;&#x7ECD;&#x4E0B;Java&#x539F;&#x751F;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x539F;&#x7406;&#xFF1A;</p>
+<p>Java&#x539F;&#x751F;&#x5E8F;&#x5217;&#x5316;&#x4F7F;&#x7528;<code>ObjectInputStream.readObject</code>&#x548C;<code>ObjectOutputStream.writeObject</code>&#x6765;&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x5BF9;&#x8C61;&#x3002;&#x5BF9;&#x8C61;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;<code>Serializable</code>&#x63A5;&#x53E3;&#xFF0C;&#x540C;&#x65F6;&#x5BF9;&#x8C61;&#x4E5F;&#x53EF;&#x4EE5;&#x81EA;&#x5B9E;&#x73B0;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x6CD5;<code>readObject</code>&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x6CD5;<code>writeObject</code>&#x5B9A;&#x4E49;&#x5BF9;&#x8C61;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x5F0F;&#x3002;&#x6B64;&#x5916;&#x5BF9;&#x8C61;&#x8FD8;&#x53EF;&#x5B9E;&#x73B0;<code>writeReplace</code>,<code>readResolve</code>,<code>serialVersionUID</code>&#x3002;
+ <code>writeReplace</code>&#x4E3B;&#x8981;&#x7528;&#x6765;&#x5B9A;&#x4E49;&#x5BF9;&#x8C61;&#x5177;&#x4F53;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x53EF;&#x5BF9;&#x539F;&#x6765;&#x6309;&#x7167;<code>readObject</code>&#x65B9;&#x6CD5;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x5185;&#x5BB9;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x66FF;&#x6362;&#x3002;
+ <code>readResolve</code>&#x4E3B;&#x8981;&#x7528;&#x6765;&#x5B9A;&#x4E49;&#x5BF9;&#x8C61;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x65F6;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x53EF;&#x5BF9;&#x539F;&#x6765;&#x6309;&#x7167;<code>writeObject</code>&#x65B9;&#x6CD5;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x5185;&#x5BB9;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x66FF;&#x6362;&#x3002;
+ <code>serialVersionUID</code>&#x662F;&#x7C7B;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x7248;&#x672C;&#x53F7;&#xFF0C;&#x4FDD;&#x8BC1;&#x80FD;&#x5C06;&#x4E8C;&#x8FDB;&#x5236;&#x6D41;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x4E3A;&#x5185;&#x5B58;&#x4E2D;&#x5B58;&#x5728;&#x7684;&#x7C7B;&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x4E3B;&#x52A8;&#x751F;&#x6210;&#x7684;&#x8BDD;&#xFF0C;&#x5728;&#x5E8F;&#x5217;&#x5316;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x8FC7;&#x7A0B;&#x4E2D;&#x6839;&#x636E;&#x7C7B;&#x4FE1;&#x606F;&#x52A8;&#x6001;&#x751F;&#x6210;&#xFF0C;&#x8017;&#x65F6;&#x4E14;&#x7C7B;&#x7ED3;&#x6784;&#x4E0D;&#x7075;&#x6D3B;&#x3002;</p>
+<ul>
+<li><strong>&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x5176;&#x4ED6;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x5F0F;&#x4EE3;&#x66FF;Java&#x81EA;&#x8EAB;&#x5E8F;&#x5217;&#x5316;</strong></li>
+<li><strong>&#x8C28;&#x614E;&#x4F7F;&#x7528;<code>Serializable</code>&#x63A5;&#x53E3;</strong>
+ why:
+ 1.&#x56E0;&#x4E3A;&#x4E00;&#x65E6;&#x4F7F;&#x7528;&#x4E86;&#xFF0C;&#x4EE5;&#x540E;&#x5C31;&#x4E0D;&#x597D;&#x53BB;&#x6389;&#x4E86;&#x3002;&#x672C;&#x6765;&#x5C31;&#x4E0D;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;&#x539F;&#x751F;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x5F0F;&#x3002;
+ 2.&#x589E;&#x52A0;&#x4EA7;&#x751F;bug&#x548C;&#x5B89;&#x5168;&#x6F0F;&#x6D1E;&#x7684;&#x98CE;&#x9669;&#x3002;
+ 3.&#x589E;&#x52A0;&#x65B0;&#x7248;&#x672C;&#x53D1;&#x5E03;&#x7684;&#x6D4B;&#x8BD5;&#x8D1F;&#x62C5;&#x3002;</li>
+<li><strong>&#x8003;&#x8651;&#x4F7F;&#x7528;&#x81EA;&#x5B9A;&#x4E49;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x683C;&#x5F0F;</strong>
+ &#x5982;&#x679C;&#x4F7F;&#x7528;&#x4E86;&#x539F;&#x751F;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x5C31;&#x8003;&#x8651;&#x81EA;&#x5B9E;&#x73B0;&#x5E8F;&#x5217;&#x5316;&#x5BF9;&#x8C61;&#x7684;<code>readObject</code>&#x548C;<code>writeObject</code>&#x65B9;&#x6CD5;&#xFF0C;&#x56E0;&#x4E3A;Java&#x5B9E;&#x73B0;&#x7684;&#x592A;&#x7B28;&#x91CD;&#x4E86;&#xFF0C;&#x5E8F;&#x5217;&#x5316;&#x6240;&#x6709;&#x4E1C;&#x897F;&#xFF0C;&#x5E76;&#x4E14;&#x8017;&#x65F6;&#x4E0D;&#x53EF;&#x63A7;&#xFF0C;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x5B89;&#x5168;&#x548C;&#x5F02;&#x5E38;&#x7B49;&#x95EE;&#x9898;&#x3002;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x76F8;&#x5BF9;&#x4F1A;&#x51CF;&#x5C11;&#x8FD9;&#x4E9B;&#x98CE;&#x9669;&#x3002;</li>
+<li><strong>&#x4FDD;&#x5B88;&#x7684;&#x5B9E;&#x73B0;<code>readObject</code>&#x65B9;&#x6CD5;</strong>
+ &#x5176;&#x5B9E;&#x8FD8;&#x662F;&#x964D;&#x4F4E;&#x5B89;&#x5168;&#x98CE;&#x9669;&#x7B49;&#x95EE;&#x9898;&#xFF0C;&#x5982;&#x53D8;&#x91CF;&#x7684;&#x5B8C;&#x6574;&#x6821;&#x9A8C;&#xFF0C;&#x4E0D;&#x8981;&#x5C06;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x6CD5;&#x91CD;&#x5199;&#xFF0C;&#x4EA4;&#x7ED9;&#x5B50;&#x7C7B;&#x4E0D;&#x53EF;&#x63A7;&#x7B49;&#x95EE;&#x9898;&#x3002;</li>
+<li><strong>&#x5BF9;&#x4E8E;&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#xFF0C;&#x4F18;&#x5148;&#x4F7F;&#x7528;<code>&#x679A;&#x4E3E;</code>&#x800C;&#x4E0D;&#x662F;<code>readResolve</code>&#x65B9;&#x6CD5;</strong>
+ why:
+ &#x679A;&#x4E3E;&#x7C7B;&#x5BF9;&#x8C61;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x65B9;&#x5F0F;&#x662F;Java&#x8BED;&#x8A00;&#x89C4;&#x8303;&#x7684;&#xFF0C;&#x4E0D;&#x662F;&#x7531;&#x7528;&#x6237;&#x5B9E;&#x73B0;&#x7684;&#x3002;&#x679A;&#x4E3E;&#x7C7B;&#x5BF9;&#x8C61;&#x662F;&#x5929;&#x751F;&#x7684;&#x5355;&#x4F8B;&#x5BF9;&#x8C61;&#x3002;
+ &#x81EA;&#x5B9E;&#x73B0;<code>readResolve</code>&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#x5355;&#x4F8B;&#x7684;&#x8BDD;&#xFF0C;&#x9700;&#x8981;&#x505A;&#x5F88;&#x591A;&#x989D;&#x5916;&#x5DE5;&#x4F5C;&#xFF0C;&#x5982;&#x5C06;&#x6240;&#x6709;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x7528;<code>transient</code>&#x4FEE;&#x9970;&#x7B49;&#xFF0C;&#x6B64;&#x5916;&#x4ECD;&#x7136;&#x4F1A;&#x62E5;&#x6709;Java&#x5E8F;&#x5217;&#x5316;&#x7684;&#x7F3A;&#x70B9;&#x3002;</li>
+<li><strong>&#x8003;&#x8651;&#x5E8F;&#x5217;&#x5316;&#x4EE3;&#x7406;&#x7C7B;&#x5BF9;&#x8C61;&#x800C;&#x4E0D;&#x662F;&#x771F;&#x6B63;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x5BF9;&#x8C61;</strong>
+ &#x4E5F;&#x5C31;&#x662F;&#x81EA;&#x5B9E;&#x73B0;<code>writeReplace</code>&#x65B9;&#x6CD5;&#xFF0C;&#x597D;&#x5904;&#x662F;&#x5B89;&#x5168;&#x3002;</li>
+</ul>
+<p><strong>&#x5173;&#x4E8E;&#x539F;&#x751F;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x4F18;&#x5316;&#xFF0C;&#x5176;&#x5B9E;&#x90FD;&#x4E0D;&#x7528;&#x770B;&#x3002;&#x3002;&#x3002;</strong></p>
+<p>&#x56E0;&#x4E3A;&#x751F;&#x4EA7;&#x4E0A;&#x4E00;&#x822C;&#x662F;&#x4E0D;&#x4F1A;&#x4F7F;&#x7528;&#x539F;&#x751F;&#x5E8F;&#x5217;&#x5316;&#x7684;&#xFF0C;&#x6027;&#x80FD;&#x5DEE;&#x53C8;&#x4E0D;&#x5B89;&#x5168;&#x53C8;&#x4E0D;&#x6613;&#x8BFB;....&#x6709;&#x5173;&#x5E8F;&#x5217;&#x5316;&#x7684;&#x77E5;&#x8BC6;&#x548C;&#x6846;&#x67B6;&#x9009;&#x62E9;&#xFF0C;&#x53EF;&#x53C2;&#x8003;&#xFF1A;
+ <a href="https://links.jianshu.com/go?to=https%3A%2F%2Ftech.meituan.com%2F2015%2F02%2F26%2Fserialization-vs-deserialization.html" target="_blank">&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;</a>
+ <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fbenjaminwhx.com%2F2018%2F06%2F12%2F%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E5%BA%8F%E5%88%97%E5%8C%96%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%80%89%E5%9E%8B%2F" target="_blank">&#x5206;&#x5E03;&#x5F0F;&#x670D;&#x52A1;&#x5E8F;&#x5217;&#x5316;&#x6846;&#x67B6;&#x7684;&#x4F7F;&#x7528;&#x4E0E;&#x9009;&#x578B;</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Bad Code 3.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 关于烂代码的那些事（下）">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Effective Java 3 读书笔记","level":"1.2.9","depth":2,"next":{"title":"经验与心得","level":"1.3","depth":1,"ref":"","articles":[{"title":"如何从菜鸟程序员成长为(伪)高手","level":"1.3.1","depth":2,"path":"experience/How to become a master.md","ref":"experience/How to become a master.md","articles":[]}]},"previous":{"title":"关于烂代码的那些事（下）","level":"1.2.8","depth":2,"path":"Code Quality/Bad Code 3.md","ref":"Code Quality/Bad Code 3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Code Quality/Effective Java 3.md","mtime":"2020-05-02T15:52:08.161Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-02T13:54:43.327Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -10,6 +10,7 @@
   * [关于烂代码的那些事（上）](Code Quality/Bad Code 1.md) 
   *  [关于烂代码的那些事（中）](Code Quality/Bad Code 2.md) 
   *  [关于烂代码的那些事（下）](Code Quality/Bad Code 3.md) 
+  *   [Effective Java 3 读书笔记](Code Quality/Effective Java 3.md) 
 * 经验与心得
   *  [如何从菜鸟程序员成长为(伪)高手](experience/How to become a master.md) 
 

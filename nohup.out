@@ -1,0 +1,375 @@
+Live reload server started on port: 35729
+Press CTRL+C to quit ...
+
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 4.1s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.9s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 7.1s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.7s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.9s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 7.2s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.5s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.8s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.1s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.2s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.4s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.1s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.8s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.1s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.4s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 315 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 7.3s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 317 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 5.0s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 319 asset files 
+[0;33mwarn:[0m search index is too big, indexing is now disabled 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 7.9s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 319 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.5s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 319 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.3s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 319 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 6.7s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
+Restart after change in file Code Quality/Effective Java 3.md
+
+Stopping server
+[0;36minfo:[0m 7 plugins are installed 
+[0;36minfo:[0m loading plugin "livereload"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "highlight"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "search"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "lunr"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "sharing"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "fontsettings"... [0;32mOK[0m 
+[0;36minfo:[0m loading plugin "theme-default"... [0;32mOK[0m 
+[0;36minfo:[0m found 12 pages 
+[0;36minfo:[0m found 319 asset files 
+[0;36minfo:[0m [0;32m>> [0mgeneration finished with success in 7.4s ! 
+
+Starting server ...
+Serving book on http://localhost:4000
