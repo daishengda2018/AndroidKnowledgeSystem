@@ -8,3 +8,4 @@
 .externalNativeBuild
 *.apk
 *.ap_
+nohup.out
