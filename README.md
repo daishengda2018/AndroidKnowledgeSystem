@@ -3,41 +3,37 @@
 本项目致力于打造个人Android学习路径，梳理自己的方法论,将所有的学过的知识都以Demo的形式留下来，
 并整理学习笔记，后博客准备第一手实战资料。
 
-​																																	2018年11月12号于北京NewsDog
+​																											2018年11月12号于北京 NewsDog
 
 
 
-# 不见了的沉稳
+# 主要内容
 
-兜兜转转工作三年，回首往昔没能在任何一方面创造或积累过人的亮点，对此颇为遗憾。大四一年凭着自学 Android 的功夫独闯北京，有幸入职第一家公司勤勤恳恳体验了一次人生的过渡，但初出茅庐不知自己有多肤浅多稚气，竟觉得 Android 技术不过如此！陷入了最可怕的境地：「不知道自己不知道」。7个月后因业务线被砍，来到了第二家公司，独自开发Android金融客户端，然而 5个月后被转岗到了大数据流计算（Flink）工作了一年。很庆幸自此结识了一帮精英同事，开拓了眼界、提升了自信，我坚信努力就会有回报。但愚蠢的我竟忘了自己的斤两开始像个襁褓中的孩子，贪婪的吮吸着各种知识，”我有 5T 的IT资源“ 这些我当初吹嘘的资本依旧只是些数据。
+* [前言](README.md)
+* [代码质量与设计](Code Quality/OOP.md) 
+  * [面向对象思想](Code Quality/OOP.md) 
+  * [「设计」设计原则与思想](Code Quality/「Design」code_design_and_thinking.md) 
+  * [「设计」设计模式](Code Quality/「Design」Design pattern.md) 
+  * [「质量」编写可读代码的艺术.md](Code Quality/「Quality」the_art_of_readable_code.md) 
+  * [「质量」快速提高代码质量的20条建议](Code Quality/「Quality」 quickly improves the quality of 20 codes.md) 
+  * [「质量」代码整洁之道.md](Code Quality/「Quality」clean_code.md) 
+  * [「质量」如何发现代码中存在的问题.md](Code Quality/「Quality」how_to_find_code_question.md) 
+  * [重构](Code Quality/Refactoring.md)
+  * [关于烂代码的那些事（上）](Code Quality/Bad Code 1.md) 
+  * [关于烂代码的那些事（中）](Code Quality/Bad Code 2.md) 
+  * [关于烂代码的那些事（下）](Code Quality/Bad Code 3.md) 
+  * [Effective Java 3 读书笔记](Code Quality/Effective Java 3.md) 
 
+*  [测试](Code Test/README.md) 
+  *  [单元测试](Code Test/单元测试.md) 
 
+* 经验与心得
 
-至此走马观花的工作了三年，一年Android  -> 一年大数据流处理 ->一年Android。现在的我既没有深度也没有广度，而且工作方式全都是野路子，没有任何规矩、规范、流程可言。最可怕的是最近半年心思完全不在工作上，当年自学的毅力以及对知识的渴望即将消失殆尽。
+  *  [如何从菜鸟程序员成长为(伪)高手](experience/How to become a master.md) 
 
+  * [两年内收集的30条小Tips](计划、经验、总结/两年内收集的30条小Tips.md) 
 
-
-已经到现在的公司8个月了，不仅没有长进而且还有所下降！不见已久的恐慌一下子涌上了心头。
-
-
-
-所以最好的救赎时机就是当下。
-
-​																                                                         2019年7月15日19:00于北京NewsDog
-
-# 目录
-
-[Android基础知识](MyNote/Android基础知识.md)
-
-[Viw知识体系](MyNote/view知识体系.md)
-
-[动画](MyNote/动画.md)
-
-[java基础](MyNote/java基础.md)
-
-[RecyclerView详解](MyNote/RecyclerView.md)
-
-
+    
 
 # 其他
 

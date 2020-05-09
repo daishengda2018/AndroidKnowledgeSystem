@@ -527,7 +527,7 @@ public static <E extends Enum<E>> EnumSet<E> of(E e1, E e2, E e3, E e4,E e5)
     }
 ```
 
-### 返回空集合或数组，而不是null
+### <font color = red>返回空集合或数组，而不是null</font>
 
 返回null容易造成空指针异常，返回的空数组或空集合可优化为：
 

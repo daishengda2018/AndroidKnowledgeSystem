@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>「质量」如何发现代码中存在的问题.md · GitBook</title>
+        <title>重构 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="Refactoring.html" />
+    <link rel="next" href="Bad Code 1.html" />
     
     
-    <link rel="prev" href="「Quality」clean_code.html" />
+    <link rel="prev" href="「Quality」how_to_find_code_question.html" />
     
 
     </head>
@@ -194,7 +194,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.2.7" data-path="「Quality」how_to_find_code_question.html">
+        <li class="chapter " data-level="1.2.7" data-path="「Quality」how_to_find_code_question.html">
             
                 <a href="「Quality」how_to_find_code_question.html">
             
@@ -207,7 +207,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.8" data-path="Refactoring.html">
+        <li class="chapter active" data-level="1.2.8" data-path="Refactoring.html">
             
                 <a href="Refactoring.html">
             
@@ -384,7 +384,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >「质量」如何发现代码中存在的问题.md</a>
+        <a href=".." >重构</a>
     </h1>
 </div>
 
@@ -399,9 +399,40 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <p><a href="https://time.geekbang.org/column/article/190979" target="_blank">&#x53C2;&#x8003;</a></p>
-<p><img src=".&#x5982;&#x4F55;&#x53D1;&#x73B0;&#x4EE3;&#x7801;&#x8D28;&#x91CF;&#x95EE;&#x9898;.assets/041e22cac6ce2ba3481e246c119adfc9.jpg" alt="img"></p>
-<p><img src=".&#x5982;&#x4F55;&#x53D1;&#x73B0;&#x4EE3;&#x7801;&#x8D28;&#x91CF;&#x95EE;&#x9898;.assets/9894233257994a69102afa960692ce98.jpg" alt="img"></p>
+                                <p>[toc]</p>
+<h1 id="3---&#x574F;&#x4EE3;&#x7801;&#x7684;&#x5473;&#x9053;">3 - &#x574F;&#x4EE3;&#x7801;&#x7684;&#x5473;&#x9053;</h1>
+<h2 id="31-duplicated-code-&#x91CD;&#x590D;&#x7684;&#x4EE3;&#x7801;">3.1 Duplicated Code &#x91CD;&#x590D;&#x7684;&#x4EE3;&#x7801;</h2>
+<p>&#x91CD;&#x590D;&#x4EE3;&#x7801;&#x4F1A;&#x5BFC;&#x81F4;&#x4EE3;&#x7801;&#x6742;&#x4E71;&#x65E0;&#x7AE0;&#x3001;&#x800C;&#x4E14;&#x548C;&#x8001;&#x9F20;&#x6D1E;&#x4E00;&#x6837;&#x5F88;&#x96BE;&#x505A;&#x5230;&#x7EDF;&#x4E00;&#x63A7;&#x5236;&#x3002;</p>
+<ol>
+<li><p><strong>&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x7C7B;&#x4E2D;&#x6709;&#x91CD;&#x590D;&#x7684;&#x4EE3;&#x7801;:</strong> </p>
+<p>&#x76F4;&#x63A5;&#x4F7F;&#x7528; <em>Extract Method</em> &#x65B9;&#x6CD5;&#x63D0;&#x53D6;&#x91CD;&#x590D;&#x7684;&#x65B9;&#x6CD5;&#x3002;</p>
+</li>
+<li><p><strong>&#x4E24;&#x4E2A;&#x4E92;&#x4E3A;&#x5144;&#x5F1F;&#x5173;&#x7CFB;&#x7684;&#x5B50;&#x7C7B;&#x4E2D;&#x5305;&#x542B;&#x76F8;&#x540C;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</strong></p>
+<p>&#x63D0;&#x53D6;&#x76F8;&#x540C;&#x7684;&#x4EE3;&#x7801;&#x540E;&#x4F7F;&#x7528; <em>Pull Up Method</em> &#x5C06;&#x5B83;&#x63A8;&#x5165;&#x8D85;&#x7C7B;&#x3002;&#x5982;&#x679C;&#x4EE3;&#x7801;&#x4E0D;&#x540C;&#x4F46;&#x662F;&#x4F5C;&#x7528;&#x662F;&#x76F8;&#x540C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x6700;&#x597D;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#xFF0C;&#x5728; <em>Pull Up Method</em></p>
+</li>
+<li><p><strong>&#x51E0;&#x4E2A;&#x6BEB;&#x65E0;&#x5173;&#x7CFB;&#x7684;&#x7C7B;&#x4E2D;&#x6709;&#x91CD;&#x590D;&#x4EE3;&#x7801;&#x3002;</strong></p>
+<p>&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x5173;&#x952E;&#x662F;&#x8981;&#x5224;&#x65AD;&#x628A; <em>Extract Method</em> &#x540E;&#x7684;&#x4EE3;&#x7801;&#x653E;&#x5230;&#x4EC0;&#x4E48;&#x5730;&#x65B9;&#xFF0C;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x548C;&#x4E00;&#x79CD;&#x4E00;&#x4E2A;&#x7C7B;&#x8054;&#x7CFB;&#x5F88;&#x5927;&#x5C31;&#x5E94;&#x8BE5;&#x653E;&#x5230;&#x5176;&#x4E2D;&#xFF0C;&#x90FD;&#x6CA1;&#x6709;&#x5173;&#x7CFB;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8981;&#x521B;&#x5EFA;&#x7B2C;&#x4E09;&#x65B9;&#x7C7B;&#x3002;</p>
+<h2 id="32-long-method-&#x8FC7;&#x957F;&#x51FD;&#x6570;">3.2 Long Method &#x8FC7;&#x957F;&#x51FD;&#x6570;</h2>
+<p>&#x51FD;&#x6570;&#x8FC7;&#x957F;&#x5F88;&#x96BE;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#x3001;&#x7406;&#x89E3;&#x3001;&#x4EE5;&#x540E;&#x7684;&#x62D3;&#x5C55;&#x3002;&#x8BA9;&#x5C0F;&#x51FD;&#x6570;&#x66F4;&#x597D;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#x7684;&#x771F;&#x6B63;&#x5173;&#x952E;&#x662F;&#x4E00;&#x4E2A;&#x597D;&#x540D;&#x5B57;&#xFF0C;&#x51FD;&#x6570;&#x7684;&#x957F;&#x5EA6;&#x5E76;&#x4E0D;&#x4E00;&#x5B9A;&#x662F;&#x5173;&#x952E;&#xFF0C;&#x800C;&#x662F;&#x51FD;&#x6570;&#x7684;&#x540D;&#x5B57;&#x662F;&#x5426;&#x80FD;&#x5230;&#x4F4D;&#x7684;&#x63CF;&#x8FF0;&#x51FD;&#x6570;&#x5728;&#x505A;&#x4EC0;&#x4E48;&#x3002;</p>
+<p><img src=".&#x91CD;&#x6784;&#x8BFB;&#x4E66;&#x7B14;&#x8BB0;.assets/image-20200412190223658.png" alt="image-20200412190223658"></p>
+</li>
+</ol>
+<h2 id="33-large-class-&#x8FC7;&#x5927;&#x7684;&#x7C7B;">3.3 Large Class &#x8FC7;&#x5927;&#x7684;&#x7C7B;</h2>
+<p>&#x8FC7;&#x5927;&#x7684;&#x7C7B;&#x4E00;&#x822C;&#x90FD;&#x4E0D;&#x6EE1;&#x8DB3;&#x5355;&#x4E00;&#x539F;&#x5219;&#xFF0C;&#x5176;&#x4E2D;&#x5F80;&#x5F80;&#x5C31;&#x4F1A;&#x51FA;&#x73B0;&#x592A;&#x591A;&#x5B9E;&#x4F8B;&#x53D8;&#x91CF;&#x3002;&#x9047;&#x5230;&#x8FC7;&#x5927;&#x7684;&#x7C7B;&#x5C31;&#x8981;&#x8003;&#x8651; <em>Extract Class</em> &#x548C; <em>Extract Subclass</em>&#x65B9;&#x6CD5;&#x4E86;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x6709;&#x4E2A;&#x6280;&#x5DE7;&#xFF1A;&#x5148;&#x786E;&#x5B9A;&#x5BA2;&#x6237;&#x7AEF;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x4ED6;&#x4EEC;&#xFF0C;&#x7136;&#x540E;&#x8FD0;&#x7528; <em>Extract Interface</em> &#x4E3A;&#x6BCF;&#x4E00;&#x79CD;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x63D0;&#x70BC;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x8FD9;&#x6216;&#x8BB8;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x6211;&#x4EEC;&#x770B;&#x6E05;&#x695A;&#x5982;&#x4F55;&#x5206;&#x89E3;&#x8FD9;&#x4E2A;&#x7C7B;&#x3002;fa</p>
+<h2 id="34-log-parameter-list-&#x8FC7;&#x957F;&#x53C2;&#x6570;&#x5217;&#x8868;">3.4 Log parameter List &#x8FC7;&#x957F;&#x53C2;&#x6570;&#x5217;&#x8868;</h2>
+<p>&#x4E0D;&#x8981;&#x6709;&#x592A;&#x957F;&#x7684;&#x53C2;&#x6570;&#x5217;&#x8868;&#xFF0C;&#x5982;&#x679C;&#x592A;&#x957F;&#x5C31;&#x628A;&#x53C2;&#x6570;&#x5C01;&#x88C5;&#x6210;&#x7C7B;&#xFF0C;&#x4F46;&#x662F;&#x6709;&#x4E9B;&#x573A;&#x666F;&#x5E76;&#x4E0D;&#x5E0C;&#x671B;&#x9020;&#x6210;&#x201D;&#x88AB;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#x201C;&#x4E0E;&#x201D;&#x8F83;&#x5927;&#x5BF9;&#x8C61;&#x201C;&#x95F4;&#x7684;&#x67D0;&#x79CD;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x3002;&#x8FD9;&#x65F6;&#x5019;&#x5C06;&#x6570;&#x636E;&#x4ECE;&#x5BF9;&#x8C61;&#x4E2D;&#x62C6;&#x89E3;&#x51FA;&#x6765;&#x5355;&#x72EC;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#xFF0C;&#x4E5F;&#x5408;&#x60C5;&#x5408;&#x7406;&#x3002;&#x4F46;&#x662F;&#x6CE8;&#x610F;&#x5176;&#x6240;&#x5F15;&#x53D1;&#x7684;&#x4EE3;&#x4EF7;&#x3002;</p>
+<p>&#x9762;&#x5BF9;&#x4E0A;&#x9762;&#x7684;&#x95EE;&#x9898;&#x4E5F;&#x53EF;&#x4EE5;&#x5C01;&#x88C5;&#x4E00;&#x4E2A;&#x7C7B;&#xFF0C;&#x5355;&#x72EC;&#x4F20;&#x9012;&#x53C2;&#x6570;&#x3002;</p>
+<h2 id="35-divergent-change-&#x53D1;&#x6563;&#x5F0F;&#x53D8;&#x5316;">3.5 Divergent Change &#x53D1;&#x6563;&#x5F0F;&#x53D8;&#x5316;</h2>
+<p>&#x63CF;&#x8FF0;&#xFF1A;&#x4E00;&#x4E2A;&#x7C7B;&#x88AB;&#x951A;&#x5B9A;&#x4E86;&#x591A;&#x4E2A;&#x53D8;&#x5316;&#xFF0C;&#x5F53;&#x8FD9;&#x4E9B;&#x53D8;&#x5316;&#x4E2D;&#x7684;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x53D1;&#x751F;&#x65F6;&#xFF0C;&#x5C31;&#x5FC5;&#x987B;&#x5BF9;&#x7C7B;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x3002;
+&#x89E3;&#x91CA;&#xFF1A;&#x4E00;&#x4E2A;&#x7C7B;&#x6700;&#x597D;&#x53EA;&#x56E0;&#x4E00;&#x79CD;&#x53D8;&#x5316;&#x800C;&#x88AB;&#x4FEE;&#x6539;
+&#x64CD;&#x4F5C;&#xFF1A;&#x4F60;&#x5E94;&#x8BE5;&#x627E;&#x51FA;&#x67D0;&#x7279;&#x5B9A;&#x539F;&#x56E0;&#x800C;&#x9020;&#x6210;&#x7684;&#x6240;&#x6709;&#x53D8;&#x5316;&#xFF0C;&#x7136;&#x540E;&#x8FD0;&#x7528;Extract Class&#x5C06;&#x5B83;&#x4EEC;&#x63D0;&#x70BC;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x7C7B;&#x4E2D;&#x3002;</p>
+<h2 id="36-shotgun-surgery-&#x6563;&#x5F39;&#x5F0F;&#x4FEE;&#x6539;">3.6 Shotgun Surgery &#x6563;&#x5F39;&#x5F0F;&#x4FEE;&#x6539;</h2>
+<p>&#x63CF;&#x8FF0;&#xFF1A;&#x4E00;&#x79CD;&#x53D8;&#x5316;&#x5F15;&#x53D1;&#x7A0B;&#x5E8F;&#x591A;&#x5904;&#x7684;&#x4FEE;&#x6539;&#x3002;
+&#x89E3;&#x91CA;: &#x4E00;&#x79CD;&#x53D8;&#x5316;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x6709;&#x591A;&#x4E2A;&#x951A;&#x70B9;&#xFF0C;&#x5E76;&#x4E14;&#x5206;&#x6563;&#x5728;&#x7A0B;&#x5E8F;&#x5404;&#x5904;&#x3002;(&#x5C31;&#x50CF;&#x6563;&#x5F39;&#x4E00;&#x6837;)
+&#x9700;&#x8981;&#x4FEE;&#x6539;&#x7684;&#x4EE3;&#x7801;&#x6563;&#x5E03;&#x56DB;&#x5904;&#xFF0C;&#x4F60;&#x4E0D;&#x4F46;&#x5F88;&#x96BE;&#x627E;&#x5230;&#x5B83;&#x4EEC;&#xFF0C;&#x4E5F;&#x5F88;&#x5BB9;&#x6613;&#x5FD8;&#x8BB0;&#x67D0;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x4FEE;&#x6539;&#x3002;</p>
+<p>&#x64CD;&#x4F5C;&#xFF1A;&#x627E;&#x51FA;&#x67D0;&#x4E2A;&#x53D8;&#x5316;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x951A;&#x70B9;&#xFF0C;&#x5E76;&#x5C1D;&#x8BD5;&#x4F7F;&#x7528;Move Method&#x548C;Move Field&#x5C06;&#x5B83;&#x4EEC;&#x96C6;&#x4E2D;&#x5230;&#x4E00;&#x4E2A;&#x7C7B;&#x4E2D;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5408;&#x9002;&#x7684;&#x7C7B;&#x5B89;&#x7F6E;&#x8FD9;&#x4E9B;&#x4EE3;&#x7801;&#xFF0C;&#x5C31;&#x521B;&#x9020;&#x4E00;&#x4E2A;</p>
+<h2 id=""> </h2>
 
                                 
                                 </section>
@@ -429,12 +460,12 @@
 
             
                 
-                <a href="「Quality」clean_code.html" class="navigation navigation-prev " aria-label="Previous page: 「质量」代码整洁之道.md">
+                <a href="「Quality」how_to_find_code_question.html" class="navigation navigation-prev " aria-label="Previous page: 「质量」如何发现代码中存在的问题.md">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="Refactoring.html" class="navigation navigation-next " aria-label="Next page: 重构">
+                <a href="Bad Code 1.html" class="navigation navigation-next " aria-label="Next page: 关于烂代码的那些事（上）">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -445,7 +476,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"「质量」如何发现代码中存在的问题.md","level":"1.2.7","depth":2,"next":{"title":"重构","level":"1.2.8","depth":2,"path":"Code Quality/Refactoring.md","ref":"Code Quality/Refactoring.md","articles":[]},"previous":{"title":"「质量」代码整洁之道.md","level":"1.2.6","depth":2,"path":"Code Quality/「Quality」clean_code.md","ref":"Code Quality/「Quality」clean_code.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Code Quality/「Quality」how_to_find_code_question.md","mtime":"2020-04-29T15:04:07.363Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-09T03:44:17.283Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"重构","level":"1.2.8","depth":2,"next":{"title":"关于烂代码的那些事（上）","level":"1.2.9","depth":2,"path":"Code Quality/Bad Code 1.md","ref":"Code Quality/Bad Code 1.md","articles":[]},"previous":{"title":"「质量」如何发现代码中存在的问题.md","level":"1.2.7","depth":2,"path":"Code Quality/「Quality」how_to_find_code_question.md","ref":"Code Quality/「Quality」how_to_find_code_question.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Code Quality/Refactoring.md","mtime":"2020-05-09T03:24:23.358Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-05-09T03:44:17.283Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
