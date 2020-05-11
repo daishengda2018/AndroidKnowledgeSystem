@@ -14,10 +14,12 @@
   * [关于烂代码的那些事（中）](Code Quality/Bad Code 2.md) 
   * [关于烂代码的那些事（下）](Code Quality/Bad Code 3.md) 
   * [Effective Java 3 读书笔记](Code Quality/Effective Java 3.md) 
-
 *  [测试](Code Test/README.md) 
   *  [单元测试](Code Test/单元测试.md) 
-
 * 经验与心得
   * [如何从菜鸟程序员成长为(伪)高手](experience/How to become a master.md) 
-  * [两年内收集的30条小Tips](计划、经验、总结/两年内收集的30条小Tips.md) 
+  * [两年内收集的30条小Tips](计划、经验、总结/两年内收集的30条小Tips.md)
+* 计划与执行
+  *  [学习计划.](计划、经验、总结/学习计划.md)  
+  * [学习和写文章标准结构](计划、经验、总结/学习和写文章标准结构.md) 
+  *  [实操记录](计划、经验、总结/实操记录.md) 
