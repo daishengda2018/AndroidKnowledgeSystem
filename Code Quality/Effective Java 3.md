@@ -8,20 +8,62 @@
 
 ### 考虑使用静态工厂方法而不是构造方法创建对象
 
-静态工厂方法的好处有：
+**静态工厂方法的好处有：**
 
 1. 静态工厂方法有方法名，可避免构造方法的重载并且易读。
 2. 静态工厂方法不要求每次调用都创建一个新的对象，如对于单例以及不可变对象的复用。
 3. 静态工厂方法可以返回类型可以是子类对象
 4. 静态工厂方法的接收参数不同，可以返回不同的对象。
 5. 静态工厂方法可以只定义抽象方法或接口，由具体的实现类实现。如SPI技术。
-   静态工厂方法的缺点主要有：
+6. 
+
+**静态工厂方法的缺点主要有：**
+
    1. 如果返回对象的类只有package-protected或private的构造方法，则工厂方法不能创建子类对象
+
    2. 静态工厂方法的API难找到,可使用`from,of,valueOf,instance,getIntance,create,newInstance`等方法名来命名。
+
+      > * from - 类型转换方法，接受单个参数并返回此类型的相应实例：Date d = Data.from(intance)
+      >
+      > * of - 聚合方法，接受多个参数并返回该类型的实例，并把他们合并在一起：Set<Rank> card = EnumSet.of(JACK, QUEEN, KING);
+      >
+      > * valueOf - 比 from 和 of 更加繁琐的一种替代方法，例如
+      >
+      >   ```BigInteger prime = BigIntegr.valueOf(Integer.MAX_VALUE);```
+      >
+      > * instance 或者 getInstace - 返回的实例是通过方法的（如有）参数来描述的，但是不能说与参数具有相同的值，例如：
+      >
+      >   ```StackWalker luke = StackWalker.getInstance(options);```
+      >
+      > * creaet 或者 newInstance - 像 instance 或者 getInstance 一样，但是 create 或者 newInstance 能够保证每次都返回一个新的实例，例如。
+      >
+      > * get*Type* - 像 getInstance 一样，但是在工厂方法处于不同的类中的时候使用， *Type*表示工厂方法所返回的类型。
+      >
+      >   ```FileStore fs = Files.getFileStore(path)```
+      >
+      > * new*Type* - 像 newInstance 一样，但是在工厂方法处于不同的类中的时候使用， *Type*表示工厂方法所返回的类型。
+      >
+      >   ```BufferedReader br = Files.newBufferedReader(path);```
+      >
+      > * *type* - getType 和 newType 的简化版：
+      >
+      >   `List<Complaint> litany = Collections.list(legacyLitany);`
+
+      <font color = red>在我的项目里面我会使用</font>
+
+      > <font color = red>creaetFrom ：单参数创建</font>
+      >
+      > <font color = red>createOf 多参数聚合参数创建</font>
+      >
+      > <font color = red>getInstance 表示获取单例</font>
+      >
+      > <font color = red>get*Type* 表示从工厂方法获取缓存实例</font>
+      >
+      > <font color = red>create*Type* 从工厂方法创建实例</font>
 
 ### 当有很多构造参数时，使用Builder模式
 
-当有很多构造参数并且是可选参数的时候，使用Builder模式更加易读，并且也会比单纯的javaBean.set方法安全。
+当有很多构造参数并且是可选参数的时候，使用Builder模式更加易读，而且保护了对象的不可变性。JavaBean.set 也好用，但是他会带来实例对象不一致的问题 -> 对象在创建后被随意使用 set 方法修改了内容。而 Buidler 模式只有在创建实例之初才进行修改，保护了对象的不可变性。
 
 ### 单例对象必须私有化构造方法，或者使用枚举类型
 
@@ -461,10 +503,10 @@ EnumMap是对枚举类对象的Map数组集合包装,key为对应的枚举类对
 ## Chapter07:Lambda表达式和流处理
 
 - ## **优先使用lambdas而不是匿名类**
-   
+  
    lambda可以使代码看起来更加简洁，书写方便。对于函数接口（只有一个abstract方法的接口），不要使用匿名类创建实例，也不要序列化lambdas或者匿名类。lambdas最好是不超过几行，容易理解的代码。
 - ## **优先使用方法引用而不是lambdas**
-   
+  
    Lambda 表达式常用语法是 `(argument) -> (body)`，而方法引用指的是`目标引用::方法`的形式。如下：
 
 
@@ -479,10 +521,10 @@ Comparator c = Comparator.comparing(Person::getAge);
 使用方法引用大多时候会显得更加简洁易懂。但是当Lambda 表达式形式比方法引用更简洁的时候，使用前者。
 
 - ## **优先使用标准的函数接口**
-   
+  
    `java.util.function`包中提供了表示生产者（Supplier<T>）,消费者（Consumer<T>）,预测（Predicate<T>)等众多函数接口，优先使用这些函数接口。另外，含有基本类型参数的函数接口不要传入包装类型参数。自定义的函数接口使用`@FunctionalInterface`注解。
 - ## **慎重使用streams**
-   
+  
    过度使用streams(流处理)会导致程序难读难维护。streams用函数对象来处理流数据（想象水流流过管道），循环代码块(循环遍历代码，如for循环，while循环)用代码块不断的重复操作。他们的操作对比：
 
 1.代码块可读写作用域内访问的任何局部变量。Lambda只能读用`final修饰`或者`effectively final`(A variable or parameter whose value is never changed after it is initialized is effectively final.)的变量，并且不能修改任何局部变量。
@@ -496,13 +538,13 @@ Comparator c = Comparator.comparing(Person::getAge);
  其实也就是`map-reduce`操作适合流式处理。
 
 - ## **在streams管道中优先使用无副作用的函数**
-   
+  
    无副作用的函数参数是指不依赖可变状态参数，同时也不会修改任何状态的函数。这样在流处理的过程中，每阶段的处理结果只依赖于它的前一阶段的输入结果。同时不要使用`forEach`做流展示的运算。在做流的`collect`操作时，可通过`Collectors`实现一系列的集合操作，如`toList`,`toMap`,`groupingBy`等。
 - ## **优先使用集合而不是Stream作为返回结果**
-   
+  
    集合既可以做集合中元素序列的流处理，也可以迭代使用。但是Stream没有实现Iterable接口，无法做迭代操作。
 - ## **小心使用streams 并行计算**
-   
+  
    可调用`parallel`方法实现并行计算，但是对于`limit`,`collect`方法并不适合使用并行计算，因为这些操作可能导致错误的结果或灾难。而对于`reduce`或者有预操作的方法，比如`min`,`max`,`count`,`anyMatch`这些是适合使用并行计算的。同时集合类`ArrayList`,`HashMap`,`ConcurrentHashMap`,`arrays`是适合做并行计算，因为他们的数据结构主要由数组构成，可简单切分成小块数据并行运算，同时局部的数组数据引用通常在内存中是连续的。此外，只有当数据量很大时，使用cpu核数相同的线程才可能达到接近线性的速度，如机器学习和大数据处理适合使用流的并行计算。
    可参考：
    [什么是函数式编程思维？](https://links.jianshu.com/go?to=https%3A%2F%2Fwww.zhihu.com%2Fquestion%2F28292740%2Fanswer%2F40336090)
