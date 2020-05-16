@@ -321,7 +321,7 @@ int consumed = mLayoutState.mScrollingOffset + fill(recycler, mLayoutState, stat
 
 对于`RecyclerView`的滚动，最终调用到了`RecyclerView.offsetChildrenVertical()`:
 
-```
+```java
 //dy这里就是滚动的距离
 public void offsetChildrenVertical(@Px int dy) {
     final int childCount = mChildHelper.getChildCount();
