@@ -2,7 +2,6 @@
 
 * [前言](README.md)
 * [代码质量与设计](Code Quality/OOP.md) 
-  * [面向对象思想](Code Quality/OOP.md) 
   * [「设计」设计原则与思想](Code Quality/「Design」code_design_and_thinking.md) 
   * [「设计」设计模式](Code Quality/「Design」Design pattern.md) 
   * [「质量」编写可读代码的艺术.md](Code Quality/「Quality」the_art_of_readable_code.md) 
