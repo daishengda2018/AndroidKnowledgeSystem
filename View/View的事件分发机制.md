@@ -26,7 +26,7 @@ public boolean dispatchTouchEvent(MotionEvent ev)
 public boolean onInterceptTouchEvent(MotionEvent ev)
 ```
 
-在 dispatchTouchEvent(MotionEvent ev) 调用，用于判断是否要拦截事件。==如果当前 ViewGroup ***拦截了***某个事件，那么同一个事件序列挡住，此方法不会被再次调起。==返回结果表示是否拦截事件。
+在 dispatchTouchEvent(MotionEvent ev) 后调用，用于判断是否要拦截事件。==如果当前 ViewGroup ***拦截了***某个事件，那么同一个事件序列挡住，此方法不会被再次调起。==返回结果表示是否拦截事件。
 
 ```java
 public boolean onTouchEvent(MotionEvent ev)
@@ -51,7 +51,7 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 }
 ```
 
-对于一个 ViewGroup 来说，点击事件产生之后，首先它的 dispatchTouchEvent(MotionEvent ev) 会被调用，如果这个 ViewGroup 的 onInterceptTouchEvent 返回 ture 就表示他需要处理这个事件，接着这个事件就会交由这个 ViewGroup 处理。如果 onInterceptTouchEvent 方法返回 false 则表示不处理此事件，当前事件都将传递给子元素，接着子元素的 dispatchTouchEvent 方法就会被低调用，如此反复直接事件最终被处理。
+对于一个 ViewGroup 来说，点击事件产生之后，首先它的 dispatchTouchEvent(MotionEvent ev) 会被调用，如果这个 ViewGroup 的 onInterceptTouchEvent 返回 ture 就表示他需要处理这个事件，接着这个事件就会交由这个 ViewGroup 处理。如果 onInterceptTouchEvent 方法返回 false 则表示不处理此事件，当前事件都将传递给子元素，接着子元素的 dispatchTouchEvent 方法就会被调用，如此反复直接时间传递到了具体 View。
 
 
 
@@ -65,7 +65,7 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 
 1. 一个事件序列是指从手指接触屏幕—— ACTON_DOWN 那一刻，到手指离开屏幕—— ACTON_UP 的时候结束，加上整个过程中产生的无数个 ACTON_MOVE 事件，即 ACTION_MOVE 开始 + 中间无数个 ACTION_MOVE + 最终结尾的 ACTION_UP。
 
-2. 某个 ViewGroup 一旦拦截了 ACTION_DOWN 事件，那么这一个序列的所有事件都只能由他来处理(如果事件序列*没有被人为阻断*，*能够传递给它*的话)，并且它的 onInterceptTouchEvent 将不会被调用。也就是说==一个 ViewGroup 在成功拦截  ACTION_DOWN  事件后，那么系统会把同一个事件序列内的其他事件直接交由此 ViewGroup 的 onTouchEvent 处理。不会再调用这个 ViewGroup 的 onInterceptTouchEvent 方法询问是否需要拦截==。就算除了 ACTION_DOWN 以外的其他事件， onTouchEvent 都返回 false，那么也不会在询问是否拦截了。
+2. 某个 ViewGroup 一旦拦截了 ACTION_DOWN 事件，那么这一个序列的所有事件都只能由他来处理(如果事件序列没有被人为阻断*，*能够传递给它的话)，并且它的 onInterceptTouchEvent 将不会被调用。也就是说==一个 ViewGroup 在成功拦截  ACTION_DOWN  事件后，那么系统会把同一个事件序列内的其他事件直接交由此 ViewGroup 的 onTouchEvent 处理。不会再调用这个 ViewGroup 的 onInterceptTouchEvent 方法询问是否需要拦截==。就算除了 ACTION_DOWN 以外的其他事件， onTouchEvent 都返回 false，那么也不会在询问是否拦截了。
 3. 正常情况下一个事件序列只能被一个 View 拦截且消耗，因为一旦一个 ViewGroup 拦截了开始的  ACTION_DOWN 事件，那么同一个事件序列内的所有事件都将会交给它处理。但是我们可以通过特殊手段让一个 View 将本身自己要处理的事情转交给其他 View 处理。
 4. 某个 View 开始处理事件，但如果他不能消耗 ACTION_DWON 即此时 onTouchEvent() 返回了 false，那么此事件序列将直接交于父 View 处理(调用父 View 的 onTouchEvent())，此 View 将接收不到此事件序列的其他任何事件。==意识就是说，一个事件序列的开始事件 ACTION_DOWN 交给你，如果你不消耗掉，这个这个序列剩下的事件都不会在交个你处理了，而是转由上级 View 处理==
 5. 如果 View 不消耗 ACTION_DOWN  以外的其他事件，那么此这些事件就会消失，而且父 View 的onTouchEvent 并不会被调用。并且当前 View 可以持续收到后续的事件，最终这些消失的事件将传递给 Activity 处理。

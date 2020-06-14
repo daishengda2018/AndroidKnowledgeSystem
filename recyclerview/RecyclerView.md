@@ -408,7 +408,7 @@ Recycler 是 RecyclerView 最核心的实现。**对于 LayoutManager 来说 Rec
 
 
 
-## RecyclerView.setHasFiexedSize(Bollean)
+## RecyclerView.setHasFixedSize(Bollean)
 
 RecyclerView 内容有变化的时候（插入、删除、内容变化）如果 item view 存在固定的尺寸则直接` layoutChildren`   否则就会执行`requestLayout `这意味着 `onMeasure` 、`onLayout` 、`onDraw` 这些绘制流程都会重新执行一遍，是很耗时的。
 
