@@ -252,58 +252,231 @@ public class Singleton {
 
 ## 2. 工厂模式
 
-* 工厂方法
+==工厂模式是用来创建具体实现不同但是相关类型的对象实例的==具体的表现形式有以下三种：
+
+
+
+* 简单工厂方法：
+
+  > 专门定义一个类来集中创建有着同一类型的其他对象的实例。
+
+* 工厂模式
 
   > 定义了一个创建对象的接口，但由子类决定要实例化的类是哪一个。工厂方法把类的实例化推迟到子类。
 
-* 抽象工厂
+* 抽象工厂模式
 
   > 提供一个接口，用于创建相关和依赖对象的家族，而不需要明确指定具体类。
-
-
-
-==工厂模式是用来创建不同但是相关类型的对象（继承同一父类或者接口的一组子类），由给定的参数来决定创建哪种类型的对象==
+  
+  三种形式都透出着一下的动机：
 
 ### 动机
 
-* 在软件系统中，经常面临着创建对象的工作；由于需求的变化，需要创建的对象的具体类型经常变化。
-* 如何应对这种变化？如何绕开常规的对象创建方法(new), 提供一种“封装机制”来避免客户程序和这种“具体对象创建工作”的紧耦合？
+* 在软件系统中，经常面临着创建对象的工作；由于需求的变化，需要创建的对象实例也经常变化。
 
-### 简单工厂
+* 如何应对这种变化？如何绕开常规的对象创建方法(new), 提供一种“封装机制”来避免客户程序和这种“具体对象创建工作”的紧耦合。
 
-代码模板：
+  ![这里写图片描述](images/「Design」Design pattern/70-20200622004316170.png)
+
+
+
+### 简单工厂模式
+
+![img](images/「Design」Design pattern/09067f878916c0e4377bfadc82afc248_1440w.jpg)
+
+简单工厂某事是一种工厂模式的一种变型，它将所有创建实例、选择实例的过程都封装到一个类中。
+
+代码示例：
 
 ```java
-
-public class RuleConfigParserFactory {
+public class MouseFactory {
   // 使用一个静态的 Map 承载对象
-  private static final Map<String, RuleConfigParser> cachedParsers = new HashMap<>();
+  private static final Map<String, RuleConfigParser> CACHED_MAP = new HashMap<>();
 
   static {
     // 在初始化的时候就已经将对象缓存在 Map 中了
-    cachedParsers.put("json", new JsonRuleConfigParser());
-    cachedParsers.put("xml", new XmlRuleConfigParser());
-    cachedParsers.put("yaml", new YamlRuleConfigParser());
-    cachedParsers.put("properties", new PropertiesRuleConfigParser());
+    CACHED_MAP.put("dell", new DellMouse());
+    CACHED_MAP.put("ph", new HpMouse());
+    CACHED_MAP.put("apple", new AppleMouse());
+    CACHED_MAP.put("lenovo", new LenovoMouse());
   }
 
-  public static IRuleConfigParser createParser(String configFormat) {
-    if (configFormat == null || configFormat.isEmpty()) {
-      return null;//返回null还是IllegalArgumentException全凭你自己说了算
+  // 对外暴露静态方法
+  public static Mouse createOf(String type) {
+    if (type == null || type.isEmpty()) {
+      return null; //返回null还是IllegalArgumentException全凭你自己说了算
     }
-    IRuleConfigParser parser = cachedParsers.get(configFormat.toLowerCase());
-    return parser;
+    return CACHED_MAP.get(type.toLowerCase());
   }
+}
+
+/**
+ * 对于实现类的统一抽象
+ */
+public interface Mouse {
+    void sayHi();
 }
 ```
 
-**其他的代码模板到[我为什么说没事不要随便用工厂模式创建对象](https://time.geekbang.org/column/article/197254)里面看**
 
-### 抽象广场
+
+#### 特点
+
+1. 对实现类提取有统一抽象
+2. 使用策略模式（map）完成多态。
+3. 对外暴露静态方法，例如 createOf、createFrom，完成构造逻辑。
+
+#### 优点：
+
+1. ==封装了对象的构造过程，避免客户程序与“具体对象创建工作”的紧耦合，绕开了 new 对象的动作==
+2. 封装了因使用多态导致的对象选择逻辑（替换 if else 、 switch 为策略模式）。
+3. 统一了对象实例化位置，方便拓展、移除。
+
+#### 缺点：
+
+1. 提前创建好了对象：
+   1. 相当于缓存了，不能每次都创建新的对象实例、也无法懒加载。
+   2. 客户端与对象实例构建类紧耦合，无法将创建过程向下传递，完成依赖倒置 。
+   3. 如果对象创建需要客户端信息，此方案行不通。
+2. 如果创建过程很复杂，例如需要各种初始化动作。则对象实例构建类（MouseFactory）将会变得很复杂。
+3. 有人说，每次添加新实现类的时候都要修对象实例构建类（MouseFactory）改违反开闭原则，我不敢苟同：
+   1. 修改在细粒度上看是改了老代码，但在粗粒度上看其实是拓展。开闭原则讲究的少改稳定的老代码防止引入问题，而不是不改。
+   2. 完全可以暴露注册和解除注册的方法，拓展的时候只需注册即可。
+
+### 工厂模式
+
+![img](images/「Design」Design pattern/69ab924585b751cb9e7bc7b7f9f2179b_1440w.jpg)
+
+#### 定义解读
+
+> 定义一个创建对象的接口（MouseFactory），让子类 (HpMouseFactory、DellMouseFactory) 决定实例化哪一个类（HPMouse、DellMouse）使一个类（HPMouse、DellMouse）的实例化延迟到其子类 (HpMouseFactory、DellMouseFactory)。
+
+#### 代码示例：
+
+
+
+```java
+
+public class MouseFactory {
+  // 使用一个静态的 Map 承载对象
+  private static final Map<String, RuleConfigParser> CACHED_MAP = new HashMap<>();
+
+  static {
+    // 在初始化的时候就已经将对象缓存在 Map 中了
+    CACHED_MAP.put("dell", new DellMouse());
+    CACHED_MAP.put("ph", new HpMouse());
+    CACHED_MAP.put("apple", new AppleMouse());
+    CACHED_MAP.put("lenovo", new LenovoMouse());
+  }
+
+  // 对外暴露静态方法
+  public static Mouse createOf(String type) {
+    if (type == null || type.isEmpty()) {
+      return null; //返回null还是IllegalArgumentException全凭你自己说了算
+    }
+    return CACHED_MAP.get(type.toLowerCase());
+  }
+}
+
+/**
+ * 对于实现类的统一抽象
+ */
+public interface Mouse {
+    void sayHi();
+}
+```
+
+#### 优点：
+
+1. 拥有具体的对象创建类（DellMouseFactory、HpMouseFactory）让客户端可以自行选择实例化的时机，为实现依赖倒置、延迟加载成为了可能。
+2. 将对象实例化逻辑封装在了不同子类中，即使对象实例化很复杂也没有关系，也能保持整体的清晰性。
+
+#### 缺点：
+
+1. 没有封装对象示例选择逻辑，会让客户端代码复杂。
+
+
+
+为了解决缺点 1 可以对 MouseFactory的实例(DellMouseFactory、HpMousdFactory)再做一层封装，具体过程类似简单工厂模式：提供一个集中创建对象实例的类。
+
+为此在命名上我做了一个小改动：将上图中的 MouseFactory 接口重命名为 MouseCreator，而 MouseFactory 将作为基础创建对象实例的类，这样做的目的在于区分类型，明确 Factory 的含义。对外而言，客户端不用关心 Facotry 的具体实现方式，对内清晰了概念，让逻辑看起来简单一些。
+
+
+
+#### 改进版代码示例
+
+```java
+public class MouseFactory {
+  /**
+   * 注册的是 Creator！！！
+   */
+  private static final Map<String, MouseCreator> CACHED_MAP = new HashMap<>();
+  /**
+   * 默认的构造器
+   */
+  private static MouseCreator DETAULT_CREATOR = () -> {}
+
+  static {
+    // 每次获取的都是 Creator，只有使用的时候才会真正创建实例，达到了懒加载。
+    CACHED_MAP.put("dell", () -> new DellMouse());
+    CACHED_MAP.put("ph", () -> new HpMouse());
+    CACHED_MAP.put("apple", () -> new AppleMouse());
+    CACHED_MAP.put("lenovo", () ->new LenovoMouse());
+  }
+
+  // 对外暴露静态方法, 此时返回的是 MouseCreator，当然也也可以构造好后返回 Mouse。
+  public static MouseCreator get(String type) {
+    if (type == null || type.isEmpty()) {
+      return null; //返回null还是IllegalArgumentException全凭你自己说了算
+    }
+    final MouseCreator result = CACHED_MAP.get(type.toLowerCase());
+    return result == null ? DETAULT_CREATOR : result;
+  }
+  
+  /**
+   * 暴露注册、解注册方法
+   */
+  public static rigesterCreator(String type, MouseCreator creator) {
+      if(TextUtils.isEmpty(type) || creator == null) {
+        return;
+      }
+      CACHED_MAP.put(type, creator);
+  }
+  
+  public static unrigesterCreator(String type) {
+      if (CACHED_MAP.containsKey(type)) {
+       CACHED_MAP.remove(type);      
+      }
+  }
+  
+  
+  /**
+   * 对于构造器的抽象 
+   */
+  public static MouseCreator {
+      Mouse createOf();
+  }
+}
+
+ /**
+  * 对于实现类的统一抽象
+  */
+public interface Mouse {
+    void sayHi();
+}
+```
+
+
+
+### 抽象工厂
+
+![img](images/「Design」Design pattern/ab2a90cfcc7a971b1e3127d1f531a486_1440w.jpg)
+
+![这里写图片描述](images/「Design」Design pattern/70.png)
 
 ### 使用场景
 
-使用时机、使用前提：
+表现层：
 
 ==当创建逻辑比较复杂，是一个“大工程”的时候，我们就考虑使用工厂模式，封装对象的创建过程，将对象的创建和使用相分离。==
 
@@ -311,13 +484,19 @@ public class RuleConfigParserFactory {
 
 还有一种情况，尽管我们不需要根据不同的类型创建不同的对象，但是，单个对象本身的创建过程比较复杂，比如前面提到的要组合其他类对象，做各种初始化操作。在这种情况下，我们也可以考虑使用工厂模式，将对象的创建过程封装到工厂类中。
 
+终极目标:
+
+抵御变化：抵御因需求的变化导致创建的对象实例也经常变化的问题，。
+
+
+
 ==如果创建对象的逻辑并不复杂，那我们就直接通过 new 来创建对象就可以了，不需要使用工厂模式。==
 
 
 
 ### 那什么时候该用工厂方法模式，而非简单工厂模式呢？
 
-当对象的创建逻辑比较复杂，不只是简单的 new 一下就可以，而是要组合其他类对象，做各种初始化操作的时候，我们推荐使用工厂方法模式，将复杂的创建逻辑拆分到多个工厂类中，让每个工厂类都不至于过于复杂。
+当对象的创建逻辑比较复杂，不只是简单的 new 一下就可以的，而是要组合其他类对象，做各种初始化操作的时候，我们推荐使用工厂方法模式，将复杂的创建逻辑拆分到多个工厂类中，让每个工厂类都不至于过于复杂。
 
 而使用简单工厂模式，将所有的**创建逻辑**都放到一个工厂类中，会导致这个工厂类变得很复杂。
 
@@ -327,11 +506,11 @@ public class RuleConfigParserFactory {
 
 
 
-==工厂方法是为了创建对象而生的==他无法消除创建对象的复杂度，只能将其转移:
+==工厂方法是为了创建对象而生的==，他无法消除创建对象的复杂度，只能将其转移:
 
 * 不是工厂方法，if-else 逻辑、创建逻辑和业务耦合在一起
 * 简单方法是将不同的创建逻辑放在一个工厂类中， if-else 逻辑在这个工厂类中
-* 工厂方法是根据定义的接口将不同创建逻辑放到不同工厂类中，先用一个工厂类得到创建某个对象的工厂类从而创建对象，if-else 逻辑在工厂类的工厂中。
+* 工厂方法模式是根据定义的接口将不同创建逻辑放到不同工厂类中，先用一个工厂类得到创建某个对象的工厂类从而创建对象，if-else 逻辑在工厂类的工厂中。
 * 抽象工厂就是同时负责多种不同类型对象的创建。
 
 
