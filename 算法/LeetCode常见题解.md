@@ -54,8 +54,6 @@ class Solution {
 
 # 19 删除链表的倒数第N个节点
 
-示例：**
-
 ```
 给定一个链表: 1->2->3->4->5, 和 n = 2.
 
@@ -109,3 +107,166 @@ class Solution {
 }
 ```
 
+# [25. K 个一组翻转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode nextGroupNode = head;
+        int count = 0;
+        while(nextGroupNode != null && count != k) { // 寻找第 k+1 个节点
+            nextGroupNode = nextGroupNode.next;
+            count++;
+        }
+        if (count == k) { // 如果第 k + 1 个节点找到了
+           ListNode reverseNode = reverseKGroup(nextGroupNode, k); // 以k + 1个节点为首的反向列表
+            // head - 待翻转的头指针
+            // reverseNode 已经翻转过部分的头指针
+            while(count-- > 0) { // 翻转 k 组
+                ListNode next = head.next; 
+                head.next = reverseNode; // 将待翻转头元素连接到已翻转部分的头指针上
+                reverseNode = head; // 移动已翻转指针到新的头上
+                head = next; // 待翻转数据头指针下移一位
+            }
+            head = reverseNode;
+        }
+        return head;
+    }
+}
+```
+
+# [88. 合并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
+
+ 
+
+说明:
+
+初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。
+你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+
+
+示例:
+
+> 输入:
+> nums1 = [1,2,3,0,0,0], m = 3
+> nums2 = [2,5,6],       n = 3
+
+> 输出: [1,2,2,3,5,6]
+
+
+
+```java
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        if (nums1.length < m + n) {
+            return;
+        }
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
+        }
+        while(j >= 0) {
+            nums1[k--] = nums2[j--];
+        }
+    }
+}
+```
+
+时间复杂度：O(m+n)
+
+空间复杂度：O(1)
+
+
+
+# [84. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+
+使用单调栈的方式寻找左右边界
+
+```java
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int length = heights.length;
+        if (heights == null || length == 0) {
+            return 0;
+        }
+        if (length == 1) {
+            return heights[0];
+        }
+
+        int[] left = new int[length];
+        int[] right = new int[length];
+        Arrays.fill(right, length);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < length; i++) {
+            while (!stack.empty() && heights[i] < heights[stack.peek()]) {
+                right[stack.pop()] = i;
+            }
+            left[i] = stack.empty() ? -1 : stack.peek();
+            stack.push(i);
+        }
+
+        int result = 0;
+        for (int i = 0; i < length; i++) {
+            result = Math.max(result, (right[i] - left[i] -1) * heights[i]);
+        }
+        return result;
+    }
+}
+```
+
+时间复杂度：O(N)
+
+空间复杂度：O(N)
+
+# [239. 滑动窗口最大值](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
+```java
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length * k <= 0) {
+            return new int[0];
+        }
+        int length = nums.length;
+        int[] result = new int[length - k + 1];
+        int resultIndex = 0;
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < length; i ++) {
+            // 窗口开始向前移动, 
+            while (!deque.isEmpty() && deque.peek() < i - k + 1) {
+                deque.poll();
+            }
+            // 循环比较大小，永远保留窗口内最大的元素
+            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) {
+                deque.pollLast();
+            }
+            // 装载新数据
+            deque.offer(i);
+            // 手机结果
+            if (i >= k - 1) {
+                result[resultIndex++] = nums[deque.peek()];
+            }
+        }
+        return result;
+    }
+}
+```
+
+时间复杂度：O(N)
+
+空间复杂度：O(N)
