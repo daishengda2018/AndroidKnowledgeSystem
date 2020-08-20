@@ -15,7 +15,7 @@ adb shell monkey -p com.xiaomi.sc -s 2333 --pct-touch 70 --pct-motion 30 --ignor
 在执行向下滑动的命令时，打开了通知栏，然后又开始了瞎点的操作。这时可在执行monkey命令之前，先执行禁用通知栏的命令
 
 ```shell
-adb shell settings put global policy_control immersive.full=*`
+adb shell settings put global policy_control immersive.full=*
 # 解禁命令：
 adb shell settings put global policy_control null
 ```
