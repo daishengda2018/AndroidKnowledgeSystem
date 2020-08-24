@@ -163,6 +163,12 @@ enqueueMessage 方法的主要工作就是向单链表中插入数据，当线�
 
 ![image-20190908155849230](assets/image-20190908155849230.png)
 
+### Message 的复用机制
+
+https://www.jianshu.com/p/b13528b33292
+
+https://www.jianshu.com/p/257d8bed9f65
+
 ## Looper
 
 Looper 在 Android 消息机制中扮演着消息循环的角色。具体来说他的任务就是不停的从 MessageQueue 中获取消息，如果有新消息就立即处理，没有消息的时候，与 Looper 绑定的线程就会被 MessageQueue 的 next 的 nativePollOne 方法置于等待状态。
@@ -974,3 +980,8 @@ enqueueMessage 有排序功能，按照时间入队。
     }
 ```
 
+
+
+## 资料
+
+[Understanding Android Core: Looper, Handler, and HandlerThread](https://blog.mindorks.com/android-core-looper-handler-and-handlerthread-bd54d69fe91a)
