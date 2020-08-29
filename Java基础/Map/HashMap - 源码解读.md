@@ -1,4 +1,29 @@
-# HashMap 实现原理
+# HashMap 概述
+
+HashMap 是基于 Map 接口实现的哈希表，它运行传递为 null 的 key 和 value。相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值，而且 HashTable 是线程安全的但 HashMap 并不是，其方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
+
+
+
+在正常情况下 HashMap 提供的 get 和 put 方法的时间复杂度恒定为 O(1), 当如果存在大量 hash 碰撞的情况 get 方法会退化为 O(logn) ~ O(n) 之间。在遍历的时候 HashMap 的性能和容量、负载因子相关性非常大：容量越大、负载因子越小 HashMap 的性能就越差。如果迭代的性能很重要，则不要设置过高的容量和过低的负载因子。这一点非常重要。
+
+初始容量（initialCapacity）和负载因子（loadFactor）是影响 HashMap 的重要指标，initialCapacity 指的是 HashMap 底层数组初始化时的容量，而 loadFactor 是指自动扩容的阈值。此阈值 = initialCapacity * loadFactor，当哈希表的使用条目大于了阈值。则将容量扩充为 initialCapacity 的 2 倍。
+
+默认情况下 HashMap 的负载因子为 0.75, 这是一个在空间和时间成本上做了很好这中的经验值。如果负载因子较大表面上是可以较少扩容次数节约空间，但是 get 和 push 的执行时间成本将会增加。如果设置的过低，则会多次触发扩容和重新 hash 时间性能会大幅下降。所以权衡 initialCapacity 和 loadFactor 是很关键的。在设置他们的时候应该结合使用场景考虑映射中的预期条目数及其负载因子，要最大程度上减少重新哈希操作的次数。
+
+
+
+
+
+```java
+    /**
+     * The load factor used when none specified in constructor.
+     */
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+```
+
+
+
+
 
 > Hash table based implementation of the `Map` interface. This implementation provides all of the optional map operations, and permits `null` values and the `null` key. (The `HashMap` class is roughly equivalent to `Hashtable`, except that it is unsynchronized and permits nulls.) This class makes no guarantees as to the order of the map; in particular, it does not guarantee that the order will remain constant over time.
 
