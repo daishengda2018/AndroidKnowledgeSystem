@@ -245,3 +245,48 @@ class Solution {
 }
 ```
 
+# [12. 矩阵中的路径](https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/)
+
+```java
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        char[] words = word.toCharArray();
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board[0].length; x++) {
+                if(dfs(board, x, y, words, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(char[][]board, int x, int y, char[] words, int wordIndex) {
+      	// 搜索的边界
+        if (x < 0 || y < 0 || x >= board[0].length || y >= board.length) {
+            return false;
+        }
+        // 不相等
+        if (board[y][x] != words[wordIndex]) {
+            return false;
+        }
+      	// 所有单词搜索完毕
+        if (wordIndex == words.length - 1) {
+            return true;
+        }
+        char tmp = board[y][x];
+        // 防止重复搜索
+        board[y][x] = '/';
+        // 搜索左上右下
+        boolean result = dfs(board, x - 1, y, words, wordIndex + 1)
+                      || dfs(board, x, y + 1, words, wordIndex + 1)
+                      || dfs(board, x + 1, y, words, wordIndex + 1)
+                      || dfs(board, x, y - 1, words, wordIndex + 1);
+        // 还原
+        board[y][x] = tmp;
+        return result;
+    }
+}
+```
+
+时间复杂度：O(M*N) ;空间复杂度： O(k) k = words.length
