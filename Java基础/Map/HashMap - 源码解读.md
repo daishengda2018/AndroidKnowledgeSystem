@@ -1,6 +1,6 @@
 # HashMap 概述
 
-HashMap 是基于 Map 接口实现的哈希表，它运行传递为 null 的 key 和 value。相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值，而且 HashTable 是线程安全的但 HashMap 并不是，其方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
+HashMap 是基于 Map 接口实现的哈希表，它运行传递为 null 的 key 和 value。相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值（只允许一个 key 为 null, 但 value 可以多个为 null），而且 HashTable 是线程安全的但 HashMap 并不是，其方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
 
 
 
@@ -11,6 +11,10 @@ HashMap 是基于 Map 接口实现的哈希表，它运行传递为 null 的 key
 默认情况下 HashMap 的负载因子为 0.75, 这是一个在空间和时间成本上做了很好这中的经验值。如果负载因子较大表面上是可以较少扩容次数节约空间，但是 get 和 push 的执行时间成本将会增加。如果设置的过低，则会多次触发扩容和重新 hash 时间性能会大幅下降。所以权衡 initialCapacity 和 loadFactor 是很关键的。在设置他们的时候应该结合使用场景考虑映射中的预期条目数及其负载因子，要最大程度上减少重新哈希操作的次数。
 
 
+
+HashMap 并不是线程安全的，即多个线程操作同一个 HashMap 的时候结果很可能不一致，而且还有可能造成链表相交的风险。对于此种场景可以使用  Collections 的 synchronizedMap 方法使 HashMap 具有线程安全的能力，或者使用ConcurrentHashMap。
+
+HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主要操作都是用 synchronized 锁住了整个对象，这意味着每次仅能一个线程工作，其余的线程都将会被阻塞，效率是很低的。采用了分段锁的 ConcurrentHashMap 是最好的选择方案
 
 
 

@@ -290,3 +290,39 @@ class Solution {
 ```
 
 时间复杂度：O(M*N) ;空间复杂度： O(k) k = words.length
+
+
+
+# [13. 机器人的运动范围](https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/) 
+
+20-09-03
+
+```java
+class Solution {
+    private int m;
+    private int n;
+    private int k;
+    private boolean[][] visited;
+    public int movingCount(int m, int n, int k) {
+        this.m = m;
+        this.n = n;
+        this.k = k;
+        visited = new boolean[m][n];
+        return dfs(0, 0, 0, 0);
+    }
+
+    private int dfs(int i, int j, int si, int sj) {
+        if (i >= m || j >= n || k < si + sj || visited[i][j]) {
+            return 0;
+        } 
+        visited[i][j] = true;
+        int newSi = dfs(i + 1, j, (i + 1) % 10 == 0 ? si - 8 : si + 1, sj);
+        int newSj = dfs(i, j + 1, si, (j + 1) % 10 == 0 ? sj - 8 : sj + 1);
+        return 1 + newSi + newSj;
+    }
+}
+```
+
+
+
+时间、空间复杂度：O（MN）
