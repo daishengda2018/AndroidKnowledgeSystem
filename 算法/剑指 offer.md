@@ -323,6 +323,66 @@ class Solution {
 }
 ```
 
-
-
 时间、空间复杂度：O（MN）
+
+
+
+# [14- I. 剪绳子](https://leetcode-cn.com/problems/jian-sheng-zi-lcof/)
+
+20-09-09
+
+剪绳子问题体现的是贪婪算法：尽可能多的剪绳子、最好每段都是 3 这样乘积最大。
+
+如果最后的绳子仅剩 1，则回退上一段，变成 2 * 2 ，因为 3 * 1 <  2 * 2;
+
+如果最后的绳子仅剩 1，则不再剪。
+
+```java
+class Solution {
+    public int cuttingRope(int n) {
+        if (n <= 1) {
+            return 1;
+        }
+        if (n <= 3) {
+            return n - 1;
+        }
+        int a = n / 3;
+        int b = n % 3;
+        if (b == 0) {
+            return (int) Math.pow(3, a);
+        } else if (b == 1) {
+            return (int) (Math.pow(3, a - 1) * 4);
+        } else {
+            return (int) (Math.pow(3, a) * 2);
+        }
+    }
+}
+```
+
+# [14- II. 剪绳子 II](https://leetcode-cn.com/problems/jian-sheng-zi-ii-lcof/)
+
+20-09-09
+
+这道题是上面一题的延伸，主要解决的是 int 容量溢出的问题。
+
+```JAVA
+class Solution {
+    public int cuttingRope(int n) {
+        if (n <= 3) {
+            return n - 1;
+        }
+        // 最终结果
+        long result = 1;
+        // 剩下的绳子比 4 大就接着剪
+        while (n > 4) {
+            result *= 3;
+            result = result % 1000000007;
+            n -= 3;
+        }
+        // 最后n的值只有可能是：2、3、4。而2、3、4能得到的最大乘积恰恰就是自身值
+        // 因为2、3不需要再剪了（剪了反而变小）；4剪成2x2是最大的，2x2恰巧等于4
+        return (int)(result * n % 1000000007);
+    }
+}
+```
+
