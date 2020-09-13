@@ -2,7 +2,7 @@
 
 
 
-# HashMap 概述
+# 概述
 
 HashMap 是基于 Map 接口实现的哈希表，它允许拥有为 null 的 key 和 value。相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值（只允许一个 key 为 null, 但 value 可以多个为 null），而且 HashTable 是线程安全的但 HashMap 并不是，其方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
 
@@ -22,9 +22,7 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
 
 
 
-# 核心源码分析
-
-## 静态常量
+# 静态常量
 
 ```java
    /**
@@ -66,7 +64,7 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
     final void treeifyBin(Node<K,V>[] tab, int hash) {
         int n, index; Node<K,V> e;
         if (tab == null || (n = tab.length) < MIN_TREEIFY_CAPACITY)
-           // 数组 size < MIN_TREEIFY_CAPACITY 则扩容
+           // 数组 size < MIN_TREEIFY_CAPACITY 则扩容，扩容后的链表会重新在桶中分布
             resize();
         else if ((e = tab[index = (n - 1) & hash]) != null) {
                  …………
@@ -76,21 +74,132 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
 
 
 
-# Java8 中的性能优化
+# 存储数据结构
 
-# Hash 算法
+从底层存储数据结构来看 HashMap 使用了数组、单链表、红黑树（JDK 1.8 引入）实现。
+
+<img src="images/8db4a3bdfb238da1a1c4431d2b6e075c_r.jpg" alt="img" style="zoom:67%;" />
+
+HashMap 的主干数据结构是数组。众所周知，数组是拥有连续内存空间的数据结构，因为在查找方面他拥有时间复杂度为 O(1) 的性能。但是一切并不是完美的，当发生 hash 冲突时如何定位存储位置，是需要解决的首要问题。
+
+在解决 hash 冲突上主要有两种解决方案：
+
+1. 开发寻址法：如果发生冲突，在空闲位置上寻找位置并存储
+2. 链地址法：使用数组 + 链表的形式将冲突的节点存储到链表中，此时时间复杂度降从 O(1) 退化为 O(n)。
+
+而 HashMap 选择了后者。==从中可见一个好的 hash 算法多么的重要，如何尽可能将元素均匀的分配在数组中，是我们后面讨论的主要问题。==
 
 
 
-# Hash 碰撞
+在 JDK 8 中，使用 Node 作为数组元数据，而每个 Node 都可作为链表中的一个节点
 
-# Hash 映射
+```java
+    // HashMap 的数组实现
+    transient Node<K,V>[] table;
+   
+   
+    /**
+     * Basic hash bin node, used for most entries.  (See below for
+     * TreeNode subclass, and in LinkedHashMap for its Entry subclass.)
+     */
+    static class Node<K,V> implements Map.Entry<K,V> {
+        final int hash;
+        final K key;
+        V value;
+        // 下一个节点的引用
+        Node<K,V> next;
 
-# HashMap为何从头插入改为尾插入
+        Node(int hash, K key, V value, Node<K,V> next) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+      …………
+    }
+```
 
 
 
-# 为什么数组容量必须是2次幂
+# 数据存储
+
+
+
+```java
+  final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        Node<K,V>[] tab; Node<K,V> p; int n, i;
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+        if ((p = tab[i = (n - 1) & hash]) == null)
+            tab[i] = newNode(hash, key, value, null);
+        else {
+            Node<K,V> e; K k;
+            if (p.hash == hash &&
+                ((k = p.key) == key || (key != null && key.equals(k))))
+                e = p;
+            else if (p instanceof TreeNode)
+                e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+            else {
+                for (int binCount = 0; ; ++binCount) {
+                    if ((e = p.next) == null) {
+                        p.next = newNode(hash, key, value, null);
+                        if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                            treeifyBin(tab, hash);
+                        break;
+                    }
+                    if (e.hash == hash &&
+                        ((k = e.key) == key || (key != null && key.equals(k))))
+                        break;
+                    p = e;
+                }
+            }
+            if (e != null) { // existing mapping for key
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value;
+                afterNodeAccess(e);
+                return oldValue;
+            }
+        }
+        ++modCount;
+        if (++size > threshold)
+            resize();
+        afterNodeInsertion(evict);
+        return null;
+    }
+```
+
+
+
+# 确定哈希桶数组索引位置
+
+
+
+```java
+方法一：
+static final int hash(Object key) {   //jdk1.8 & jdk1.7
+     int h;
+     // h = key.hashCode() 为第一步 取hashCode值
+     // h ^ (h >>> 16)  为第二步 高位参与运算
+     return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
+方法二：
+static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个方法，但是实现原理一样的
+     return h & (length-1);  //第三步 取模运算
+}
+```
+
+
+
+# 扩容
+
+* 开辟新的数组将老数据 copy 过来。
+* 在拷贝过程中 JDK1.7 需要为历史数据重新计算索引，在 JDK1.8 中没有重新计算索引，而是直接将 hashcod 与上老数据容量做与运算，结果为 0 保留位置，不为 0 则新位置 = 原始位置 + 老数据长度。
+
+# 常见问题解答
+
+## 为什么数组容量必须是2次幂
 
 为了让元素平均分配在数组中，常规方案就是取模，但除法和取模运算效率均偏低，在数据规模偏大的场景下很容易成为 HashMap 的性能瓶颈。为此更好的解决方案就是位运算：
 
@@ -98,9 +207,9 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
 
 用 $ m(x)$ 表示位运算获取索引，经过数学推导可知：对于函数 $ m(x)$ 当且仅当 $ x \in ( 2^n - 1)$ 即 $ m(x) = ( 2^n - 1) \&  hashCode$ 时$  f(x) = m(x)$。
 
-所以数组容量必须是 $2^n$ 时才能在保证运算效率的同时又能保证元素的平均分配减少 hash 碰撞。
+==所以数组 length =  $2^n$ 时 h& (length-1) 运算等价于对 length 取模。在才能保证运算效率的同时又能保证元素的平均分配减少 hash 碰撞。==
 
-## 简单证明
+### 简单证明
 
 没有验证过程的结论怎么看都有点生拉硬拽的嫌疑。在此简单验证一下为啥容量必须是 $2^n$
 
@@ -108,17 +217,17 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
 
 如果我们把容量设为 17 它并不是2次幂的结果，这种中情况下，我们从中减去 1 得到 16，即 10000 的二进制表示，现在执行 $ y \& 16$ 则将丢失 $y$ 的所有其他位数字，除了末尾的第五位。因此无论 $y$ 的取值是什么，数组的索引都为 16 或 0。这意味着会发生很多 hash 冲突这将导致性能变差，换来的 get 操作的空间复杂度将从 O(1) 会退化为  O(n) 或者 O(logn)。
 
-## 拓展：对 ConcurrentHashMap 的性能影响
+### 拓展：对 ConcurrentHashMap 的性能影响
 
 前面提到 ConcurrentHashMap 内部使用了分段锁的形式在保证线程安全的前提下又提高了吞吐量。如果发生大规模 hash 冲突（例如上述情况下只有两个位置 16 或 0 的位置被使用）那么同一个数据段就会被 n 个线程同时访问，造成（n - 1）个线程阻塞。这会大大降低性能。
 
-## 小结
+### 小结
 
 因此如果容量为 $2^n$，则与其他大小相比，元素将在数组中更均匀的分布，减少 hash 碰撞的可能性，从而有更好的检索性能。
 
 
 
-# 为什么将 key 的 hashCode 右移 16 位
+## Hash 计算：为什么将 key 的 hashCode 与高 16 位异或
 
 ```java
     static final int hash(Object key) {
@@ -128,6 +237,16 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
 ```
 
 在计算索引之前  `HashMap` 实现还将key的哈希码向右移16位，对原始哈希码进行按位异或，以确保高阶位也被参与运算增加随机性，较少碰撞的发生。
+
+
+
+## equals() & hasCode()
+
+
+
+## HashMap为何从头插入改为尾插入
+
+在 JDK7 的时候 HashMap 的内部数据结构还是数组 + 单链表的形式，当发生 hash 冲突的时候，会存储到当前 bucket 位置的单链表中。但是当链表的长度很大的时候，get 方法的时间复杂度将退化为 O(n)。JDK8 在 JDK7 数组 + 单链表的结构上增加了红黑树，当 hash 冲突大于 8 且 HashMap bucket array 长度大于 64 的的时候则将链表转化为链表。
 
 
 
@@ -142,3 +261,6 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
 [Java HashMap internal Implementation](https://medium.com/@mr.anmolsehgal/java-hashmap-internal-implementation-21597e1efec3)
 
 [Why Are HashMaps Implemented Using Powers of Two?](https://stackoverflow.com/questions/53526790/why-are-hashmaps-implemented-using-powers-of-two)
+
+[Java 8 系列之重新认识 HashMap](https://zhuanlan.zhihu.com/p/21673805)
+
