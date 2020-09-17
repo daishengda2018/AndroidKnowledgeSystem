@@ -6,7 +6,7 @@
 
 # Introduction
 
-常见的Map都是线程不安全的，HashTable虽然是线程安全的，但是确实class锁，性能差。为此两种解决方案：
+常见的Map都是线程不安全的，HashTable虽然是线程安全的，但会锁住这个对象，性能差。为此两种解决方案：
 
 1. Collection.Synchronize（Map ），但是这个也是和HashTable一样，性能差
 2. 使用ConcurrentHashMap 
@@ -14,7 +14,7 @@
 
 # Java 7 中的实现原理
 
-在Java7中，ConcurrentHashMap将内部细化出很多小的HashMap租，他们有自己的名字 Segment
+在Java7中，ConcurrentHashMap将内部细化出很多小的HashMap组，他们有自己的名字 Segment
 
 ```java
 /**

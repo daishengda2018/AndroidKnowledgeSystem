@@ -297,6 +297,39 @@ class Solution {
 
 20-09-03
 
+> 地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+
+这道题还是矩阵搜索题目，适用回溯 + DFS 深度优先算法解决。
+
+这道题暗含两个优化点：
+
+1. 位数之和的计算方式
+
+   正常来讲计算位数之和需要使用如下函数：
+
+   ```java
+   private int sum(int i, int j) {
+       int sum = 0;
+       while (i != 0) {
+           sum += i % 10;
+           i /= 10;
+       }
+       return sum;
+   }
+   ```
+
+   但是此题的取值是连续的即 x、 x  + 1、x + 2、 ……、x + ∞。所以适用如下公式：
+
+   $$ s(x + 1)= \begin{cases} x - 8 & \text {$x \% 10 = 0$} \\ x + 1 & \text{$x \% 10  \neq 0 $} \end{cases} $$
+
+   
+
+2. 搜索方向的优化
+
+   根据数位和增量公式得知，数位和每逢 **进位** 突变一次。则搜索路径为等腰三角形，所以可以看到只要向左、下搜索即可。
+
+   <img src="images/cb7d37aced1c88a8e1bb2bf5b1cd1ab469abff23552eb1b103243961871ec65d-Picture1.png" alt="img" style="zoom: 50%;" />
+
 ```java
 class Solution {
     private int m;
@@ -311,14 +344,18 @@ class Solution {
         return dfs(0, 0, 0, 0);
     }
 
-    private int dfs(int i, int j, int si, int sj) {
-        if (i >= m || j >= n || k < si + sj || visited[i][j]) {
+    private int dfs(int m, int n, int sm, int sn) {
+        // 只向左、下搜索，搜索过的地方也不再搜索
+        // 注意边界条件：>=
+        if (m >= this.m || n >= this.n || visited[m][n] || k < sm + sn) {
             return 0;
-        } 
-        visited[i][j] = true;
-        int newSi = dfs(i + 1, j, (i + 1) % 10 == 0 ? si - 8 : si + 1, sj);
-        int newSj = dfs(i, j + 1, si, (j + 1) % 10 == 0 ? sj - 8 : sj + 1);
-        return 1 + newSi + newSj;
+        }
+      	// 标记已经搜索完毕
+        visited[m][n] = true
+        // 特殊的位数之和计算方式 S(x + 1) = (x + 1) % 10 == 0 ? S(x) - 8 : S(x) + 1;
+        int newSm = dfs(m + 1, n, (m + 1) % 10 == 0 ? sm - 8 : sm + 1, sn);
+        int newSn = dfs(m, n + 1, sm, (n + 1) % 10 == 0 ? sn - 8 : sn + 1);
+        return 1 + newSm + newSn;
     }
 }
 ```
@@ -333,28 +370,22 @@ class Solution {
 
 剪绳子问题体现的是贪婪算法：尽可能多的剪绳子、最好每段都是 3 这样乘积最大。
 
-如果最后的绳子仅剩 1，则回退上一段，变成 2 * 2 ，因为 3 * 1 <  2 * 2;
-
-如果最后的绳子仅剩 1，则不再剪。
-
 ```java
 class Solution {
     public int cuttingRope(int n) {
-        if (n <= 1) {
-            return 1;
-        }
         if (n <= 3) {
-            return n - 1;
+            return n -1;
         }
-        int a = n / 3;
-        int b = n % 3;
-        if (b == 0) {
-            return (int) Math.pow(3, a);
-        } else if (b == 1) {
-            return (int) (Math.pow(3, a - 1) * 4);
-        } else {
-            return (int) (Math.pow(3, a) * 2);
+       // 最终结果
+        int result = 1;
+       // 剩下的绳子比 4 大，就接着剪
+        while (n > 4) {
+            result *= 3;
+            n -= 3;
         }
+        // 最后的 n 的取值范围是 1、2、3、4.而此时最大乘基就是自身。
+        // 再剪反而变小
+        return result * n;
     }
 }
 ```
@@ -379,10 +410,91 @@ class Solution {
             result = result % 1000000007;
             n -= 3;
         }
-        // 最后n的值只有可能是：2、3、4。而2、3、4能得到的最大乘积恰恰就是自身值
-        // 因为2、3不需要再剪了（剪了反而变小）；4剪成2x2是最大的，2x2恰巧等于4
+        // 最后的 n 的取值范围是 1、2、3、4.而此时最大乘基就是自身。
+        // 再剪反而变小
         return (int)(result * n % 1000000007);
     }
 }
 ```
 
+# [ 16. 数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)
+
+2020/09/13
+
+这道题看似简单其实暗藏了各种边界条件的判断：：x = 0、n = 0、n = 1、n < 0 等等。
+
+此题的主要运用了二分查找和位运算的方式解决
+
+1. Java 代码中 int32 变量 $n \in [-2147483648, 2147483647] $，因此当 $n = -2147483648$ 时执行 $n = -n$ 会因越界而赋值出错。解决方法是先将 n存入 long 变量 exponent ，后面用 exponent 操作即可。
+2. $$a^n = \begin{cases} a^{n/2} *  a^{n/2} & \text{$n 为偶数$} \\a^{(n - 1)/2} *  a^{(n - 1)/2} & \text {$n 为奇数$}\end{cases}  $$
+
+
+
+## 解法1：递推，时间复杂度 O(logn)、空间复杂度O(1)
+
+```java
+class Solution {
+    public double myPow(double x, int n) {
+        // 0 的任何次方都无意义。
+        if (x == 0) {
+            return 0;
+        }
+        // 任何数的 0 次方都等于 1
+        if (n == 0) {
+            return 1;
+        }
+        // 任何数的 1 次方都等于原数字
+        if (n == 1) {
+            return x;
+        }
+        // 见上文解释
+        long exponent = n;
+        // 如果 n < 0 着进行转化
+        if (exponent < 0) {
+            x = 1 / x;
+            exponent = -exponent;
+        }
+        double result = 1;
+       // 快速幂等算法
+        while (exponent > 0) {
+            // 判断二进制最右一位是否为 1,为 1 即为奇数
+            if ((exponent & 1) == 1) {
+                result *= x;
+            }
+            // 每次计算都计算 x^2 即可
+            x *= x;
+            // 相当于除以 2
+            exponent >>= 1;
+        }
+        return result;
+    }
+}
+```
+
+## 解法2: 递归，时间复杂度 O(logn)、空间复杂度O(n)
+
+```java
+class Solution {
+    public double myPow(double x, int n) {
+        if (x == 0) {
+            return 0;
+        }
+        if (n == 0) {
+            // 任何数的 0 次方都等于 1
+            return 1;
+        }
+        if (n == 1) {
+            // 任何数的 1 次方都等于原数字
+            return x;
+        }
+        long exponent = n;
+        if (exponent < 0) {
+            x = 1 / x;
+            exponent = -exponent;
+        }
+       // 使用公式完成递推
+        return ((exponent & 1) == 1) ? x * myPow(x * x, (int)(exponent >> 1))
+                                      :myPow(x * x, (int)(exponent >> 1)) ;
+    }
+}
+```

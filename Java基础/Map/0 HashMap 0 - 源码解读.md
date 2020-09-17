@@ -1,6 +1,6 @@
 [toc]
 
-
+![](images/1*6dxQxoPVmyw_lt9MQeDpJA.png)
 
 # 概述
 
@@ -97,11 +97,7 @@ HashMap 的主干数据结构是数组。众所周知，数组是拥有连续内
     // HashMap 的数组实现
     transient Node<K,V>[] table;
    
-   
-    /**
-     * Basic hash bin node, used for most entries.  (See below for
-     * TreeNode subclass, and in LinkedHashMap for its Entry subclass.)
-     */
+  
     static class Node<K,V> implements Map.Entry<K,V> {
         final int hash;
         final K key;
@@ -121,9 +117,9 @@ HashMap 的主干数据结构是数组。众所周知，数组是拥有连续内
 
 
 
-# 数据存储
+# 数据存储过程
 
-
+HashMap 的数据存储过程主要体现在 putVal 函数当中，但此部分的源码晦涩难懂。所以使用伪代码整理一下核心逻辑：
 
 ```java
   final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
@@ -170,21 +166,101 @@ HashMap 的主干数据结构是数组。众所周知，数组是拥有连续内
     }
 ```
 
+==整理后的 put 核心逻辑：==
+
+```java
+    @Override
+    public V put(K key, V value) {
+        Node<K, V>[] table = mTable;
+        int length = (table == null ? 0 : table.length);
+        int hash = hash(key);
+        // 检测 table 有没有初始化
+        if (table == null || length == 0) {
+            length = (table = resize()).length;
+        }
+        // 计算索引 - 计算索引是个重点！！！！
+        int index = indexFor(hash, length);
+        // 如果当前位置没有使用过，直接创建 Node 存储
+        if (table[index] == null) {
+            table[index] = newNode(hash, key, value, null);
+        } else {
+            // hash 冲突函数
+            V result = putOnHashCollision(table, table[index], hash, key, value);
+            if (result != null) {
+                return result;
+            }
+        }
+        // 记录修改的次数，如果在遍历数据的过程中 mModCount 数量前后不一致则立即抛出 ConcurrentModificationException 异常
+        ++mModCount;
+        if (++mSize > mResizeThreshold) {
+            // 查过了阈值，扩容为当前容量的二倍
+            resize();
+        }
+        return null;
+    }
+```
+
+```java
+  /**
+     * hash 冲突时候的 put 逻辑
+     */
+    private V putOnHashCollision(Node<K, V>[] table, Node<K, V> curNode,
+                                 int hashOfKey, K key, V value) {
+        Node<K, V> linkedNode;
+        if (isEqualsWith(curNode, key, hashOfKey)) {
+            // key 相同则直接覆盖
+            linkedNode = curNode;
+        } else if (curNode instanceof TreeNode) {
+            // todo 红黑数的操作，暂时忽略
+            linkedNode = new TreeNode<>(hashOfKey, key, value, null);
+        } else {
+            // key 不同在链表中寻找
+            for (int binCount = 0; ; binCount++) {
+                linkedNode = curNode.next;
+                // 遍历到了尾节点，直接插入 [尾插法]
+                if (linkedNode == null) {
+                    curNode.next = newNode(hashOfKey, key, value, null);
+                    break;
+                }
+                // 找到与新数据 key 相同的 node，此时 curNode 就是需要更新的节点
+                if (isEqualsWith(linkedNode, key, hashOfKey)) {
+                    break;
+                }
+                // 遍历链表
+                curNode = linkedNode;
+            }
+        }
+        // 更新老值
+        if (linkedNode != null) {
+            V oldValue = curNode.value;
+            linkedNode.value = value;
+            return oldValue;
+        }
+        return null;
+    }
+```
+
+## 小结：
+
+1. JDK 8 中的 HashMap 是在第一次 put 元素的时候才初始化的，初始化的具体逻辑在 resize 函数中
+2. JDK 8 发生冲突的时候使用尾插法插入新数据，而 JDK 7 使用的是头插入法。使用头插法的原因是不想遍历链表，但是头插法会会改变节点原始顺序，在多线程中会造成链表有环的问题。
+3. 更新数据的时候 modeCount 并不会累加
+4. 在 hash 冲突的时候会使用 key 的 equls 和 hashCode 方法，hasCode 方法用于确定数组中的索引位置，而 equls 用于比较 key 是否是同一个。可见这两个方法很重要，所以如果我们复写了 equls 和 hashCode 其中的任何一个，都要复写另外一个。这样才能确定对象的唯一性，保证使用 Hash 算法集合的正确性。
+5. 计算数组所谓的函数及其重要，只有好的函数才能将原则均匀的分配在数组中，充分利用存储空间，较少 hash 碰撞。
+
 
 
 # 确定哈希桶数组索引位置
 
-
-
 ```java
-方法一：
+//方法一：
 static final int hash(Object key) {   //jdk1.8 & jdk1.7
      int h;
      // h = key.hashCode() 为第一步 取hashCode值
      // h ^ (h >>> 16)  为第二步 高位参与运算
      return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
 }
-方法二：
+//方法二：
 static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个方法，但是实现原理一样的
      return h & (length-1);  //第三步 取模运算
 }
@@ -192,10 +268,273 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
 
 
 
+方法一的目的是保证 HashMap 容量很小的时候 hashCode 的高位也能参与运算，较少 hash 冲突。
+
+方法二的目的是加快取模运算，但是 % 运算的效率很低，所以可以使用等价的为运算解决：
+
+当且仅当 $$length = 2^n $$ 此公式成立：$$hashCode \% length = h \& (length - 1)$$ ==这也就是为啥 HashMap 的容量必须为$ 2^n $==
+
+
+
+虽然我们可以通过 HashMap 的构造方法指定容量，但是内部的 tableSizeFor 函数还是会将容量进行向上取整到 $ 2^n $。
+
+```java
+   static final int tableSizeFor(int cap) {
+        int n = cap - 1;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }
+```
+
+
+
+加快索引的取模运算仅仅是容量为 $ 2^n $ 的好处之一，另外一个好处体现在扩容函数 resize 中。
+
 # 扩容
 
-* 开辟新的数组将老数据 copy 过来。
-* 在拷贝过程中 JDK1.7 需要为历史数据重新计算索引，在 JDK1.8 中没有重新计算索引，而是直接将 hashcod 与上老数据容量做与运算，结果为 0 保留位置，不为 0 则新位置 = 原始位置 + 老数据长度。
+```java
+ final Node<K,V>[] resize() {
+        // 老数组
+        Node<K,V>[] oldTab = table;
+        // 老容量
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+   			// 老阈值
+        int oldThr = threshold;
+   			// 新容量、新阈值
+        int newCap, newThr = 0;
+   			// 如果老数组内有数据
+        if (oldCap > 0) {
+            // 超过最大值则返回
+            if (oldCap >= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+          	// ！！！ 只用左移符号扩大容量为原来的 2 倍。
+            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+                // 新的阈值也扩大 2 倍
+                newThr = oldThr << 1; // double threshold
+        }
+        // 当前 table 为 null 但是有阈值，说明用户指定了不同的初始化容量或者扩容因子
+        else if (oldThr > 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        else {               // zero initial threshold signifies using defaults
+           // 还没有初始化过，使用默认阈值初始化
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        // 如果新的阈值是0，对应的是当前表是空的，但是有阈值的情况
+        if (newThr == 0) {
+            // 初始化
+            float ft = (float)newCap * loadFactor;
+            // 进行越界修复
+            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        //更新阈值 
+        threshold = newThr;
+        // 创建新的数组
+        @SuppressWarnings({"rawtypes","unchecked"})
+        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+        table = newTab;
+        if (oldTab != null) {
+          // 遍历老数组
+            for (int j = 0; j < oldCap; ++j) {
+                Node<K,V> e;
+                // 如果当前节点有数据，着开始拷贝
+                if ((e = oldTab[j]) != null) {
+                    // !!!!!!! 清空老列表节点，以便 GC !!!!!!!!!
+                    oldTab[j] = null;
+                    // 当前节点没有有后继节点，说明没有发生过 hash 冲突
+                    if (e.next == null)
+                      	// 重新计算索引并复制到新的数组中
+                        newTab[e.hash & (newCap - 1)] = e;
+                    else if (e instanceof TreeNode)
+                      	// 红河树操作，暂时忽略
+                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                    else { // preserve order
+                      	// 存在链表，需要遍历每一个节点，重新确定位置 ： rehash。
+                        // 因为数组的容量是2的n次幂，根据数学推导 indexFor() 函数计算索引的过程
+                        // 所以链表中的节点 rehash 后只两种结果
+                        // 1。 二进制末尾为 0 则保持位置不变
+                        // 2。 二进制末尾为 1，则新位置为当前位置 + 老数组容量
+                        // 此处的优化可以减少为每个节点都进行 rehash 的性能消耗 
+                      
+                       // lo = low 表示低位、位置不表的链表。尾部节点的作用是趟平道路防止出现环
+                        Node<K,V> loHead = null, loTail = null;
+                       // hi = hight 表示高位、位置 = 原始位置 + 老数组容量。尾部节点的作用是趟平道路防止出现环
+                        Node<K,V> hiHead = null, hiTail = null;
+                        Node<K,V> next;
+                        do {
+                            next = e.next;
+                             // 保留原来位置: 【1】
+                            if ((e.hash & oldCap) == 0) {
+                                if (loTail == null)
+                                    // 记录链表头节点，相当于获取了整个链表
+                                    loHead = e;
+                                else
+                                    // 记录尾节点，他的作用相当于趟平道路防止末尾出现环
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                // 将节点保存到新的链表中
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        // 位置不变的链表
+                        if (loTail != null) {
+                            // 清空末尾
+                            loTail.next = null;
+                            // 存储到原始位置
+                            newTab[j] = loHead;
+                        }
+                        // 位置改变的链表
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                          	// 新的位置 = 老位置 + 老容量
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+```
+
+对【1】的解释：
+
+在 HashMap 的经典定义中数组的长度必须是 $2^n$ ，而从 Hash 值映射为数组下标的过程，只是简单的对数组长度进行取模操作（即保留 hashCode 二进制的后 n 位），Rehash 的时候长度变为原来的2倍，即 $2^{n+1}$，原数组索引为 P 的链表节点要么原地不动， 要为移动到 $P+ 2^n$ 的新位置上，而决定差异的是 Hash 值二进制第 n + 1 的不同（n + 1 为 0 原地不动、为 1 移动到 新位置上）	
+
+
+
+手动翻译一遍
+
+```java
+    /**
+     * 扩容或初始化
+     *
+     * @return
+     */
+    private Node<K, V>[] resize() {
+        Node<K, V>[] olderTable = mTable;
+        final int olderCapacity = olderTable == null ? 0 : olderTable.length;
+        final int olderThreshold = mResizeThreshold;
+        int newCapacity, newThreshold = 0;
+        // 扩容
+        if (olderCapacity > 0) {
+            // 已经达到最大容量已经不再扩容
+            if (olderCapacity >= MAXIMUM_CAPACITY) {
+                mResizeThreshold = Integer.MAX_VALUE;
+                // 返回老 tagle
+                return olderTable;
+                // 使用向左移动的方式，扩大新容量为原来的 2 倍，
+            } else if ((newCapacity = olderCapacity << 1) < MAXIMUM_CAPACITY
+                    && olderCapacity >= DEFAULT_INITIAL_CAPACITY) {
+                // 阈值扩大为原来的二倍
+                newThreshold = olderThreshold << 1;
+            }
+        } else if (olderThreshold > 0) {
+            // 当前 table 为 null ，但是有阈值，说明用户指定了不同的初始化容量或者扩容因子
+            newCapacity = olderThreshold;
+        } else {
+            // 还没有初始化过
+            newCapacity = DEFAULT_INITIAL_CAPACITY;
+            newThreshold = (int) (DEFAULT_INITIAL_CAPACITY * DEFAULT_LOAD_FACTOR);
+        }
+
+        if (newThreshold == 0) {
+            // todo 重新判断阈值
+        }
+        mResizeThreshold = newThreshold;
+        // 创建新的数组
+        Node<K, V>[] newTable = (Node<K, V>[]) new Node[newCapacity];
+        mTable = newTable;
+        if (olderTable == null) {
+            return newTable;
+        }
+        for (int i = 0; i < olderCapacity; i++) {
+            Node<K, V> node = olderTable[i];
+            if (node == null) {
+                continue;
+            }
+            // !!!!!!! 清空老列表的索引，以便 GC !!!!!!!!!
+            olderTable[i] = null;
+            // 节点没有链表即没有发生 hash 冲突
+            if (node.next == null) {
+                // rehash 计算位置
+                newTable[indexFor(node.hashOfKey, newCapacity)] = node;
+            } else if (node instanceof TreeNode) {
+                // todo 红黑数的操作，暂时忽略
+            } else {
+                // 存在链表，需要遍历每一个节点，重新确定位置 ： rehash。
+                // 因为数组的容量是2的n次幂，根据数学推导 indexFor() 函数计算索引的过程。所以链表中的节点 rehash 后只两种结果
+                // 1。 二进制末尾为 0 则保持位置不变
+                // 2。 二进制末尾为 1，则新位置为当前位置 + 老数组容量
+                // 此处的优化可以减少为每个节点都进行 rehash 的性能消耗
+                Node<K, V> olderPosHead = null, olderPosTail = null; // 位置不变的链表头和尾，尾部节点的作用是趟平道路防止出现环
+                Node<K, V> newPosHead = null, newPosTail = null;  // 位置改变的链表头和尾，同上
+                Node<K, V> next;
+                do {
+                    next = node.next;
+                    // 保留原来位置
+                    if ((node.hashOfKey & olderCapacity) == 0) {
+                        if (olderPosTail == null) {
+                            // 记录链表头节点，相当于获取了整个链表
+                            olderPosHead = node;
+                        } else {
+                            // 记录尾节点，他的作用相当于趟平道路防止末尾出现环
+                            olderPosTail.next = node;
+                        }
+                        olderPosTail = node;
+                    } else {
+                        // 将节点保存到新的链表中
+                        if (newPosTail == null) {
+                            newPosHead = node;
+                        } else {
+                            newPosTail.next = node;
+                        }
+                        newPosTail = node;
+                    }
+                } while ((node = next) != null);
+
+                // 位置不变的链表
+                if (olderPosTail != null) {
+                    // 清空末尾
+                    olderPosTail.next = null;
+                    // 保留位置
+                    newTable[i] = olderPosHead;
+                }
+                // 位置改变的链表
+                if (newPosTail != null) {
+                    newPosTail.next = null;
+                    // 改变位置
+                    newTable[i + olderCapacity] = newPosHead;
+                }
+            }
+        }
+        return newTable;
+    }
+
+```
+
+## 小结
+
+1. 开辟新的数组将老数据 copy 过来。
+2. 在拷贝过程中 JDK7 需要为所有数据 rehash 重新计算索引，在 JDK8 中没有全部 rehash。
+   1. 如果没有发生 hash 冲突即不存在链表，rehash 重新计算索引。
+   2. JDK8 在链表上直接将 hashcod 与老数据容量做 & 运算，结果为 0 保留位置，不为 0 则新位置 = 原始位置 + 老数据长度。
+3. JDK8 在拷贝链表的时候使用了双指针尾插法，这样虽然需要遍历链表但是可以避免链表成环，而尾指针的作用就是趟平道路防止尾部有环。
+4. JDK 7 的 resize 过程使用的是头插法，看似可以不用遍历链表，但是此操作会改变节点在链表中的位置，多线程情况下会导致链表有环，造成死锁。
 
 # 常见问题解答
 
@@ -240,13 +579,17 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
 
 
 
-## equals() & hasCode()
+## equals() & hashCode()
+
+Java 中基于 Hash 算法的集合都是使用 hashCode 去定索引位置的，而当发生 hash 冲突确定链表中的节点和 put 进入的节点是否一致使用的是 equals 方法，如果在一个对象中仅复写了二者中的任何一个，则造成 Hash 集合的混乱，无法获取预期的结果。
 
 
 
 ## HashMap为何从头插入改为尾插入
 
-在 JDK7 的时候 HashMap 的内部数据结构还是数组 + 单链表的形式，当发生 hash 冲突的时候，会存储到当前 bucket 位置的单链表中。但是当链表的长度很大的时候，get 方法的时间复杂度将退化为 O(n)。JDK8 在 JDK7 数组 + 单链表的结构上增加了红黑树，当 hash 冲突大于 8 且 HashMap bucket array 长度大于 64 的的时候则将链表转化为链表。
+头插法虽然不用遍历链表了，但是在 resize 拷贝链表节点的时候会改变所有节点的顺序。当并发的情况下很容易出现链表有环的问题，在 get 的时候出现死锁。
+
+所以在 JDK 8 的时候将头插法改为了尾插法，并使用两个指针分别记录头节点和尾节点，而尾节点的作用相当于是趟平道路移除链表中的环。
 
 
 
