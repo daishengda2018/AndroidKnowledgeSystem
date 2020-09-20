@@ -270,3 +270,26 @@ class Solution {
 时间复杂度：O(N)
 
 空间复杂度：O(N)
+
+
+
+# [反转链表](https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/)
+
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode dumpy = new ListNode(Integer.MIN_VALUE);
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = dumpy.next;
+            dumpy.next = head;
+            head = next;
+        }
+        return dumpy.next;
+    }
+}
+```
+
