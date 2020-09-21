@@ -73,6 +73,30 @@
 
 ### 懒加载的双重校验不一定比饿汉式更优
 
+双重检验的解法：
+
+```java
+public class Singleton {  
+    // 注意 volatile 关键字保证 ：write happent before read
+    private volatile static Singleton singleton;  
+    private Singleton (){}  
+    public static Singleton getSingleton() {  
+    if (singleton == null) {  
+      	// 为了保证唯一性，必须锁住的是字节码文件
+        synchronized (Singleton.class) { 
+        // 防止同一时间多个线程等待锁的释放，出现多个实例的错误
+        if (singleton == null) {  
+            singleton = new Singleton();  
+        }  
+        }  
+    }  
+    return singleton;  
+    }  
+}
+```
+
+懒汉式
+
 ```java
 
 public class IdGenerator { 
