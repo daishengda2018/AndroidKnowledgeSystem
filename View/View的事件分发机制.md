@@ -298,6 +298,30 @@ mBtn.setOnLongClickListener(new OnLongClickListener() {
 
 **注意** 父容器不能拦截 ACTION_DOWN 方法，因为 ACTION_DOWN 这个事件并不受 `requestDisallowInterceptTouchEvent ` 方法内的 FLAG_DISALLOW_INTERCEPT 这个标记位的控制。所以一旦父容器拦截 ACTION_DOWN 事件，那么所有的事件都无法传递到子元素中，这样内部拦截就失效了。
 
+```java
+    public boolean onTouchEvent(MotionEvent e) {
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downX = (int) e.getX();
+                downY = (int) e.getY();
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int y = (int) e.getY();
+                int x = (int) e.getX();
+                if (Math.abs(x - downX) > offX && Math.abs(y - downY) <  30) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                } else {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                break;
+        }
+        return super.onTouchEvent(e);
+    }
+```
+
+
+
 ### 总结：
 
 内部拦截法是一种特殊的方式，通过 `requestDisallowInterceptTouchEvent(true)`干预事件分发过程。
