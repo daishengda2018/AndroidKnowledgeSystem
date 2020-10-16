@@ -114,7 +114,7 @@ compareAndSwapObject(Object object, long offset, int expect, int update);
 
 ## initTable
 
-在开始之前我们来看一下 SIZECTL指的是什么：
+在开始之前我们来看一下 SIZECTL 指的是什么：
 
 ```java
   // Unsafe mechanics
