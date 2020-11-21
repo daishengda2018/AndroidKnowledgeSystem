@@ -58,6 +58,117 @@
 
 
 
+# 8- 重新组织数据
+
+## 8.13 Replace Type Code with Class: 以类代替类型
+
+这个重构的手段主要讲的是使用类代替类型，从而为缩小了类型的范围，以供编译器可以检测。（什么是类型呢？我认为可以用作 switch case 的都算是类型）
+
+```java
+   /**
+     * 版本 1
+     */
+    private static class Person {
+        public static String BLOOD_O = "O";
+        public static String BLOOD_A = "A";
+        public static String BLOOD_B = "B";
+        public static String BLOOD_AB = "AB";
+
+        private final String mBloodGroup;
+
+        public Person1(String bloodGroup) {
+            mBloodGroup = bloodGroup;
+        }
+
+        public String getBloodGroup() {
+            return mBloodGroup;
+        }
+    }
+```
+
+例如书中的例子：使用静态常量表示血型，此时类型的范围是所有的 String 类型这个范围太大了，很容易被不了解业务的的同学使用错误
+
+```java
+    public static void main(String[] args) {
+        new Person1(Person1.BLOOD_O);
+        new Person1(Person1.BLOOD_A);
+        // 编译器无法检测错误的类型
+        new Person1("ERROR");
+    }
+```
+
+
+
+此时我们可以使用封装类的方式缩小范围，避免误用：
+
+```java
+    private static class Person {
+        private final BloodGroup mBloodGroup;
+
+        public Person3(BloodGroup bloodGroup) {
+            mBloodGroup = bloodGroup;
+        }
+
+        public String getBloodGroup() {
+            if (mBloodGroup != null) {
+                return mBloodGroup.getCode();
+            }
+            return "";
+        }
+    }
+
+    private static final class BloodGroup {
+        public static BloodGroup BLOOD_O = new BloodGroup("O");
+        public static BloodGroup BLOOD_A = new BloodGroup("A");
+        public static BloodGroup BLOOD_B = new BloodGroup("B");
+        public static BloodGroup BLOOD_AB = new BloodGroup("AB");
+
+        private final String mBloodGroupCode;
+
+        public BloodGroup(String bloodGroupCode) {
+            mBloodGroupCode = bloodGroupCode;
+        }
+
+        private String getCode() {
+            return mBloodGroupCode;
+        }
+    }
+```
+
+如果使用错误，着编译器可以立即提示，并不能完成编译。
+
+```java
+class ReplaceTypeCodeWithClazz {
+
+    public static void main(String[] args) {
+        new Person3(BloodGroup.BLOOD_A);
+        // 编译直接检测出错误
+        new Person3("xxx");
+    }
+```
+
+
+
+==这种方式仅适用于类型不影响类的行为（例如 Person 类），简单的说就是 Person 中没有使用类型码进行 switch 、 if-else 等条件判断。如果有则应该使用 「Replace Type Code with Subclass」以多态封装类型替换类型下的具体逻辑。==
+
+
+
+个人感觉此方式还是挺有意义的，在类型较多、又要提供给外部人员访问的时候可以提高拓展性，而且减少了犯错的机会。
+
+
+
+## 8.14 Replace Type Code with Subclass
+
+这一条重构的规则是上一条的延续，如果类型控制着行为，那么就要使用多态的形式将类型和对应的逻辑封装到子类中，然后提供工厂方式根据类型创建类。
+
+==使用这种方式的需要保证 case 不多，而且不会动态拓展新的类型。==
+
+
+
+
+
+
+
 # 9- 简化条件表达式
 
 ## 9.6 以多态取代条件表达式 —— switch
