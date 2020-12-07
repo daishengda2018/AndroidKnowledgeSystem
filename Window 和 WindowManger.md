@@ -10,7 +10,7 @@
 
 ```java
    /**
-     * 获取悬浮框的LayoutPar
+     * 获取悬浮框的LayoutParam
      *
      * @return
      */
@@ -69,7 +69,7 @@ Type 参数表示 Window 的类型，Window 有三种类型:
 
 其实所有对于 Window 的操作，都是对于 View 的。
 
-如果想实现可以跟随手指滑动的 Window，很简单只要在 View#onTouchListener 中根据手指改变 LayoutParams 中的 x y 参数，然后通过 WindowManger#updateViewLayout 达到更新 Window 位置的目的。
+如果想实现可以跟随手指滑动的 Window，很简单只要在 View#onTouchListener 中根据手指改变 LayoutParams 中的 x y 参数，然后通过== WindowManger#updateViewLayout == API 更新 Window 位置。
 
 ![image-20191028204814041](assets/image-20191028204814041.png)
 
@@ -103,11 +103,20 @@ Activity 的启动是由 ActivityTread#performLaunchActivity 完成的，这个�
 
 在 attach 方法中系统会为 Activity 创建所属的 Window 并为 Window 设置回调接口。回调接口很多，但是有几个却是我们熟悉的：onAttachedToWindow, onDetachedFromWindow、dispatchTouchEvent 等等
 
+**Window 老版本的创建：PolicyManager**
+
 Window 的创建使用过 PolicyManger#makeNewWindow 完成的，但 PolicyManger 只是一个策略模式类，真正的调用是通过 Policy#makeNewWindow 实现的，在源码中的 PolicyManger 与 Policy 的调用关系无法看到，猜测是在编译环节动态控制的。
 
 从  Plicy#makeNewWindow 的源码可以明确看到 Activity  Window 的具体实现是 PhoneWindow
 
 ![image-20191029111453032](assets/image-20191029111453032.png)
+
+**Window 新版本直接 new PhoneWindow**
+
+```java
+ mWindow = new PhoneWindow(this, window, activityConfigCallback);
+ mWindow.setWindowControllerCallback(this);
+```
 
 
 
@@ -121,15 +130,48 @@ Activity Window 的具体实现是 PhoneWindow，所以我们去看 PhonWindow#s
 
 #### 1. 如果没有 DecorView，那么创建它
 
-DecoreView 就是一个 FrameLayout，**他是 Activity 的顶级 View**，一般来说它包含内部标题栏和内部，但是真个需要根据主题确定。至少内容区域是肯定有的。真个内容区域有固定的 id -> android.R.id.content。这也就是 setContentView 方法名字的由来。
+==DecoreView 就是一个 FrameLayout==，
 
-DecorView 的创建过程由 installDecor 方法来完成，在方法内部会通过 generateDecor 方法直接来常见 DecorView，这时候的 DecorView 还是一个空白的 FrameLayout。
+```java
+public class DecorView extends FrameLayout implements RootViewSurfaceTaker, WindowCallbacks {
+  	……
+}
+```
 
-![image-20191029114538680](assets/image-20191029114538680.png)
+**他是 Activity 的顶级 View**，一般来说它包含内部标题栏和内部，但是是否需要标题栏根据主题确定。至少内容区域是肯定有的。这个内容区域有固定的 id -> android.R.id.content。这也就是 setContentView 方法名字的由来。
+
+DecorView 的创建过程由 Phone#installDecor 方法来完成，在方法内部会通过 generateDecor 方法直接来创建 DecorView，这时候的 DecorView 还是一个空白的 FrameLayout。
+
+```java
+protected DecorView generateDecor(int featureId) {
+    ……
+    return new DecorView(context, featureId, this, getAttributes());
+}
+```
+
+
 
 然后 PhonWindow 会根据不同的主题，通过 generateLayout 将具体布局加载到 DecorView 中。不同的布局和系统版本、主题有关。
 
+**老版本对于 contentParent 的实现**
+
 ![image-20191029114656704](assets/image-20191029114656704.png)
+
+**新版本(在 API 29 看到的)**
+
+```java
+public static final int ID_ANDROID_CONTENT = R.id.content;
+
+mContentParent = generateLayout();
+
+generateLayout() {
+	……
+  // 直接 find 
+  // ID_ANDROID_CONTENT 就是 R.id.content
+	ViewGroup contentParent = (ViewGroup)findViewById(ID_ANDROID_CONTENT);
+	……
+}
+```
 
 可以看到 mContentParent 就是我们指定视图的容器了。
 
@@ -137,11 +179,33 @@ DecorView 的创建过程由 installDecor 方法来完成，在方法内部会�
 
 ![image-20191029114944542](assets/image-20191029114944542.png)
 
+
+
 #### 3. 回到 Activity#onContentChanged 通知 Activity 视图发生改变
 
 #### 4 将 DecorView 添加到 WindowManger 中
 
 ![image-20191029113800047](assets/image-20191029113800047.png)
+
+```java
+    @Override
+    public void handleResumeActivity(IBinder token, boolean finalStateRequest, boolean isForward,
+            String reason) {
+        // If we are getting ready to gc after going to the background, well
+        // we are back active so skip it.
+        unscheduleGcIdler();
+        mSomeActivitiesChanged = true;
+
+        // TODO Push resumeArgs into the activity for consideration
+        // 执行 Activty Resume
+        final ActivityClientRecord r = performResumeActivity(token, finalStateRequest, reason);
+        if (r == null) {
+            // We didn't actually resume the activity, so skipping any follow-up actions.
+            return;
+        }
+```
+
+
 
 **所以说 onResume 方法并不是视图真正看见的时机，在 onResume 之后才会将 DecorView 添加到 Window Manger 并可见。这也是网上很多文章说有些判断需要放在 Activity#onWindowFouceChanged 方法中。**
 
