@@ -29,7 +29,7 @@ CAS：Compare and swap 比较替换。这是一个CPU指令，所有CAS是具有
   private static final long valueOffset;
   static {
   	try {
-  	  // 而这个valueOffse是通过反射直接拿到 value字段的内存地址，注意：valueOffse是静态的。
+  	  // 而这个 valueOffse 是通过反射直接拿到 value 字段的内存地址，注意：valueOffse 是静态的。
   		valueOffset = unsafe.objectFieldOffset(AtomicInteger.class.getDeclaredField("value"));
   	} catch (Exception ex) { throw new Error(ex); }
    }

@@ -8,7 +8,7 @@
 
 # 概述
 
-HashMap 是基于 Map 接口实现的哈希表，==它允许拥有为 null 的 key 和 value==。<font color = red>相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值（HashMap 只允许一个 key 为 null, 但 value 可以多个为 null）</font>，而且 HashTable 是线程安全的但 HashMap 并不是，其方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
+HashMap 是基于 Map 接口实现的哈希表，==它允许拥有为 null 的 key 和 value==。<font color = red>相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值（HashMap 只允许一个 key 为 null, 但 value 可以多个为 null）</font>，而且 HashTable 是线程安全的但 HashMap 并不是，其他方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
 
 
 
@@ -101,7 +101,6 @@ HashMap 的主干数据结构是数组。众所周知，数组是拥有连续内
     // HashMap 的数组实现
     transient Node<K,V>[] table;
    
-  
     static class Node<K,V> implements Map.Entry<K,V> {
         final int hash;
         final K key;
@@ -280,7 +279,7 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
 
 
 
-虽然我们可以通过 HashMap 的构造方法指定容量，但是内部的 tableSizeFor 函数还是会将容量进行向上取整到 $ 2^n $。
+虽然我们可以通过 HashMap 的构造方法指定容量，但是内部的 tableSizeFor 函数还是会将容量进行==向上取整==到 $ 2^n $。
 
 ```java
    static final int tableSizeFor(int cap) {
@@ -349,7 +348,7 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
           // 遍历老数组
             for (int j = 0; j < oldCap; ++j) {
                 Node<K,V> e;
-                // 如果当前节点有数据，着开始拷贝
+                // 如果当前节点有数据，则开始拷贝
                 if ((e = oldTab[j]) != null) {
                     // !!!!!!! 清空老列表节点，以便 GC !!!!!!!!!
                     oldTab[j] = null;
@@ -544,7 +543,7 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
 
 ## 为什么数组容量必须是2次幂
 
-为了让元素平均分配在数组中，常规方案就是取模，但除法和取模运算效率均偏低，在数据规模偏大的场景下很容易成为 HashMap 的性能瓶颈。为此更好的解决方案就是位运算：
+是为了效率。为了让元素平均分配在数组中，常规方案就是取模，但除法和取模运算效率均偏低，在数据规模偏大的场景下很容易成为 HashMap 的性能瓶颈。为此更好的解决方案就是位运算：
 
 用 $ f(x)$表示取模的方式获取索引：$ f(x) = hashCode  \% x $;    x = 数组长度；
 
@@ -579,13 +578,13 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
     }
 ```
 
-在计算索引之前  `HashMap` 实现还将key的哈希码向右移16位，对原始哈希码进行按位异或，以确保高阶位也被参与运算增加随机性，较少碰撞的发生。
+在计算索引之前  `HashMap` 实现还将key的哈希码向右移16位，对原始哈希码进行按位==异或==，以确保高阶位也被参与运算增加随机性，较少碰撞的发生。
 
 
 
 ## equals() & hashCode()
 
-Java 中基于 Hash 算法的集合都是使用 hashCode 去定索引位置的，而当发生 hash 冲突确定链表中的节点和 put 进入的节点是否一致使用的是 equals 方法，如果在一个对象中仅复写了二者中的任何一个，则造成 Hash 集合的混乱，无法获取预期的结果。
+Java 中基于 Hash 算法的集合都是使用 ==hashCode 去定索引位置的==，而当发生 hash 冲突确定链表中的节点和 put 进入的节点==是否一致使用的是 equals 方法==，如果在一个对象中仅复写了二者中的任何一个，则造成 Hash 集合的混乱，无法获取预期的结果。
 
 
 
