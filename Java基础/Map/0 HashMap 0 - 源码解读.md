@@ -2,9 +2,13 @@
 
 ![](images/1*6dxQxoPVmyw_lt9MQeDpJA.png)
 
+20年10月18日写
+
+
+
 # 概述
 
-HashMap 是基于 Map 接口实现的哈希表，它允许拥有为 null 的 key 和 value。相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值（只允许一个 key 为 null, 但 value 可以多个为 null），而且 HashTable 是线程安全的但 HashMap 并不是，其方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
+HashMap 是基于 Map 接口实现的哈希表，==它允许拥有为 null 的 key 和 value==。<font color = red>相比 HashTable 二者最大的不同在于 HashTable 不接受 null 值（HashMap 只允许一个 key 为 null, 但 value 可以多个为 null）</font>，而且 HashTable 是线程安全的但 HashMap 并不是，其方面二者大致相同。要注意 HashMap 并不能保证映射的顺序性，而且随着事件的推移映射的顺序也可能发生改变（这是因为 hash 算法的随机性且在扩容时重新hash）。但是使用链表实现的 LinkedHashMap 可以保证顺序性。
 
 
 
@@ -28,7 +32,7 @@ HashTable 是个遗弃类，虽然它是线程安全的但其内部使用的主�
    /**
      * 默认初始化容量（16）- 必须是2的幂次方！
      */
-    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // 16
 
     /**
      * 最大容量
@@ -84,7 +88,7 @@ HashMap 的主干数据结构是数组。众所周知，数组是拥有连续内
 
 在解决 hash 冲突上主要有两种解决方案：
 
-1. 开发寻址法：如果发生冲突，在空闲位置上寻找位置并存储
+1. 开放寻址法：如果发生冲突，在空闲位置上寻找位置并存储
 2. 链地址法：使用数组 + 链表的形式将冲突的节点存储到链表中，此时时间复杂度降从 O(1) 退化为 O(n)。
 
 而 HashMap 选择了后者。==从中可见一个好的 hash 算法多么的重要，如何尽可能将元素均匀的分配在数组中，是我们后面讨论的主要问题。==
@@ -214,7 +218,7 @@ HashMap 的数据存储过程主要体现在 putVal 函数当中，但此部分�
             // todo 红黑数的操作，暂时忽略
             linkedNode = new TreeNode<>(hashOfKey, key, value, null);
         } else {
-            // key 不同在链表中寻找
+            // key 不同 在链表中寻找目标
             for (int binCount = 0; ; binCount++) {
                 linkedNode = curNode.next;
                 // 遍历到了尾节点，直接插入 [尾插法]
@@ -243,10 +247,10 @@ HashMap 的数据存储过程主要体现在 putVal 函数当中，但此部分�
 ## 小结：
 
 1. JDK 8 中的 HashMap 是在第一次 put 元素的时候才初始化的，初始化的具体逻辑在 resize 函数中
-2. JDK 8 发生冲突的时候使用尾插法插入新数据，而 JDK 7 使用的是头插入法。使用头插法的原因是不想遍历链表，但是头插法会会改变节点原始顺序，在多线程中会造成链表有环的问题。
+2. JDK 8 发生冲突的时候使用尾插法插入新数据，而 JDK 7 使用的是头插入法。使用头插法的原因是不想遍历链表，但是头插法会改变节点原始顺序，在多线程中会造成链表有环的问题。
 3. 更新数据的时候 modeCount 并不会累加
-4. 在 hash 冲突的时候会使用 key 的 equls 和 hashCode 方法，hasCode 方法用于确定数组中的索引位置，而 equls 用于比较 key 是否是同一个。可见这两个方法很重要，所以如果我们复写了 equls 和 hashCode 其中的任何一个，都要复写另外一个。这样才能确定对象的唯一性，保证使用 Hash 算法集合的正确性。
-5. 计算数组所谓的函数及其重要，只有好的函数才能将原则均匀的分配在数组中，充分利用存储空间，较少 hash 碰撞。
+4. 在 hash 冲突的时候会使用 key 的 equls 和 hashCode 方法，==hasCode 方法用于确定数组中的索引位置，而 equls 用于比较 key 是否是同一个==。可见这两个方法很重要，所以如果我们复写了 equls 和 hashCode 其中的任何一个，都要复写另外一个。这样才能确定对象的唯一性，保证使用 Hash 算法集合的正确性。
+5. 计算数组索引的函数极其重要，只有好的函数才能将元素均匀的分配在数组中，充分利用存储空间，较少 hash 碰撞。
 
 
 
@@ -270,9 +274,9 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
 
 方法一的目的是保证 HashMap 容量很小的时候 hashCode 的高位也能参与运算，较少 hash 冲突。
 
-方法二的目的是加快取模运算，但是 % 运算的效率很低，所以可以使用等价的为运算解决：
+方法二的目的是加快取模运算，但是 % 运算的效率很低，所以可以使用等价的位运算：
 
-当且仅当 $$length = 2^n $$ 此公式成立：$$hashCode \% length = h \& (length - 1)$$ ==这也就是为啥 HashMap 的容量必须为$ 2^n $==
+> 当且仅当 $$length = 2^n $$ 此公式成立：$$hashCode \% length = h \& (length - 1)$$ ==这也就是为啥 HashMap 的容量必须为$ 2^n $==
 
 
 

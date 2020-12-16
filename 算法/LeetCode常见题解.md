@@ -293,3 +293,86 @@ class Solution {
 }
 ```
 
+
+
+
+
+
+
+
+
+# 动态规划
+
+## [凑零钱](https://leetcode-cn.com/problems/coin-change/)
+
+递归从上到下的解法：
+
+```java
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        if (amount < 0 || coins.length <= 0) {
+            return -1;
+        }
+        if (amount == 0) {
+            return 0;
+        }
+
+        // 建立备忘录优化递归时间
+        int[] cache = new int[amount + 1];
+        return findWhy(cache, coins, amount);
+    }
+
+    private int findWhy(int[] cache, int[]coins, int amount) {
+        if (amount < 0) {
+            return -1;
+        }
+        if (amount == 0) {
+            return 0;
+        }
+
+        // 说明已经计算过了，不要重复计算了
+        if (cache[amount] != 0) {
+            return cache[amount];
+        }
+        int minValue = Integer.MAX_VALUE;
+        for (int i = 0; i < coins.length; i++) {
+            int findCount = findWhy(cache, coins, amount - coins[i]);
+            if (findCount >= 0 && findCount < minValue) {
+                // 记录寻找的次数，每一次得到结果都是一次寻找
+                minValue = findCount + 1;
+            }
+        }
+        cache[amount] = (minValue == Integer.MAX_VALUE) ? -1 : minValue;
+        return cache[amount];
+    }
+}
+```
+
+动态规划的解法，从低到上：
+
+```java
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        if (amount < 0 || coins.length <= 0) {
+            return -1;
+        }
+        // base case 
+        if (amount == 0) {
+            return 0;
+        }
+        int[] mem = new int[amount + 1];
+        for (int i = 1; i <= amount; i++) {
+            int min = Integer.MAX_VALUE;
+            for (int j = 0; j < coins.length; j ++) {
+                final int value = i - coins[j];
+                if (value >= 0 && mem[value] < min) {
+                    min = mem[value] + 1;
+                }
+            }
+            mem[i] = min;
+        }
+        return mem[amount] == Integer.MAX_VALUE ? -1: mem[amount];
+    }
+}
+```
+
