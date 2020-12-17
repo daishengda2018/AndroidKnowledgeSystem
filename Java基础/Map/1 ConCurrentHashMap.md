@@ -6,7 +6,8 @@
 
 # JDK7 的实现
 
-
+- **JDK1.8：synchronized+CAS+HashEntry+红黑树；**
+- **JDK1.7：ReentrantLock+Segment+HashEntry。**
 
 # JDK8 的实现
 
@@ -144,7 +145,7 @@ compareAndSwapObject(Object object, long offset, int expect, int update);
             if ((sc = sizeCtl) < 0)
               	// 自旋等待
                 Thread.yield(); // lost initialization race; just spin
-            // 使用 CAS 判断 sizeCtl 有没有改变没有改变赋值 sc = -1
+            // 使用 CAS 判断 sizeCtl 有没有改变,有改变则 sc = -1 ，开始创建
             else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
                 try {
                     if ((tab = table) == null || tab.length == 0) {
@@ -348,7 +349,11 @@ compareAndSwapObject 具体实现为 native 。想要了解更多可以看看这
 
 ## get
 
-没有锁，采用的若一致性
+没有锁，
+
+
+
+
 
 
 
@@ -362,11 +367,26 @@ compareAndSwapObject 具体实现为 native 。想要了解更多可以看看这
 
 # 为什么不是要Lock接口实现类来锁住链表头转而使用sychronized呢？
 
+# 常见问题
 
+- **ConcurrentHashMap的实现原理**
+  - **ConcurrentHashMap1.7和1.8的区别？**
+  - **ConcurrentHashMap使用什么技术来保证线程安全**
+- **ConcurrentHashMap的put()方法**
+  - **ConcurrentHashmap 不支持 key 或者 value 为 null 的原因？**
+  - **put()方法如何实现线程安全呢？**
+- **ConcurrentHashMap扩容机制**
+- **ConcurrentHashMap的get方法是否要加锁，为什么？**
+- **其他问题**
+  - **为什么使用ConcurrentHashMap**
+  - **ConcurrentHashMap迭代器是强一致性还是弱一致性？HashMap呢？**
+  - **JDK1.7与JDK1.8中ConcurrentHashMap的区别**
 
 # 参考
 
 
 
 [从ConcurrentHashMap的演进看Java多线程核心技术](http://www.jasongj.com/java/concurrenthashmap/)
+
+[[面试：为了进阿里，死磕了ConcurrentHashMap源码和面试题(一)](https://segmentfault.com/a/1190000024432650)](https://segmentfault.com/a/1190000024432650)
 
