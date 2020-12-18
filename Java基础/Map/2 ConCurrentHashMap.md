@@ -4,6 +4,10 @@
 
 <img src="images/1*6dxQxoPVmyw_lt9MQeDpJA.png" style="zoom: 50%;" />
 
+中所值周，HashMap 是线程不安全的，而线程不安全主要体现在 resize 造成的死循环（链表有环）和 遍历时的 fast-fail 的问题。
+
+
+
 # JDK7 的实现
 
 - **JDK1.8：synchronized+CAS+HashEntry+红黑树；**
