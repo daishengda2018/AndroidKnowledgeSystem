@@ -1,3 +1,7 @@
+[toc]
+
+
+
 # [3. 数组中重复的数字](https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)
 
 常见的解思路是使用 Set 作为辅助数据结构一次遍历集合如果 set 中已经有同样的 value 返回，否则加入。
@@ -221,6 +225,57 @@ class Solution {
 
 此解法时间、空间复杂度都为：O（n）
 
+同样可以使用数组：
+
+```java
+class Solution {
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        int[] cache = new int[n + 1];
+        return performFib(cache, n);
+    }
+
+    private int performFib(int[] cache, int n) {
+        if (n == 1 || n == 2) {
+            return 1;
+        }
+        if (cache[n] != 0) {
+            return cache[n];
+        }
+        int result = performFib(cache, (n - 1)) + performFib(cache, (n - 2));
+        cache[n] = result % 1000000007;
+        return cache[n];
+    }
+}
+```
+
+
+
+动态规划解法：
+
+```java
+class Solution {
+
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1 || n == 2) {
+            return 1;
+        }
+
+        final int[] dp = new int[n + 1];
+        dp[1] = dp[2] = 1;
+        for (int i = 3; i <= n; i++) {
+            dp[i] = (dp[i - 1] + dp[i - 2]) % 1000000007;
+        }
+        return dp[n];
+    }
+}
+```
+
 
 
 还可以使用递推从下往上计算：首先根据 f(0) 和 f(1) 计算出 f(2) 在根据 f(1) 和 f(2) 算出 f(3)……。此解法时间复杂度：O(n)、空间复杂度都为：O（1）
@@ -228,19 +283,20 @@ class Solution {
 ```java
 class Solution {
     public int fib(int n) {
-        int[] result = new int[]{0, 1};
-        if (n < 2) {
-            return result[n];
+        if (n == 0) {
+            return 0;
         }
-        int fibOne = 0;
-        int fibTow = 1;
-        int fibN = 0;
-        for (int i = 2; i <= n; i++) {
-            fibN = fibOne + fibTow % 1000000007;
-            fibOne = fibTow;
-            fibTow = fibN;
+        if (n == 1 || n == 2) {
+            return 1;
         }
-        return fibN;
+        int prev = 1;
+        int curr = 1;
+        for (int i = 3; i <=n; i++){
+            int sum = (prev + curr) % 1000000007;
+            prev = curr;
+            curr = sum;
+        }
+        return curr;
     }
 }
 ```
