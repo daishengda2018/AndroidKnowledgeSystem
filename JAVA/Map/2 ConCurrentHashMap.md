@@ -516,21 +516,6 @@ compareAndSwapObject 具体实现为 native 。想要了解更多可以看看这
 
 # 为什么不是要Lock接口实现类来锁住链表头转而使用sychronized呢？
 
-# 常见问题
-
-- **ConcurrentHashMap的实现原理**
-  - **ConcurrentHashMap1.7和1.8的区别？**
-  - **ConcurrentHashMap使用什么技术来保证线程安全**
-- **ConcurrentHashMap的put()方法**
-  - **ConcurrentHashmap 不支持 key 或者 value 为 null 的原因？**
-  - **put()方法如何实现线程安全呢？**
-- **ConcurrentHashMap扩容机制**
-- **ConcurrentHashMap的get方法是否要加锁，为什么？**
-- **其他问题**
-  - **为什么使用ConcurrentHashMap**
-  - **ConcurrentHashMap迭代器是强一致性还是弱一致性？HashMap呢？**
-  - **JDK1.7与JDK1.8中ConcurrentHashMap的区别**
-
 # 参考
 
 
