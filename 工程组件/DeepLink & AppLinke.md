@@ -97,3 +97,4 @@ getIntent可以在Activity的生命周期的任何时段进行获取，不过一
 # AppLink
 
 https://www.jianshu.com/p/49d9b2c54c64
+
