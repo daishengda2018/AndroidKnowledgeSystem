@@ -1,5 +1,3 @@
-> 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [ifeve.com](http://ifeve.com/java-synchronized/)
-
 本文属作者原创，原文发表于 InfoQ：[http://www.infoq.com/cn/articles/java-se-16-synchronized](http://www.infoq.com/cn/articles/java-se-16-synchronized)
 
 1 引言
@@ -21,7 +19,7 @@ Java 中的每一个对象都可以作为锁。
 *   对于静态同步方法，锁是当前对象的 Class 对象。
 *   对于同步方法块，锁是 Synchonized 括号里配置的对象。
 
-当一个线程试图访问同步代码块时，它首先必须得到锁，退出或抛出异常时必须释放锁。那么锁存在哪里呢？锁里面会存储什么信息呢？
+==当一个线程试图访问同步代码块时，它首先必须得到锁，退出或抛出异常时必须释放锁==。那么锁存在哪里呢？锁里面会存储什么信息呢？
 
 4 同步的原理
 -------
@@ -30,7 +28,7 @@ JVM 规范规定 JVM 基于进入和退出 Monitor 对象来实现方法同步�
 
 ### 4.1 Java 对象头
 
-锁存在 Java 对象头里。如果对象是数组类型，则虚拟机用 3 个 Word（字宽）存储对象头，如果对象是非数组类型，则用 2 字宽存储对象头。在 32 位虚拟机中，一字宽等于四字节，即 32bit。
+==锁存在 Java 对象头里==。如果对象是数组类型，则虚拟机用 3 个 Word（字宽）存储对象头，如果对象是非数组类型，则用 2 字宽存储对象头。在 32 位虚拟机中，一字宽等于四字节，即 32bit。
 
 <table width="417" border="1" cellspacing="0" cellpadding="0"><tbody><tr><td valign="top" width="59">长度</td><td valign="top" width="159">内容</td><td valign="top" width="198">说明</td></tr><tr><td valign="top" width="59">32/64bit</td><td valign="top" width="159">Mark Word</td><td valign="top" width="198">存储对象的 hashCode 或锁信息等。</td></tr><tr><td valign="top" width="59">32/64bit</td><td valign="top" width="159">Class Metadata Address</td><td valign="top" width="198">存储到对象类型数据的指针</td></tr><tr><td valign="top" width="59">32/64bit</td><td valign="top" width="159">Array length</td><td valign="top" width="198">数组的长度（如果当前对象是数组）</td></tr></tbody></table>
 
