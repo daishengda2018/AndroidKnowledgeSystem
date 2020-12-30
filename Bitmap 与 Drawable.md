@@ -115,7 +115,7 @@ public class DrawableDemo extends Drawable {
    BitmapFactory.decodeStream();
 ```
 
-高效加载 Bitmap 的重点是：采用 BitmapFactory.Options
+高效加载 Bitmap 的重点是：==采用 BitmapFactory.Options==
 
 # Bitmap的处理
 
