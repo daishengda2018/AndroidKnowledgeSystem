@@ -44,7 +44,7 @@ CopyOnWriteArrayList 是一个写时复制的容器，当我们往一个容器�
 
 请看下面示例：
 
-```
+```java
 public static void main(String[] args) {
     CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<>(new Integer[]{1, 2, 3});
 
