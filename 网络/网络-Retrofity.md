@@ -1,4 +1,4 @@
-![Retrofit 2.5 主要结构图](./asset/Retrofit 2.5 主要结构图.jpg)
+![Retrofit 2.5 主要结构图](images/Retrofit%202.5%20%E4%B8%BB%E8%A6%81%E7%BB%93%E6%9E%84%E5%9B%BE.jpg)
 
 Retrofit 是对于 OkHttp 的封装，通过注解的形式将请求过程声明在接口中，然后通过通过动态代理将各种声明统一封装成网络请求，通过 OkHttp 发送到网络。
 

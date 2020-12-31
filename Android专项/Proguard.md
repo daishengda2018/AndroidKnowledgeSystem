@@ -2,7 +2,7 @@
 
 在排除 proguard 混淆名称时，除了使用配置文件外，还可以使用 `@Keep`注解。
 
- Android Gradle plugin 已经将 @Keep 注解默认开启, 网上说的要各种配置都是放屁！！误人子弟只要保持如下默认配置即可
+Android Gradle plugin 已经将 @Keep 注解默认开启, 网上说的要各种配置都是放屁！！误人子弟只要保持如下默认配置即可
 
 
 
@@ -12,7 +12,7 @@
 implementation 'androidx.annotation:annotation:1.1.0'
 ```
 
-并且在模块 build.gradle 中使用 AndroidX 自带的 proguard 配置文件 [proguard-android-optimize.txt()（开启 AndroidX 后会自动引入，但不排除被开发者删除）
+并且在模块 build.gradle 中使用 AndroidX 自带的 proguard 配置文件 [proguard-android-optimize.txt]（开启 AndroidX 后会自动引入，但不排除被开发者删除）
 
 ```groovy
 android {

@@ -3,7 +3,7 @@ adb shell monkey -p com.xxx.xxx -v -v -v --throttle 200 -s 1 --ignore-crashes --
 
 ```
 
-![img](images/7378702-09f5454756b2fb61.png)
+![](images/7378702-09f5454756b2fb61.png)
 
 ```shell
 adb shell monkey -p com.xiaomi.sc -s 2333 --pct-touch 70 --pct-motion 30 --ignore-crashes --ignore-timeouts --monitor-native-crashes --throttle 200 -v -v 500000 >./monkey0903.txt
