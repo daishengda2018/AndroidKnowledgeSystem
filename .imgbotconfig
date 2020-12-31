@@ -2,5 +2,5 @@
     "schedule": "daily", // daily|weekly|monthly
     "ignoredFiles": [
     ],
-    "aggressiveCompression": "false" // true|false
+    "aggressiveCompression": "true" // true|false
 }
