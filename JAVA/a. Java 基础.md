@@ -1,43 +1,5 @@
 # Java 基础
-* [Java 基础](#java-基础)
-    * [一、数据类型](#一数据类型)
-        * [基本类型](#基本类型)
-        * [包装类型](#包装类型)
-        * [缓存池](#缓存池)
-    * [二、String](#二string)
-        * [概览](#概览)
-        * [不可变的好处](#不可变的好处)
-        * [String, StringBuffer and StringBuilder	](#string-stringbuffer-and-stringbuilder	)
-        * [String Pool](#string-pool)
-        * [new String("abc")](#new-stringabc)
-    * [三、运算](#三运算)
-        * [参数传递](#参数传递)
-        * [float 与 double](#float-与-double)
-        * [隐式类型转换](#隐式类型转换)
-        * [switch](#switch)
-    * [四、关键字](#四关键字)
-        * [final](#final)
-        * [static](#static)
-    * [五、Object 通用方法](#五object-通用方法)
-        * [概览](#概览)
-        * [equals()](#equals)
-        * [hashCode()](#hashcode)
-        * [toString()](#tostring)
-        * [clone()](#clone)
-    * [六、继承](#六继承)
-        * [访问权限](#访问权限)
-        * [抽象类与接口](#抽象类与接口)
-        * [super](#super)
-        * [重写与重载](#重写与重载)
-    * [七、反射](#七反射)
-    * [八、异常](#八异常)
-    * [九、泛型](#九泛型)
-    * [十、注解](#十注解)
-    * [十一、特性](#十一特性)
-        * [Java 各版本的新特性](#java-各版本的新特性)
-        * [Java 与 C++ 的区别](#java-与-c-的区别)
-        * [JRE or JDK](#jre-or-jdk)
-    * [参考资料](#参考资料)
+[toc]
 
 
 ## 一、数据类型
@@ -310,7 +272,7 @@ public String(String original) {
 
 ### 参数传递
 
-Java 的参数是以值传递的形式传入方法中，而不是引用传递。
+==Java 的参数是以值传递的形式传入方法中，而不是引用传递。==
 
 以下代码中 Dog dog 的 dog 是一个指针，存储的是对象的地址。在将一个参数传入一个方法时，本质上是将对象的地址以值的方式传递到形参中。
 
