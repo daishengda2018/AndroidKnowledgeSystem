@@ -15,7 +15,7 @@
 
 #### 1. Set
 
-- TreeSet：基于红黑树实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如 HashSet，HashSet 查找的时间复杂度为 O(1)，TreeSet 则为 O(logN)。
+- TreeSet：基于红黑树实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如 HashSet，HashSet 查找的时间复杂度为 O(1)，==TreeSet 则为 O(logN)。==
 
 - HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作。并且失去了元素的插入顺序信息，也就是说使用 Iterator 遍历 HashSet 得到的结果是不确定的。
 
@@ -100,7 +100,7 @@ List list = Arrays.asList(1, 2, 3);
 
 #### 1. 概览
 
-因为 ArrayList 是基于数组实现的，所以支持快速随机访问。RandomAccess 接口标识着该类支持快速随机访问。
+因为 ArrayList 是基于数组实现的，所以支持快速随机访问。==RandomAccess 接口标识着该类支持快速随机访问。==
 
 ```java
 public class ArrayList<E> extends AbstractList<E>
@@ -117,9 +117,9 @@ private static final int DEFAULT_CAPACITY = 10;
 
 #### 2. 扩容
 
-添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为 `oldCapacity + (oldCapacity >> 1)`，即 oldCapacity+oldCapacity/2。其中 oldCapacity >> 1 需要取整，所以新容量大约是旧容量的 1.5 倍左右。（oldCapacity 为偶数就是 1.5 倍，为奇数就是 1.5 倍-0.5）
+添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为 ==`oldCapacity + (oldCapacity >> 1)`==，即 oldCapacity+oldCapacity/2。其中 oldCapacity >> 1 需要取整，所以新容量大约是旧容量的 1.5 倍左右。（oldCapacity 为偶数就是 1.5 倍，为奇数就是 1.5 倍-0.5）
 
-扩容操作需要调用 `Arrays.copyOf()` 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
+==扩容操作需要调用 `Arrays.copyOf()` 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。==
 
 ```java
 public boolean add(E e) {
@@ -310,7 +310,7 @@ public Vector() {
 #### 3. 与 ArrayList 的比较
 
 - Vector 是同步的，因此开销就比 ArrayList 要大，访问速度更慢。最好使用 ArrayList 而不是 Vector，因为同步操作完全可以由程序员自己来控制；
-- Vector 每次扩容请求其大小的 2 倍（也可以通过构造函数设置增长的容量），而 ArrayList 是 1.5 倍。
+- ==Vector 每次扩容请求其大小的 2 倍（也可以通过构造函数设置增长的容量），而 ArrayList 是 1.5 倍。==
 
 #### 4. 替代方案
 
@@ -367,14 +367,14 @@ private E get(Object[] a, int index) {
 
 #### 2. 适用场景
 
-CopyOnWriteArrayList 在写操作的同时允许读操作，大大提高了读操作的性能，因此很适合读多写少的应用场景。
+==CopyOnWriteArrayList 在写操作的同时允许读操作，大大提高了读操作的性能，因此很适合读多写少的应用场景。==
 
-但是 CopyOnWriteArrayList 有其缺陷：
+<font color = red>但是 CopyOnWriteArrayList 有其缺陷：</font>
 
-- 内存占用：在写操作时需要复制一个新的数组，使得内存占用为原来的两倍左右；
-- 数据不一致：读操作不能读取实时性的数据，因为部分写操作的数据还未同步到读数组中。
+- <font color = red>内存占用：在写操作时需要复制一个新的数组，使得内存占用为原来的两倍左右；</font>
+- <font color = red>数据不一致：读操作不能读取实时性的数据，因为部分写操作的数据还未同步到读数组中。(弱一致性)</font>
 
-所以 CopyOnWriteArrayList 不适合内存敏感以及对实时性要求很高的场景。
+<font color = red>所以 CopyOnWriteArrayList 不适合内存敏感以及对实时性要求很高的场景。</font>
 
 ### LinkedList
 
@@ -390,7 +390,7 @@ private static class Node<E> {
 }
 ```
 
-每个链表存储了 first 和 last 指针：
+==每个链表存储了 first 和 last 指针：==
 
 ```java
 transient Node<E> first;
@@ -487,12 +487,12 @@ map.put("K3", "V3");
 - 插入 &lt;K2,V2\> 键值对，先计算 K2 的 hashCode 为 118，使用除留余数法得到所在的桶下标 118%16=6。
 - 插入 &lt;K3,V3\> 键值对，先计算 K3 的 hashCode 为 118，使用除留余数法得到所在的桶下标 118%16=6，插在 &lt;K2,V2\> 前面。
 
-应该注意到链表的插入是以头插法方式进行的，例如上面的 &lt;K3,V3\> 不是插在 &lt;K2,V2\> 后面，而是插入在链表头部。
+<font color = green>应该注意到链表的插入是以头插法方式进行的，例如上面的 &lt;K3,V3\> 不是插在 &lt;K2,V2\> 后面，而是插入在链表头部。</font>
 
 查找需要分成两步进行：
 
 - 计算键值对所在的桶；
-- 在链表上顺序查找，时间复杂度显然和链表的长度成正比。
+- ==在链表上顺序查找，时间复杂度显然和链表的长度成正比。==
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/image-20191208235258643.png"/> </div><br>
 
@@ -527,7 +527,7 @@ public V put(K key, V value) {
 }
 ```
 
-HashMap 允许插入键为 null 的键值对。但是因为无法调用 null 的 hashCode() 方法，也就无法确定该键值对的桶下标，只能通过强制指定一个桶下标来存放。HashMap 使用第 0 个桶存放键为 null 的键值对。
+<font color = green>HashMap 允许插入键为 null 的键值对。但是因为无法调用 null 的 hashCode() 方法，也就无法确定该键值对的桶下标，只能通过强制指定一个桶下标来存放。HashMap 使用第 0 个桶存放键为 null 的键值对。</font>
 
 ```java
 private V putForNullKey(V value) {
@@ -655,7 +655,7 @@ static int indexFor(int h, int length) {
 |    参数    | 含义                                                         |
 | :--------: | :----------------------------------------------------------- |
 |  capacity  | table 的容量大小，默认为 16。需要注意的是 capacity 必须保证为 2 的 n 次方。 |
-|    size    | 键值对数量。                                                 |
+|    size    | <font color = red>键值对数量。</font>所有数据的 size         |
 | threshold  | size 的临界值，当 size 大于等于 threshold 就必须进行扩容操作。 |
 | loadFactor | 装载因子，table 能够使用的比例，threshold = (int)(capacity* loadFactor)。 |
 
@@ -846,11 +846,11 @@ transient int count;
 
 在执行 size 操作时，需要遍历所有 Segment 然后把 count 累计起来。
 
-ConcurrentHashMap 在执行 size 操作时先尝试不加锁，如果连续两次不加锁操作得到的结果一致，那么可以认为这个结果是正确的。
+==ConcurrentHashMap 在执行 size 操作时先尝试不加锁，如果连续两次不加锁操作得到的结果一致，那么可以认为这个结果是正确的。==
 
-尝试次数使用 RETRIES_BEFORE_LOCK 定义，该值为 2，retries 初始值为 -1，因此尝试次数为 3。
+==尝试次数使用 RETRIES_BEFORE_LOCK 定义，该值为 2，retries 初始值为 -1，因此尝试次数为 3。==
 
-如果尝试的次数超过 3 次，就需要对每个 Segment 加锁。
+==如果尝试的次数超过 3 次，就需要对每个 Segment 加锁。==
 
 ```java
 
