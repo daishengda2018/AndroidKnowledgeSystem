@@ -42,7 +42,7 @@
 
 * 思维导图是 XMind 2020 一开始使用了 MindNote 但是功能没有 XMind 强大，而且是 MacOS 独占，对读者不太友好，后面会慢慢迁移思维导图到 XMind 格式的。
 
-
+* 流程图是使用 drawio 绘制的，软件可以在 [GitHub中仓库获取](https://github.com/jgraph/drawio-desktop/releases/tag/v14.1.8) 
 
 > 本项目采用[知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh)
 
