@@ -13,4 +13,4 @@ echo "===========================\n"
 printf "\e[1;32m---> pull code from ${reps} ${branch} \e[0m\n"
 echo "===========================\n"
 
-git pull $reps $branch 
+git pull --rebase $reps $branch 
