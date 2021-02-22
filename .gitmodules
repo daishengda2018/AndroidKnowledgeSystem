@@ -1,0 +1,3 @@
+[submodule "Android-Notes"]
+	path = Android-Notes
+	url = git@github.com:BlackZhangJX/Android-Notes.git
