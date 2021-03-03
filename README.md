@@ -14,7 +14,7 @@
 
 
 
-2020 年可谓是自我救赎的一年.在我的领导[何红辉 Mr.Simple](https://blog.csdn.net/bboyfeiyu)([Android 源码设计模式解析与实战作者](https://github.com/hehonghui/)),辉哥的鞭策下我改变了很多，也很高兴得到了他的认可，最主要的收货莫过于：==学会了抓住重点和动手实践==
+2020 年可谓是自我救赎的一年.在[何红辉 Mr.Simple](https://blog.csdn.net/bboyfeiyu)([Android 源码设计模式解析与实战作者](https://github.com/hehonghui/))和[王玉岩](https://github.com/wangyuyan666)两位亦师亦友的鞭策下我改变了很多，也很高兴得到了他们和团队的认可，最主要的收货莫过于：==学会了抓住重点和动手实践==
 
 ## 抓住重点
 
