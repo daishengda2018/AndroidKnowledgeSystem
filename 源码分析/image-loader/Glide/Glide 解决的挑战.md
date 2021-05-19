@@ -37,7 +37,7 @@
 >
 > This way it makes loading fast as showing directly from the memory cache is always faster.
 
-## 3、不流程的 UI
+## 3、不流畅的 UI
 
 UI 不流畅的原因通常是主线程执行了太多的任务。主线程会每 16ms 更新一次 UI，如果在主线程做的任务较重，就会造成丢帧、卡顿。
 
