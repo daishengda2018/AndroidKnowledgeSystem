@@ -145,61 +145,6 @@ class Solution {
 }
 ```
 
-# [07. 重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
-
-这道题要求面试者熟悉二叉树的遍历特点：
-
-1. 前序遍历：|头节点|左子树|右子树|
-2. 中序遍历：|左子树|头节点|右子树|
-
-根据这个特点可以设计一个递归算法，时间和空间复杂度都为 O(n)
-
-```java
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-class Solution {
-    // 记录当前根节点索引
-    private int mCurRootIndex = 0;
-    // 用于确定当前根节点在 inorder 的索引位置
-    private Map<Integer, Integer> cache = new HashMap<>();
-
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        int idx = 0;
-        for (int nums : inorder) {
-            cache.put(nums, idx++);
-        }
-        return buildTree(preorder, inorder, 0, inorder.length - 1);
-    }
-
-    private TreeNode buildTree(int[] preorder, int[] inorder, int start, int end) {
-        // 递归完毕
-        if (start > end) {
-            return null;
-        }
-        // 当前根节点的值，取值后索引++
-        int curRootNums = preorder[mCurRootIndex++];
-        // 当前根节点在 inorder 中的位置，从而确定左右子数范围：|左子数集合|curRoot|右子数集合|（这是 inorder）
-        int curRootIdxInOrder = cache.get(curRootNums);
-        // 建立当前 root
-        TreeNode curRoot = new TreeNode(curRootNums);
-        // 遍历左子数集合
-        curRoot.left = buildTree(preorder, inorder, start, curRootIdxInOrder - 1);
-        // 遍历右子数集合
-        curRoot.right = buildTree(preorder, inorder, curRootIdxInOrder + 1, end);
-        return curRoot;
-    }
-}
-```
-
-
-
 # [10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)
 
 采用递归的方式是第一直观感受，但是递归算法设计大量重复计算，需要引入 HashMap 作为缓冲才能通过测试
@@ -523,10 +468,6 @@ class Solution {
 
 
 
-# [17、打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
-
-
-
 # [16、数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)
 
 2020/09/13
@@ -649,6 +590,255 @@ class Solution {
             stack.push(postorder[i]);
         }
         return true;
+    }
+}
+```
+
+# [17、打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
+
+
+
+# 分治算法
+
+## [07. 重建二叉树](https://leetcode-cn.com/leetbook/read/illustration-of-algorithm/99lxci/)
+
+这道题要求面试者熟悉二叉树的遍历特点：
+
+1. 前序遍历：|头节点|左子树|右子树|
+2. 中序遍历：|左子树|头节点|右子树|
+
+根据这个特点可以设计一个递归算法，时间和空间复杂度都为 O(n)
+
+### 模板代码：
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    // 记录当前根节点索引
+    private int mCurRootIndex = 0;
+    // 用于确定当前根节点在 inorder 的索引位置
+    private Map<Integer, Integer> cache = new HashMap<>();
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int idx = 0;
+        for (int nums : inorder) {
+            cache.put(nums, idx++);
+        }
+        return buildTree(preorder, inorder, 0, inorder.length - 1);
+    }
+
+    private TreeNode buildTree(int[] preorder, int[] inorder, int first, int last) {
+        // 递归完毕
+        if (first > last) {
+            return null;
+        }
+        // 当前根节点的值，取值后索引++
+        int curRootNums = preorder[mCurRootIndex++];
+        // 当前根节点在 inorder 中的位置，从而确定左右子数范围：|左子数集合|curRoot|右子数集合|（这是 inorder）
+        int curRootIdxInOrder = cache.get(curRootNums);
+        // 建立当前 root
+        TreeNode curRoot = new TreeNode(curRootNums);
+        // 遍历左子数集合
+        curRoot.left = buildTree(preorder, inorder, first, curRootIdxInOrder - 1);
+        // 遍历右子数集合
+        curRoot.right = buildTree(preorder, inorder, curRootIdxInOrder + 1, last);
+        return curRoot;
+    }
+}
+```
+
+### 易错点：
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    private int mCurRootIndex = 0;
+    private Map<Integer, Integer> mMap = new HashMap<>();
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int index = 0;
+        for (int num : inorder) {
+            mMap.put(num, index++);
+        }
+        return buildTree(preorder, inorder, 0, inorder.length - 1);
+    }
+
+    private TreeNode buildTree(int[] preorder, int[] inorder, 
+                               int firstIndex, int lastIndex) {
+                                           
+        if (firstIndex > lastIndex) {
+            return null;
+        }
+        
+        // 错误点: 忘记累加 mCurRootIndex
+        int rootVal = preorder[mCurRootIndex++];
+        int rootIndexOnInorder = mMap.get(rootVal);
+        TreeNode root = new TreeNode(rootVal);
+        // 错误点：rootIndexOnInorder 没有 -1
+        root.left = buildTree(preorder, inorder, 
+                                     firstIndex, rootIndexOnInorder - 1);
+        root.right = buildTree(preorder, inorder, 
+                                     rootIndexOnInorder + 1, lastIndex);
+        return root;
+     }
+}
+```
+
+
+
+## [51. 数组中的逆序对](https://leetcode-cn.com/leetbook/read/illustration-of-algorithm/o58jfs/)
+
+这道题是典型的归并排序题，是需要写出排序算法，并统计 “逆序对” 的数量即可。
+
+时空复杂度和归并算法一样：时间复杂度 O(nLogn)、空间复杂度 O(n){因为引入了辅助数组}
+
+### 模板代码：
+
+```java
+class Solution {
+    public int reversePairs(int[] nums) {
+        return mergeSort(nums, 0 , nums.length - 1);
+    }
+
+        /**
+     * 进行归并排序
+     *
+     * @param arr        需要排序的数组
+     * @param startIndex 数组的开始索引
+     * @param endIndex   数组最后一个元素的索引
+     */
+    public int mergeSort(int[] arr, int startIndex, int endIndex) {
+        // 当子序列中只有一个元素时结束递归
+        if (startIndex >= endIndex) {
+            return 0;
+        }
+        // 划分子序列
+        int mid = startIndex + (endIndex - startIndex) / 2;
+        // 对左侧子序列进行递归排序: 左右闭区间
+        int leftPairs = mergeSort(arr, startIndex, mid);
+        // 对右侧子序列进行递归排序: 左右闭区间
+        int rightPairs = mergeSort(arr, mid + 1, endIndex);
+        // 合并
+        int mergePairs = merge(arr, startIndex, mid, endIndex);
+
+        return leftPairs + rightPairs + mergePairs;
+    }
+
+   /**
+     * 两路归并算法，两个排好序的子序列合并为一个子序列
+     *
+     * @param arr   需要合并的数组
+     * @param left  左边起始索引
+     * @param mid   中间索引
+     * @param right 右边起始索引
+     */
+      public int merge(int[] arr, int first, int mid, int last) {
+        //辅助数组
+        int[] tmp = new int[last + 1 - first];
+        //left、right 是检测指针，k 是进度指针
+        int left = first, right = mid + 1, k = 0;
+        int count = 0;
+        while (left <= mid && right <= last) {
+            // 取等是保证排序的稳定性！！！
+            if (arr[left] <= arr[right]) {
+                tmp[k++] = arr[left++];
+            } else {
+                tmp[k++] = arr[right++];
+                count += mid - left + 1;
+            }
+        }
+
+        //如果第一个序列未检测完，直接将后面所有元素加到合并的序列中
+        while (left <= mid) {
+            tmp[k++] = arr[left++];
+        }
+
+        //如果第二个序列未检测完，直接将后面所有元素加到合并的序列中
+        while (right <= last) {
+            tmp[k++] = arr[right++];
+        }
+
+        // 复制回原素组
+        for (int i = 0; i <= last - first; i++) {
+            arr[first + i] = tmp[i];
+        }
+        return count;
+    }
+}
+```
+
+
+
+### 易错点：
+
+```java
+class Solution {
+    public int reversePairs(int[] nums) {
+        return mergeSort(nums, 0, nums.length - 1);
+    }
+
+    public int mergeSort(int[] nums, int beginIndex, int lastIndex) {
+        // 出错点：这个判断反了写成了：beginIndex <= lastIndex 或者 beginIndex < lastIndex
+        // 这个因为不熟悉，不严谨，下意识写出来的, 
+        if (beginIndex >= lastIndex) {
+            return 0;
+        }
+        int mind = beginIndex + (lastIndex - beginIndex) / 2;
+        int leftPairs = mergeSort(nums, beginIndex, mind);
+        int rightPairs = mergeSort(nums, mind + 1, lastIndex);
+        int mindPairs = merge(nums, beginIndex, mind, lastIndex);
+        return leftPairs + rightPairs + mindPairs;
+    }
+
+    public int merge(int[] nums, int beginIndex, int mind, int lastIndex) {
+        int res = 0;
+        int[] tmp = new int[lastIndex - beginIndex + 1];
+        int left = beginIndex;
+        int right = mind + 1;
+        int index = 0;
+        // 出错点：left <= mind，写成了 left <= right
+        // 对于 merge sort 原理不熟悉，导致了边界判读错误
+        while (left <= mind && right <= lastIndex) {
+            if (nums[left] <= nums[right]) {
+                tmp[index++] = nums[left++];
+            } else {
+                tmp[index++] = nums[right++];
+                // !! 注意统计逆序对数量的计算过程！！
+                res += mind - left + 1;
+            }
+        }
+
+        // 错误点和原因同上
+        while (left <= mind) {
+            tmp[index++] = nums[left++];
+        }
+
+        while (right <= lastIndex) {
+            tmp[index++] = nums[right++];
+        }
+
+        // 出错点 i <= lastIndex - beginIndex，写成了 i <= nums.length - 1。这可以写成  i < nums.length - 1
+        // 这完全是不够熟悉了
+        for (int i = 0; i <= lastIndex - beginIndex; i++) {
+            nums[beginIndex + i] = tmp[i];
+        }
+        return res;
     }
 }
 ```
