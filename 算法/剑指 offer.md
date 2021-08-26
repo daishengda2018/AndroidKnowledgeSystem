@@ -468,89 +468,6 @@ class Solution {
 
 
 
-# [16、数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)
-
-2020/09/13
-
-这道题看似简单其实暗藏了各种边界条件的判断：：x = 0、n = 0、n = 1、n < 0 等等。
-
-此题的主要运用了二分查找和位运算的方式解决
-
-1. Java 代码中 int32 变量 $n \in [-2147483648, 2147483647] $，因此当 $n = -2147483648$ 时执行 $n = -n$ 会因越界而赋值出错。解决方法是先将 n 存入 ==long== 变量 exponent ，后面用 exponent 操作即可。
-2. 要注意 result 类型必须是 double 否则会出现精度丢失
-3. $$a^n = \begin{cases} a^{n/2} *  a^{n/2} & \text{$n 为偶数$} \\a^{(n - 1)/2} *  a^{(n - 1)/2} & \text {$n 为奇数$}\end{cases}  $$
-
-
-
-## 解法1：递推，时间复杂度 O(logn)、空间复杂度O(1)
-
-```java
-class Solution {
-    public double myPow(double x, int n) {
-        // 0 的任何次方都无意义。
-        if (x == 0) {
-            return 0;
-        }
-        // 任何数的 0 次方都等于 1
-        if (n == 0) {
-            return 1;
-        }
-        // 任何数的 1 次方都等于原数字
-        if (n == 1) {
-            return x;
-        }
-        // 见上文解释
-        long exponent = n;
-        // 如果 n < 0 着进行转化
-        if (exponent < 0) {
-            x = 1 / x;
-            exponent = -exponent;
-        }
-        double result = 1;
-       // 快速幂等算法
-        while (exponent > 0) {
-            // 判断二进制最右一位是否为 1,为 1 即为奇数
-            if ((exponent & 1) == 1) {
-                result *= x;
-            }
-            // 每次计算都计算 x^2 即可
-            x *= x;
-            // 相当于除以 2
-            exponent >>= 1;
-        }
-        return result;
-    }
-}
-```
-
-## 解法2: 递归，时间复杂度 O(logn)、空间复杂度O(n)
-
-```java
-class Solution {
-    public double myPow(double x, int n) {
-        if (x == 0) {
-            return 0;
-        }
-        if (n == 0) {
-            // 任何数的 0 次方都等于 1
-            return 1;
-        }
-        if (n == 1) {
-            // 任何数的 1 次方都等于原数字
-            return x;
-        }
-        long exponent = n;
-        if (exponent < 0) {
-            x = 1 / x;
-            exponent = -exponent;
-        }
-       // 使用公式完成递推
-        return ((exponent & 1) == 1) ? x * myPow(x * x, (int)(exponent >> 1))
-                                      :myPow(x * x, (int)(exponent >> 1)) ;
-    }
-}
-```
-
 
 
 ## [33、二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
@@ -697,6 +614,92 @@ class Solution {
                                      rootIndexOnInorder + 1, lastIndex);
         return root;
      }
+}
+```
+
+
+
+## [16、数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)
+
+2020/09/13
+
+这道题看似简单其实暗藏了各种边界条件的判断：：x = 0、n = 0、n = 1、n < 0 等等。
+
+此题的主要运用了二分查找和位运算的方式解决
+
+1. Java 代码中 int32 变量 $n \in [-2147483648, 2147483647] $，因此当 $n = -2147483648$ 时执行 $n = -n$ 会因越界而赋值出错。解决方法是先将 n 存入 ==long== 变量 exponent ，后面用 exponent 操作即可。
+2. 要注意 result 类型必须是 double 否则会出现精度丢失
+3. $$a^n = \begin{cases} a^{n/2} *  a^{n/2} & \text{$n 为偶数$} \\a^{(n - 1)/2} *  a^{(n - 1)/2} & \text {$n 为奇数$}\end{cases}  $$
+
+
+
+## 解法1：递推，时间复杂度 O(logn)、空间复杂度O(1)
+
+```java
+class Solution {
+    public double myPow(double x, int n) {
+        // 0 的任何次方都无意义。
+        if (x == 0) {
+            return 0;
+        }
+        // 任何数的 0 次方都等于 1
+        if (n == 0) {
+            return 1;
+        }
+        // 任何数的 1 次方都等于原数字
+        if (n == 1) {
+            return x;
+        }
+        // 见上文解释
+        long exponent = n;
+        // 如果 n < 0 着进行转化
+        if (exponent < 0) {
+            x = 1 / x;
+            exponent = -exponent;
+        }
+        // ！易错点：不是所有的初始值都是 0，写成了  result = 0
+        double result = 1;
+       // 快速幂等算法
+        while (exponent > 0) {
+            // 判断二进制最右一位是否为 1,为 1 即为奇数
+            if ((exponent & 1) == 1) {
+                result *= x;
+            }
+            // 每次计算都计算 x^2 即可
+            x *= x;
+            // 相当于除以 2
+            exponent >>= 1;
+        }
+        return result;
+    }
+}
+```
+
+## 解法2: 递归，时间复杂度 O(logn)、空间复杂度O(n)
+
+```java
+class Solution {
+    public double myPow(double x, int n) {
+        if (x == 0) {
+            return 0;
+        }
+        if (n == 0) {
+            // 任何数的 0 次方都等于 1
+            return 1;
+        }
+        if (n == 1) {
+            // 任何数的 1 次方都等于原数字
+            return x;
+        }
+        long exponent = n;
+        if (exponent < 0) {
+            x = 1 / x;
+            exponent = -exponent;
+        }
+       // 使用公式完成递推
+        return ((exponent & 1) == 1) ? x * myPow(x * x, (int)(exponent >> 1))
+                                      :myPow(x * x, (int)(exponent >> 1)) ;
+    }
 }
 ```
 
