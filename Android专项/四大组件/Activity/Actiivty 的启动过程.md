@@ -17,14 +17,6 @@ startActivity(this);
 
 因为要进程间交互。
 
-## instrumentation 到底是个什么东西。
-
-
-
-
-
-
-
 # 总结1：
 
 通过对在应用里面启动新的Activity的过程进行源码跟踪，我们发现这里面主要涉及到几个类：Activity、ActivityThread、ApplicationThread、ActivityManagerService。

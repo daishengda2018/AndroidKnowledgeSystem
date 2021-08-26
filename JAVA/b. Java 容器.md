@@ -117,7 +117,7 @@ private static final int DEFAULT_CAPACITY = 10;
 
 #### 2. 扩容
 
-添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为 ==`oldCapacity + (oldCapacity >> 1)`==，即 oldCapacity+oldCapacity/2。其中 oldCapacity >> 1 需要取整，所以新容量大约是旧容量的 1.5 倍左右。（oldCapacity 为偶数就是 1.5 倍，为奇数就是 1.5 倍-0.5）
+添加元素时使用 ensureCapacityInternal() 方法来保证容量足够，如果不够时，需要使用 grow() 方法进行扩容，新容量的大小为 ==`oldCapacity + (oldCapacity >> 1)`==，即 oldCapacity+oldCapacity/2。其中 oldCapacity >> 1 需要取整，所以==新容量大约是旧容量的 1.5 倍左右==。（oldCapacity 为偶数就是 1.5 倍，为奇数就是 1.5 倍-0.5）
 
 ==扩容操作需要调用 `Arrays.copyOf()` 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。==
 
@@ -371,7 +371,7 @@ private E get(Object[] a, int index) {
 
 <font color = red>但是 CopyOnWriteArrayList 有其缺陷：</font>
 
-- <font color = red>内存占用：在写操作时需要复制一个新的数组，使得内存占用为原来的两倍左右；</font>
+- <font color = red>内存占用：在写操作时需要复制一个新的数组，使得内存占用为原来的两倍左右，在内存紧张场景跟更容易 OOM；</font>
 - <font color = red>数据不一致：读操作不能读取实时性的数据，因为部分写操作的数据还未同步到读数组中。(弱一致性)</font>
 
 <font color = red>所以 CopyOnWriteArrayList 不适合内存敏感以及对实时性要求很高的场景。</font>
@@ -485,7 +485,7 @@ map.put("K3", "V3");
 - 新建一个 HashMap，默认大小为 16；
 - 插入 &lt;K1,V1\> 键值对，先计算 K1 的 hashCode 为 115，使用除留余数法得到所在的桶下标 115%16=3。
 - 插入 &lt;K2,V2\> 键值对，先计算 K2 的 hashCode 为 118，使用除留余数法得到所在的桶下标 118%16=6。
-- 插入 &lt;K3,V3\> 键值对，先计算 K3 的 hashCode 为 118，使用除留余数法得到所在的桶下标 118%16=6，插在 &lt;K2,V2\> 前面。
+- 插入 &lt;K3,V3\> 键值对，先计算 K3 的 hashCode 为 118，使用除留余数法得到所在的桶下标 118%16=6，插在 &lt;K2,V2\> ==前面==。
 
 <font color = green>应该注意到链表的插入是以头插法方式进行的，例如上面的 &lt;K3,V3\> 不是插在 &lt;K2,V2\> 后面，而是插入在链表头部。</font>
 

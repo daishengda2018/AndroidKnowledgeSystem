@@ -120,7 +120,7 @@ System.out.println(m == n); // true
 
 String 被声明为 final，因此它不可被继承。(Integer 等包装类也不能被继承）
 
-在 Java 8 中，String 内部使用 char 数组存储数据。
+==在 Java 8 中，String 内部使用 char 数组存储数据。==
 
 ```java
 public final class String
@@ -433,7 +433,7 @@ y.a = 1;
 
 声明方法不能被子类重写。
 
-private 方法隐式地被指定为 final，如果在子类中定义的方法和基类中的一个 private 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。
+**private 方法隐式地被指定为 final**，如果在子类中定义的方法和基类中的一个 private 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。
 
 **3. 类**  
 
@@ -443,7 +443,7 @@ private 方法隐式地被指定为 final，如果在子类中定义的方法和
 
 **1. 静态变量**  
 
-- 静态变量：又称为类变量，也就是说这个变量属于类的，类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。
+- 静态变量：又称为类变量，也就是说这个变量属于类的，类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。==类加载的时候即初始化==
 - 实例变量：每创建一个实例就会产生一个实例变量，它与该实例同生共死。
 
 ```java
@@ -463,7 +463,7 @@ public class A {
 
 **2. 静态方法**  
 
-静态方法在类加载的时候就存在了，它不依赖于任何实例。所以静态方法必须有实现，也就是说它不能是抽象方法。
+==静态方法在类加载==的时候就存在了，它不依赖于任何实例。所以静态方法必须有实现，也就是说它不能是抽象方法。
 
 ```java
 public abstract class A {
@@ -963,7 +963,7 @@ Java 中有三个访问权限修饰符：private、protected 以及 public，如
 
 protected 用于修饰成员，表示在继承体系中成员对于子类可见，但是这个访问修饰符对于类没有意义。
 
-设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。
+==设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来==。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。
 
 如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例去代替，也就是确保满足里氏替换原则。
 
@@ -1019,7 +1019,7 @@ public class AccessWithInnerClassExample {
 
 抽象类和抽象方法都使用 abstract 关键字进行声明。如果一个类中包含抽象方法，那么这个类必须声明为抽象类。
 
-抽象类和普通类最大的区别是，抽象类不能被实例化，只能被继承。
+==抽象类和普通类最大的区别是，抽象类不能被直接实例化，只能被继承（或者说必须实现抽象方法）。==
 
 ```java
 public abstract class AbstractClassExample {
@@ -1058,7 +1058,7 @@ ac2.func1();
 
 接口的成员（字段 + 方法）默认都是 public 的，并且不允许定义为 private 或者 protected。从 Java 9 开始，允许将方法定义为 private，这样就能定义某些复用的代码又不会把方法暴露出去。
 
-接口的字段默认都是 static 和 final 的。
+==接口的字段默认都是 static 和 final 的。==
 
 ```java
 public interface InterfaceExample {
@@ -1096,10 +1096,10 @@ System.out.println(InterfaceExample.x);
 
 **3. 比较**  
 
-- 从设计层面上看，抽象类提供了一种 IS-A 关系，需要满足里式替换原则，即子类对象必须能够替换掉所有父类对象。而接口更像是一种 LIKE-A 关系，它只是提供一种方法实现契约，并不要求接口和实现接口的类具有 IS-A 关系。
-- 从使用上来看，一个类可以实现多个接口，但是不能继承多个抽象类。
-- 接口的字段只能是 static 和 final 类型的，而抽象类的字段没有这种限制。
-- 接口的成员只能是 public 的，而抽象类的成员可以有多种访问权限。
+- ==从设计层面上看，抽象类提供了一种 IS-A 关系，需要满足里式替换原则，即子类对象必须能够替换掉所有父类对象。而接口更像是一种 LIKE-A 关系，它只是提供一种方法实现契约，并不要求接口和实现接口的类具有 IS-A 关系==。
+- ==从使用上来看，一个类可以实现多个接口，但是不能继承多个抽象类==
+- ==接口的字段只能是 static 和 final 类型的，而抽象类的字段没有这种限制。==
+- ==接口的成员只能是 public 的，而抽象类的成员可以有多种访问权限。==
 
 **4. 使用选择**  
 
@@ -1347,6 +1347,14 @@ Throwable 可以用来表示任何可以作为异常抛出的类，分为两种�
 -   **非受检异常**  ：是程序运行时错误，例如除 0 会引发 Arithmetic Exception，此时程序崩溃并且无法恢复。
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/PPjwP.png" width="600"/> </div><br>
+
+Excption 和 Error 都是 Throwable 的子类，在 Java 中只有是 Throwable 的子类才能抛出（throw） 和捕获异常（catch）。
+
+Exception 和 Error 体现了 Java 平台设计者对不同异常情况的分类。<font color = red>Exception 是程序正常运行中，可以预料的意外情况，可能并且应该被捕获，进行相应处理。Error 是指在正常情况下，不大可能出现的情况，绝大部分的 Error 都会导致程序（比如 JVM 自身）处于非正常的、不可恢复状态</font>。既然是非正常情况，所以不便于也不需要捕获，常见的比如 OutOfMemoryError 之类，都是 Error 的子类。
+
+Exception 又分为可检查（checked）异常和不检查（unchecked）异常，可检查异常在源代码里必须显式地进行捕获处理，这是编译期检查的一部分。前面我介绍的不可查的 Error，是 Throwable 不是 Exception。不检查异常就是所谓的运行时异常，类似 NullPointerException、ArrayIndexOutOfBoundsException 之类，通常是可以编码避免的逻辑错误，具体根据需要来判断是否需要捕获，并不会在编译期强制要求。
+
+
 
 - [Java 入门之异常处理](https://www.cnblogs.com/Blue-Keroro/p/8875898.html)
 - [Java Exception Interview Questions and Answers](https://www.journaldev.com/2167/java-exception-interview-questions-and-answersl)
