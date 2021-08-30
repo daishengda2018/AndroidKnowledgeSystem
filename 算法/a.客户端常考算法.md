@@ -1,8 +1,8 @@
 [toc]
 
-# 基础
 
-## 快速排序
+
+# 排序
 
 ```java
 /**
@@ -91,6 +91,54 @@ public class Solution {
     }
 }
 ```
+
+# [反转链表 II](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+
+21/8/30
+
+使用 dummpy 节点 + 头插法可以很好接的解决
+
+1、我们定义两个指针，分别称之为 g(guard 守卫) 和 p(point)。
+我们首先根据方法的参数 m 确定 g 和 p 的位置。将 g 移动到第一个要反转的节点的前面，将 p 移动到第一个要反转的节点的位置上。我们以 m=2，n=4为例。
+2、将 p 后面的元素删除，然后添加到 g 的后面。也即头插法。
+3、根据 m 和 n 重复步骤（2）
+4、返回 dummyHead.next
+
+<img src="images/1616250561-sZiIjN-img1.png" alt="img1.png" style="zoom: 67%;" />
+
+<img src="images/1617806801-qeWQJb-img2.png" alt="img2.png" style="zoom:67%;" />
+
+```java
+class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        // 定义一个dummyHead, 方便处理
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+            // 初始化指针
+    ListNode g = dummyHead;
+    ListNode p = dummyHead.next;
+
+    // 将指针移到相应的位置
+    for(int step = 0; step < m - 1; step++) {
+        g = g.next; p = p.next;
+    }
+
+    // 头插法插入节点
+    for (int i = 0; i < n - m; i++) {
+        ListNode removed = p.next;
+        p.next = p.next.next;
+
+        removed.next = g.next;
+        g.next = removed;
+    }
+
+    return dummyHead.next;
+}
+```
+
+# [排序算法](https://www.nowcoder.com/practice/2baf799ea0594abd974d37139de27896?tpId=194&&tqId=37494&rp=1&ru=/activity/oj&qru=/ta/job-code-high-client/question-ranking)
+
+整体复习资料： [排序算法.md](排序算法.md) 
 
 
 
