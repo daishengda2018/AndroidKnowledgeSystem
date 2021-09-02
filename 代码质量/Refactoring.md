@@ -1,9 +1,5 @@
 [toc]
 
-
-
-
-
 # 3 - 坏代码的味道
 
 ## 3.1 Duplicated Code 重复的代码
