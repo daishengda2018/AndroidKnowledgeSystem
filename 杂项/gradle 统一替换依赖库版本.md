@@ -1,6 +1,6 @@
 
 
-在项目 build.gradle 填写 ，写着最后就可以
+在项目 build.gradle 追加 ，写着最后就可以
 
 ```groovy
 def supportVer = '28.0.0'
