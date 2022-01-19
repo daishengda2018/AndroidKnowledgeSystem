@@ -1,3 +1,25 @@
+# 应对面试
+
+核心理念：不用学原理，刷题就行。客户端考察的算法不会太难的。
+
+刷题资料：
+
+1. [剑指 offer 所有](https://leetcode-cn.com/leetbook/read/illustration-of-algorithm/50ywkd/)
+2. [LeetCode 精选 TOP 面试题](https://leetcode-cn.com/problem-list/2ckc81c/)
+
+1. [LeetCode 热题 HOT 100](https://leetcode-cn.com/problem-list/2cktkvj/)
+2. [牛客客户端热门题目](https://www.nowcoder.com/exam/oj?tab=算法篇&topicId=117&page=2)
+
+1. [codetop 客户端常考](https://codetop.cc/home)
+
+反复刷前三条里面的所有题目，四五条用于查缺补漏，正式面试的时候使用四五条作为专项练习
+
+
+
+
+
+# 以下内容适合研究不适合应对面试
+
 主要按照极客时间算法与数据结构之美学习，每一个算法都单独写一个笔记，再附上LeetCode上对应的联系提解题思路，解题思路要附加上演变过程。
 
 

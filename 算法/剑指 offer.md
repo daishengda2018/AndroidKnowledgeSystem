@@ -420,103 +420,6 @@ class Solution {
 
 # 分治算法
 
-## [07、重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
-
-重建二叉树的关键在于中序遍历的结果：[左子树区间]root[右子树区间]，通过中序遍历的结果可以清晰的得出根节点与左右子树之间的关系。
-
-此题要求使用中序遍历与前序遍历的结果还原二叉树，从中我们可得到如下信息：
-
-1. 中序遍历的特点：[左子树区间]root[右子树区间]
-
-2. 前序遍历的特点：root [左子树区间][右子树区间]
-
-由于题目说明不存在重复的值，所以我们可以将中序遍历的结果与位置索引建立一个 map，通过前序遍历中的头结点即可在时间复杂度为 O(1) 的情况下从 map 中获取左右区间的边界。
-
-在 map 之外我们还需要双指针来分别标记位于中序遍历中的左右子树边界；还需要一个全局变量指明当前 root 位于前序遍历的索引；根据这些值通过递归不断的压缩左右区间，最终重建二叉树。
-
-```java
-class Solution {
-    private Map<Integer, Integer> mCache = new HashMap<>();
-    private int mCurRootIndexOnPreorder = 0;
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        // 中序遍历是关系，需要将值和位置的关系存储起来
-        for (int i = 0; i < inorder.length; i++) {
-            mCache.put(inorder[i], i);
-        }
-
-        return buildTree(preorder, inorder, 0, inorder.length - 1);
-    }
-
-    private TreeNode buildTree(int[] preorder, int[] inorder, int start, int end) {
-        // 边界条件
-        if (start > end) {
-            return null;
-        }
-        // 获取头结点的值
-        int rootVal = preorder[mCurRootIndexOnPreorder++];
-        // 获取头结点在中序遍历的位置
-        int rootIndexOfInoder = mCache.get(rootVal);
-        TreeNode root = new TreeNode(rootVal);
-        // 递归建立左右子树
-        root.left = buildTree(preorder, inorder, start, rootIndexOfInoder - 1);
-        root.right = buildTree(preorder, inorder, rootIndexOfInoder + 1, end);
-        return root;
-    }
-}
-
-```
-
-
-
-
-
-## [33、二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
-
-这道题使用单调栈可以获得最优解，而且能更好的理解。
-
-首先明确什么是二叉搜索树：左节点 <根节点 < 右节点（left < root < right）即越往右数值越大，但是此题给出的是后续遍： left -> right -> root 并不满足单调性。但是我们将顺序反过来就形成了 root -> right -> left 即可以得到一个从小 -> 大 -> 小的两个严格单调区间。此时我们就可以使用单调栈来判断题目中提出的数组是否满足二叉搜索树的递增关系了。
-
-一开始我们将反序后的数组逐个入栈，如果不满足单调递增性，这说明进入了 [left 左子树区间]。此时要做的是找到当前值（左子树值）所对应的根节点。怎么做呢？拿栈顶元素与当前值进行比较，直到把比当前值大的数全部出栈为止，最后一个出栈的就是当前值对应的根节点。
-
-这里要注意的是 root > left 这个关系，如果当前值小于了 [left 左子树区间] 的值，则返回 false。
-
-
-
-就这样一路比下去，如果所有的左子树值都小于所对应的 root 则满足二叉搜索树特点，否则就不是。
-
-```java
-class Solution {
-    public boolean verifyPostorder(int[] postorder) {
-        // 判定边界条件
-        if (postorder == null || postorder.length == 0) {
-            return true;
-        }
-        final Stack<Integer> stack = new Stack<>();
-        // 简化判断左子树与 root 关系的判定逻辑
-        int root = Integer.MAX_VALUE;
-        // 将数组反过来得到单调关系
-        for (int i = postorder.length - 1; i >= 0; i--) {
-            // 左子树大于了 root， 不满足二叉搜索树特性
-            if (postorder[i] > root) {
-                return false;
-            }
-            // 不满足单调性，说明进入了左子树区间，开始寻找当前左子树对应的 root 
-            while (!stack.isEmpty() && postorder[i] < stack.peek()) {
-                root = stack.pop();
-            }
-            stack.push(postorder[i]);
-        }
-        return true;
-    }
-}
-```
-
-# [17、打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
-
-
-
-# 分治算法
-
 ## [07. 重建二叉树](https://leetcode-cn.com/leetbook/read/illustration-of-algorithm/99lxci/)
 
 这道题要求面试者熟悉二叉树的遍历特点：
@@ -633,7 +536,7 @@ class Solution {
 
 
 
-## 解法1：递推，时间复杂度 O(logn)、空间复杂度O(1)
+### 解法1：递推，时间复杂度 O(logn)、空间复杂度O(1)
 
 ```java
 class Solution {
@@ -675,7 +578,7 @@ class Solution {
 }
 ```
 
-## 解法2: 递归，时间复杂度 O(logn)、空间复杂度O(n)
+### 解法2: 递归，时间复杂度 O(logn)、空间复杂度O(n)
 
 ```java
 class Solution {
@@ -845,4 +748,47 @@ class Solution {
     }
 }
 ```
+
+## [33、二叉搜索树的后序遍历序列](https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/)
+
+这道题使用单调栈可以获得最优解，而且能更好的理解。
+
+首先明确什么是二叉搜索树：左节点 <根节点 < 右节点（left < root < right）即越往右数值越大，但是此题给出的是后续遍： left -> right -> root 并不满足单调性。但是我们将顺序反过来就形成了 root -> right -> left 即可以得到一个从小 -> 大 -> 小的两个严格单调区间。此时我们就可以使用单调栈来判断题目中提出的数组是否满足二叉搜索树的递增关系了。
+
+一开始我们将反序后的数组逐个入栈，如果不满足单调递增性，这说明进入了 [left 左子树区间]。此时要做的是找到当前值（左子树值）所对应的根节点。怎么做呢？拿栈顶元素与当前值进行比较，直到把比当前值大的数全部出栈为止，最后一个出栈的就是当前值对应的根节点。
+
+这里要注意的是 root > left 这个关系，如果当前值小于了 [left 左子树区间] 的值，则返回 false。
+
+
+
+就这样一路比下去，如果所有的左子树值都小于所对应的 root 则满足二叉搜索树特点，否则就不是。
+
+```java
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        // 判定边界条件
+        if (postorder == null || postorder.length == 0) {
+            return true;
+        }
+        final Stack<Integer> stack = new Stack<>();
+        // 简化判断左子树与 root 关系的判定逻辑
+        int root = Integer.MAX_VALUE;
+        // 将数组反过来得到单调关系
+        for (int i = postorder.length - 1; i >= 0; i--) {
+            // 左子树大于了 root， 不满足二叉搜索树特性
+            if (postorder[i] > root) {
+                return false;
+            }
+            // 不满足单调性，说明进入了左子树区间，开始寻找当前左子树对应的 root 
+            while (!stack.isEmpty() && postorder[i] < stack.peek()) {
+                root = stack.pop();
+            }
+            stack.push(postorder[i]);
+        }
+        return true;
+    }
+}
+```
+
+## [17、打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)
 
