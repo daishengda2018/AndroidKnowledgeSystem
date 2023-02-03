@@ -291,6 +291,6 @@ public final class ObservableSubscribeOn<T>
 
 看到这里，你可能也注意到了：从之前 Scheduler 的源码我们可知，默认情况下调用 `scheduleDirect()` 也是将 Task 交给 `createWorker()` 新建的 Worker 实例执行的；那为什么 observeOn 要采取和 subscribeOn 不同的实现方式呢？感兴趣的同学可以去看看 [single](http://reactivex.io/RxJava/javadoc/io/reactivex/schedulers/Schedulers.html#single--) 调度器的源码，分开两个方法可以更充分的自定义，且这两个方法也不一定是直接相关的。只要保证底层的调度逻辑是正确的就 OK 了。
 
-总的来说，subscribeOn 和 observeOn 都是将逻辑封装到 Runnable 中交给对应的 Scheduler 执行，从而实现了线程切换。但受限于篇幅原因，其中仍然有非常多的细节被本文略去了，建议感兴趣的读者可自行查阅源码。
+##### 总的来说，subscribeOn 和 observeOn 都是将逻辑封装到 Runnable 中交给对应的 Scheduler 执行，从而实现了线程切换。但受限于篇幅原因，其中仍然有非常多的细节被本文略去了，建议感兴趣的读者可自行查阅源码。
 
 最后，即使在 2020 年的今天，同为 JVM 系语言的 [Kotlin](https://kotlinlang.org/) 已经支持协程的情况下，RxJava 仅仅使用 JDK 提供的多线程 API 就能将线程切换处理的如此优雅，仍然是十分值得学习和使用的库。笔者认为它并没有过时。
